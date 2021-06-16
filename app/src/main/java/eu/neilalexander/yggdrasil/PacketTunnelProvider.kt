@@ -6,6 +6,7 @@ import android.net.VpnService
 import android.os.Handler
 import android.os.Message
 import android.os.ParcelFileDescriptor
+import android.system.OsConstants
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import mobile.Yggdrasil
@@ -28,14 +29,14 @@ class PacketTunnelProvider: VpnService() {
     private var started = AtomicBoolean()
 
     private lateinit var config: ConfigurationProxy
-    private lateinit var parcel: ParcelFileDescriptor
 
-    private lateinit var readerThread: Thread
-    private lateinit var writerThread: Thread
-    private lateinit var updateThread: Thread
+    private var readerThread: Thread? = null
+    private var writerThread: Thread? = null
+    private var updateThread: Thread? = null
 
-    private lateinit var readerStream: FileInputStream
-    private lateinit var writerStream: FileOutputStream
+    private var parcel: ParcelFileDescriptor? = null
+    private var readerStream: FileInputStream? = null
+    private var writerStream: FileOutputStream? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -76,11 +77,14 @@ class PacketTunnelProvider: VpnService() {
         var builder = Builder()
             .addAddress(address, 7)
             .addRoute("200::", 7)
+            .allowBypass()
+            .allowFamily(OsConstants.AF_INET)
             .setBlocking(true)
             .setMtu(yggdrasil.mtu.toInt())
             .setSession("Yggdrasil")
 
         parcel = builder.establish()
+        val parcel = parcel
         if (parcel == null || !parcel.fileDescriptor.valid()) {
             stop()
             return
@@ -113,29 +117,45 @@ class PacketTunnelProvider: VpnService() {
         if (!started.compareAndSet(true, false)) {
             return
         }
-        if (readerThread != null) {
-            readerStream.close()
-            readerThread.interrupt()
-        }
-        if (writerThread != null) {
-            writerStream.close()
-            writerThread.interrupt()
-        }
-        if (updateThread != null) {
-            updateThread.interrupt()
-        }
-        parcel.close()
+
         yggdrasil.stop()
-        stopSelf()
+
+        readerStream?.let {
+            it.close()
+            readerStream = null
+        }
+        writerStream?.let {
+            it.close()
+            writerStream = null
+        }
+        parcel?.let {
+            it.close()
+            parcel = null
+        }
+
+        readerThread?.let {
+            it.interrupt()
+            readerThread = null
+        }
+        writerThread?.let {
+            it.interrupt()
+            writerThread = null
+        }
+        updateThread?.let {
+            it.interrupt()
+            updateThread = null
+        }
 
         val intent = Intent(RECEIVER_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", false)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+        stopSelf()
     }
 
     private fun updater() {
-        updates@ while (!updateThread.isInterrupted) {
+        updates@ while (started.get()) {
             val intent = Intent(RECEIVER_INTENT)
             intent.putExtra("type", "state")
             intent.putExtra("started", true)
@@ -145,7 +165,9 @@ class PacketTunnelProvider: VpnService() {
             intent.putExtra("peers", yggdrasil.peersJSON)
             intent.putExtra("dht", yggdrasil.dhtjson)
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-
+            if (Thread.currentThread().isInterrupted) {
+                break@updates
+            }
             try {
                 Thread.sleep(2000)
             } catch (e: java.lang.InterruptedException) {
@@ -155,7 +177,15 @@ class PacketTunnelProvider: VpnService() {
     }
 
     private fun writer() {
-        writes@ while (!writerThread.isInterrupted && writerStream.fd.valid()) {
+        writes@ while (started.get()) {
+            val writerStream = writerStream
+            val writerThread = writerThread
+            if (writerThread == null || writerStream == null) {
+                break@writes
+            }
+            if (Thread.currentThread().isInterrupted || !writerStream.fd.valid()) {
+                break@writes
+            }
             try {
                 val b = yggdrasil.recv()
                 writerStream.write(b)
@@ -163,12 +193,23 @@ class PacketTunnelProvider: VpnService() {
                 break@writes
             }
         }
-        stop()
+        writerStream?.let {
+            it.close()
+            writerStream = null
+        }
     }
 
     private fun reader() {
         var b = ByteArray(65535)
-        reads@ while (!readerThread.isInterrupted && readerStream.fd.valid()) {
+        reads@ while (started.get()) {
+            val readerStream = readerStream
+            val readerThread = readerThread
+            if (readerThread == null || readerStream == null) {
+                break@reads
+            }
+            if (Thread.currentThread().isInterrupted ||!readerStream.fd.valid()) {
+                break@reads
+            }
             try {
                 val n = readerStream.read(b)
                 yggdrasil.send(b.sliceArray(0..n))
@@ -176,6 +217,9 @@ class PacketTunnelProvider: VpnService() {
                 break@reads
             }
         }
-        stop()
+        readerStream?.let {
+            it.close()
+            readerStream = null
+        }
     }
 }
