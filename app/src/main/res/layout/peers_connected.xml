@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="4pt"
+        android:paddingTop="2pt"
+        android:paddingEnd="4pt"
+        android:paddingBottom="2pt">
+
+        <TextView
+            android:id="@+id/addressLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(unknown)"
+            android:textColor="?attr/textDefault" />
+
+        <TextView
+            android:id="@+id/detailsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:text="TCP peer on unknown"
+            android:textColor="?attr/textDefault"
+            android:textSize="12sp" />
+    </LinearLayout>
+</TableRow>

@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerPadding="4pt"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8pt"
+                android:text="Yggdrasil"
+                android:textColor="?attr/textDefault"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statusSectionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16pt"
+                android:layout_marginLeft="16pt"
+                android:layout_marginTop="8pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:layout_marginBottom="2pt"
+                android:alpha="0.7"
+                android:text="Status"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp" />
+
+            <TableLayout
+                android:id="@+id/connectedPeersTableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8pt"
+                android:layout_marginLeft="8pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:layout_marginBottom="8pt"
+                android:background="@drawable/rounded"
+                android:divider="#46878787"
+                android:dividerPadding="4pt"
+                android:paddingLeft="4pt"
+                android:paddingTop="2pt"
+                android:paddingRight="4pt"
+                android:paddingBottom="2pt"
+                android:showDividers="middle">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4pt"
+                    android:layout_marginLeft="4pt"
+                    android:layout_marginTop="6pt"
+                    android:layout_marginEnd="4pt"
+                    android:layout_marginRight="4pt"
+                    android:layout_marginBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/enableYggdrasilLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enable Yggdrasil"
+                        android:textColor="?attr/textDefault"
+                        android:textSize="14sp" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2" />
+
+                    <Switch
+                        android:id="@+id/enableMulticastSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4pt"
+                    android:layout_marginLeft="4pt"
+                    android:layout_marginTop="6pt"
+                    android:layout_marginEnd="4pt"
+                    android:layout_marginRight="4pt"
+                    android:layout_marginBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/yggdrasilStatusLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not enabled"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32px" />
+
+            <TextView
+                android:id="@+id/statisticsSectionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16pt"
+                android:layout_marginLeft="16pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:layout_marginBottom="2pt"
+                android:alpha="0.7"
+                android:paddingRight="8pt"
+                android:text="Statistics"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp" />
+
+            <TableLayout
+                android:id="@+id/configuredPeersTableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8pt"
+                android:layout_marginLeft="8pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:layout_marginBottom="8pt"
+                android:background="@drawable/rounded"
+                android:divider="#46878787"
+                android:dividerPadding="4pt"
+                android:paddingLeft="4pt"
+                android:paddingTop="2pt"
+                android:paddingRight="4pt"
+                android:paddingBottom="2pt"
+                android:showDividers="middle">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4pt"
+                    android:layout_marginLeft="4pt"
+                    android:layout_marginTop="6pt"
+                    android:layout_marginEnd="4pt"
+                    android:layout_marginRight="4pt"
+                    android:layout_marginBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/ipAddressLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="IP"
+                        android:textColor="?attr/textDefault" />
+
+                    <TextView
+                        android:id="@+id/ipAddressValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:ellipsize="none"
+                        android:scrollHorizontally="true"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true"
+                        android:text="N/A"
+                        android:textAlignment="viewEnd"
+                        android:textIsSelectable="true"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4pt"
+                    android:layout_marginLeft="4pt"
+                    android:layout_marginTop="6pt"
+                    android:layout_marginEnd="4pt"
+                    android:layout_marginRight="4pt"
+                    android:layout_marginBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/subnetLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Subnet"
+                        android:textColor="?attr/textDefault" />
+
+                    <TextView
+                        android:id="@+id/subnetValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:ellipsize="none"
+                        android:scrollHorizontally="true"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true"
+                        android:text="N/A"
+                        android:textAlignment="viewEnd"
+                        android:textIsSelectable="true"
+                        android:textSize="14sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4pt"
+                    android:layout_marginLeft="4pt"
+                    android:layout_marginTop="6pt"
+                    android:layout_marginEnd="4pt"
+                    android:layout_marginRight="4pt"
+                    android:layout_marginBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/coordinatesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Coordinates"
+                        android:textColor="?attr/textDefault" />
+
+                    <TextView
+                        android:id="@+id/coordinatesValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:scrollHorizontally="false"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true"
+                        android:text="[]"
+                        android:textAlignment="viewEnd"
+                        android:textIsSelectable="true" />
+                </TableRow>
+
+            </TableLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32px" />
+
+            <TextView
+                android:id="@+id/configurationSectionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16pt"
+                android:layout_marginLeft="16pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:layout_marginBottom="2pt"
+                android:alpha="0.7"
+                android:paddingRight="8pt"
+                android:text="Configuration"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp" />
+
+            <TableLayout
+                android:id="@+id/configurationTableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8pt"
+                android:layout_marginLeft="8pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:background="@drawable/rounded"
+                android:clickable="true"
+                android:divider="#46878787"
+                android:dividerPadding="4pt"
+                android:paddingLeft="4pt"
+                android:paddingTop="2pt"
+                android:paddingRight="4pt"
+                android:paddingBottom="2pt"
+                android:showDividers="middle">
+
+                <TableRow
+                    android:id="@+id/peersTableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:paddingStart="4pt"
+                    android:paddingTop="6pt"
+                    android:paddingEnd="4pt"
+                    android:paddingBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/multicastLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Peers"
+                        android:textColor="?attr/textDefault" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:id="@+id/peersValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:text="No peers"
+                        android:textAlignment="textEnd" />
+
+                    <ImageView
+                        android:id="@+id/peersChevron"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2pt"
+                        android:alpha="0.4"
+                        android:cropToPadding="false"
+                        android:scaleType="fitEnd"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/settingsTableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingStart="4pt"
+                    android:paddingTop="6pt"
+                    android:paddingEnd="4pt"
+                    android:paddingBottom="6pt"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/settingsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Settings"
+                        android:textColor="?attr/textDefault" />
+
+                    <Space
+                        android:layout_width="320dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:id="@+id/settingsChevron"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2pt"
+                        android:alpha="0.4"
+                        android:scaleType="fitEnd"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4pt"
+                    android:layout_marginLeft="4pt"
+                    android:layout_marginTop="6pt"
+                    android:layout_marginEnd="4pt"
+                    android:layout_marginRight="4pt"
+                    android:layout_marginBottom="6pt">
+
+                    <TextView
+                        android:id="@+id/versionLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Version"
+                        android:textColor="?attr/textDefault" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:id="@+id/versionValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:text="Unknown"
+                        android:textAlignment="textEnd" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16pt"
+                android:layout_marginLeft="16pt"
+                android:layout_marginTop="2pt"
+                android:layout_marginEnd="8pt"
+                android:layout_marginRight="8pt"
+                android:alpha="0.7"
+                android:paddingRight="8pt"
+                android:text="You must re-enable Yggdrasil after modifying Peers or Settings to make any changes effective."
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
