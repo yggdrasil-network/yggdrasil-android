@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10pt"
+        android:paddingTop="4pt"
+        android:paddingRight="10pt"
+        android:paddingBottom="4pt">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This operation will reset your configuration and generate new keys. This is not reversible. Changes will not take effect until the next time Yggdrasil is started." />
+
+    </LinearLayout>
+</FrameLayout>

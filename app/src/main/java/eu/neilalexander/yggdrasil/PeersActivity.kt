@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Layout
 import android.util.AttributeSet
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -67,7 +68,7 @@ class PeersActivity : AppCompatActivity() {
         addPeerButton.setOnClickListener {
             var view = inflater.inflate(R.layout.dialog_addpeer, null)
             var input = view.findViewById<TextInputEditText>(R.id.addPeerInput)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
             builder.setTitle("Add Configured Peer")
             builder.setView(view)
             builder.setPositiveButton("Add") { dialog, _ ->

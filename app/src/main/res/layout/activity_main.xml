@@ -346,8 +346,7 @@
                     android:paddingStart="4pt"
                     android:paddingTop="6pt"
                     android:paddingEnd="4pt"
-                    android:paddingBottom="6pt"
-                    android:visibility="gone">
+                    android:paddingBottom="6pt">
 
                     <TextView
                         android:id="@+id/settingsLabel"

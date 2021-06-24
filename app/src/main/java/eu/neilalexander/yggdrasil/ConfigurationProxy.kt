@@ -1,6 +1,7 @@
 package eu.neilalexander.yggdrasil
 
 import android.content.Context
+import android.provider.Settings
 import mobile.Mobile
 import org.json.JSONObject
 import java.io.File
@@ -19,6 +20,12 @@ object ConfigurationProxy {
         }
         fix()
         return this
+    }
+
+    fun resetJSON() {
+        val conf = Mobile.generateConfigJSON()
+        file.writeBytes(conf)
+        fix()
     }
 
     fun updateJSON(fn: (JSONObject) -> Unit) {
