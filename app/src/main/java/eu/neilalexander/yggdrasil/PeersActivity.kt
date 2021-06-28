@@ -1,13 +1,8 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
-import android.util.AttributeSet
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +19,8 @@ class PeersActivity : AppCompatActivity() {
     private lateinit var connectedTableLabel: TextView
     private lateinit var configuredTableLayout: TableLayout
     private lateinit var configuredTableLabel: TextView
-    private lateinit var multicastSwitch: Switch
+    private lateinit var multicastListenSwitch: Switch
+    private lateinit var multicastBeaconSwitch: Switch
     private lateinit var addPeerButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,29 +36,16 @@ class PeersActivity : AppCompatActivity() {
         configuredTableLayout = findViewById(R.id.configuredPeersTableLayout)
         configuredTableLabel = findViewById(R.id.configuredPeersLabel)
 
-        multicastSwitch = findViewById(R.id.enableMulticastSwitch)
-        multicastSwitch.setOnCheckedChangeListener { button, _ ->
-            when (button.isChecked) {
-                true -> {
-                    config.updateJSON { json ->
-                        json.put("MulticastInterfaces", JSONArray("[\"lo\", \".*\"]"))
-                    }
-                }
-                false -> {
-                    config.updateJSON { json ->
-                        json.put("MulticastInterfaces", JSONArray("[\"lo\"]"))
-                    }
-                }
-            }
+        multicastListenSwitch = findViewById(R.id.enableMulticastListen)
+        multicastListenSwitch.setOnCheckedChangeListener { button, _ ->
+            config.multicastListen = button.isChecked
         }
-        var multicastInterfaceFound = false
-        val multicastInterfaces = config.getJSON().getJSONArray("MulticastInterfaces")
-        (0 until multicastInterfaces.length()).forEach {
-            if (multicastInterfaces[it] == ".*") {
-                multicastInterfaceFound = true
-            }
+        multicastBeaconSwitch = findViewById(R.id.enableMulticastBeacon)
+        multicastBeaconSwitch.setOnCheckedChangeListener { button, _ ->
+            config.multicastBeacon = button.isChecked
         }
-        multicastSwitch.isChecked = multicastInterfaceFound
+        multicastListenSwitch.isChecked = config.multicastListen
+        multicastBeaconSwitch.isChecked = config.multicastBeacon
 
         addPeerButton = findViewById(R.id.addPeerButton)
         addPeerButton.setOnClickListener {

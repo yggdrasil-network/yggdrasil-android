@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import mobile.Mobile
-import org.json.JSONArray
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.versionValue).text = Mobile.getVersion()
 
-        enabledSwitch = findViewById(R.id.enableMulticastSwitch)
+        enabledSwitch = findViewById(R.id.enableMulticastBeacon)
         enabledLabel = findViewById(R.id.yggdrasilStatusLabel)
         ipAddressLabel = findViewById(R.id.ipAddressValue)
         subnetLabel = findViewById(R.id.subnetValue)

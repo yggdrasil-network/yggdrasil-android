@@ -3,6 +3,7 @@ package eu.neilalexander.yggdrasil
 import android.content.Context
 import android.provider.Settings
 import mobile.Mobile
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
@@ -40,6 +41,18 @@ object ConfigurationProxy {
             json.put("AdminListen", "none")
             json.put("IfName", "none")
             json.put("IfMTU", 65535)
+
+            if (json.getJSONArray("MulticastInterfaces").get(0) is String) {
+                var ar = JSONArray()
+                ar.put(0, JSONObject("""
+                    {
+                        "Regex": ".*",
+                        "Beacon": true,
+                        "Listen": true
+                    }
+                """.trimIndent()))
+                json.put("MulticastInterfaces", ar)
+            }
         }
     }
 
@@ -51,4 +64,20 @@ object ConfigurationProxy {
     fun getJSONByteArray(): ByteArray {
         return json.toString().toByteArray(Charsets.UTF_8)
     }
+
+    var multicastListen: Boolean
+        get() = (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).getBoolean("Listen")
+        set(value) {
+            updateJSON { json ->
+                (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).put("Listen", value)
+            }
+        }
+
+    var multicastBeacon: Boolean
+        get() = (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).getBoolean("Beacon")
+        set(value) {
+            updateJSON { json ->
+                (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).put("Beacon", value)
+            }
+        }
 }

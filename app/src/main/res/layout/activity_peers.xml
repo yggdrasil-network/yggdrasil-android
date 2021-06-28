@@ -168,17 +168,42 @@
                 android:showDividers="middle">
 
                 <TableRow
-                    android:id="@+id/peersTableRow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:paddingStart="4pt"
                     android:paddingTop="2pt"
                     android:paddingEnd="4pt"
+                    android:paddingBottom="4pt">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Discoverable over multicast"
+                        android:textColor="?attr/textDefault" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2" />
+
+                    <Switch
+                        android:id="@+id/enableMulticastBeacon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:paddingStart="4pt"
+                    android:paddingTop="4pt"
+                    android:paddingEnd="4pt"
                     android:paddingBottom="2pt">
 
                     <TextView
-                        android:id="@+id/multicastLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Search for multicast peers"
@@ -190,7 +215,7 @@
                         android:layout_weight="2" />
 
                     <Switch
-                        android:id="@+id/enableMulticastSwitch"
+                        android:id="@+id/enableMulticastListen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

@@ -85,7 +85,7 @@
                         android:layout_weight="2" />
 
                     <Switch
-                        android:id="@+id/enableMulticastSwitch"
+                        android:id="@+id/enableMulticastBeacon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
