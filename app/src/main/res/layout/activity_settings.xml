@@ -38,229 +38,241 @@
 
             </LinearLayout>
 
-            <TextView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16pt"
-                android:layout_marginLeft="16pt"
-                android:layout_marginTop="8pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:layout_marginBottom="2pt"
-                android:alpha="0.7"
-                android:text="Node Info"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp" />
+                android:layout_height="match_parent">
 
-            <TableLayout
-                android:id="@+id/nodeInfoTableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8pt"
-                android:layout_marginLeft="8pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:background="@drawable/rounded"
-                android:divider="#46878787"
-                android:dividerPadding="4pt"
-                android:paddingLeft="4pt"
-                android:paddingTop="2pt"
-                android:paddingRight="4pt"
-                android:paddingBottom="2pt"
-                android:showDividers="middle" >
-
-                <TableRow
-                    android:id="@+id/deviceNameTableRow"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:paddingStart="4pt"
-                    android:paddingTop="4pt"
-                    android:paddingEnd="4pt"
-                    android:paddingBottom="4pt">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Device Name"
-                        android:textColor="?attr/textDefault" />
-
-                    <EditText
-                        android:id="@+id/deviceNameEntry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:ems="10"
-                        android:hint="Tap to edit"
-                        android:inputType="textPersonName"
-                        android:padding="0pt"
-                        android:textAlignment="textEnd"
-                        android:textSize="14sp" />
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="2pt"
+                        android:alpha="0.7"
+                        android:text="Node Info"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
 
-                </TableRow>
-            </TableLayout>
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16pt"
-                android:layout_marginLeft="16pt"
-                android:layout_marginTop="2pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:layout_marginBottom="4pt"
-                android:alpha="0.7"
-                android:paddingRight="8pt"
-                android:text="Information entered here is public and may be shown on network maps."
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16pt"
-                android:layout_marginLeft="16pt"
-                android:layout_marginTop="8pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:layout_marginBottom="2pt"
-                android:alpha="0.7"
-                android:paddingRight="8pt"
-                android:text="Public Key"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp" />
-
-            <TableLayout
-                android:id="@+id/publicKeyTableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8pt"
-                android:layout_marginLeft="8pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:background="@drawable/rounded"
-                android:divider="#46878787"
-                android:dividerPadding="4pt"
-                android:paddingLeft="4pt"
-                android:paddingTop="2pt"
-                android:paddingRight="4pt"
-                android:paddingBottom="2pt"
-                android:showDividers="middle" >
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="4pt"
-                    android:layout_marginTop="4pt"
-                    android:layout_marginRight="4pt"
-                    android:layout_marginBottom="4pt">
-
-                    <LinearLayout
+                    <TableLayout
+                        android:id="@+id/nodeInfoTableLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8pt"
+                        android:layout_marginLeft="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:background="@drawable/rounded"
+                        android:divider="#46878787"
+                        android:dividerPadding="4pt"
+                        android:paddingLeft="4pt"
+                        android:paddingTop="2pt"
+                        android:paddingRight="4pt"
+                        android:paddingBottom="2pt"
+                        android:showDividers="middle">
 
-                        <TextView
-                            android:id="@+id/publicKeyLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="monospace"
-                            android:text="Public Key"
-                            android:textSize="14sp" />
+                        <TableRow
+                            android:id="@+id/deviceNameTableRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:paddingStart="4pt"
+                            android:paddingTop="4pt"
+                            android:paddingEnd="4pt"
+                            android:paddingBottom="4pt">
 
-                    </LinearLayout>
-                </TableRow>
-            </TableLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Device Name"
+                                android:textColor="?attr/textDefault" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16pt"
-                android:layout_marginLeft="16pt"
-                android:layout_marginTop="2pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:layout_marginBottom="4pt"
-                android:alpha="0.7"
-                android:paddingRight="8pt"
-                android:text="Your public key forms your identity on the network. It is safe to be shared."
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp" />
+                            <EditText
+                                android:id="@+id/deviceNameEntry"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:ems="10"
+                                android:hint="Tap to edit"
+                                android:inputType="textPersonName"
+                                android:padding="0pt"
+                                android:textAlignment="textEnd"
+                                android:textSize="14sp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="32px" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16pt"
-                android:layout_marginLeft="16pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:layout_marginBottom="2pt"
-                android:alpha="0.7"
-                android:paddingRight="8pt"
-                android:text="Reset"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp" />
-
-            <TableLayout
-                android:id="@+id/backupTableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8pt"
-                android:layout_marginLeft="8pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:background="@drawable/rounded"
-                android:clickable="true"
-                android:divider="#46878787"
-                android:dividerPadding="4pt"
-                android:paddingLeft="4pt"
-                android:paddingTop="2pt"
-                android:paddingRight="4pt"
-                android:paddingBottom="2pt"
-                android:showDividers="middle">
-
-                <TableRow
-                    android:id="@+id/resetConfigurationRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:padding="4pt">
+                        </TableRow>
+                    </TableLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Reset configuration"
-                        android:textColor="@android:color/holo_red_dark" />
-                </TableRow>
-            </TableLayout>
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="2pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="4pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="Information entered here is public and may be shown on network maps."
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16pt"
-                android:layout_marginLeft="16pt"
-                android:layout_marginTop="2pt"
-                android:layout_marginEnd="8pt"
-                android:layout_marginRight="8pt"
-                android:alpha="0.7"
-                android:paddingRight="8pt"
-                android:text="Resetting will overwrite with newly generated configuration. Your public keys and IP address on the network will change."
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="2pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="Public Key"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <TableLayout
+                        android:id="@+id/publicKeyTableLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8pt"
+                        android:layout_marginLeft="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:background="@drawable/rounded"
+                        android:divider="#46878787"
+                        android:dividerPadding="4pt"
+                        android:paddingLeft="4pt"
+                        android:paddingTop="2pt"
+                        android:paddingRight="4pt"
+                        android:paddingBottom="2pt"
+                        android:showDividers="middle">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="4pt"
+                            android:layout_marginTop="4pt"
+                            android:layout_marginRight="4pt"
+                            android:layout_marginBottom="4pt">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/publicKeyLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="monospace"
+                                    android:text="Public Key"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+                        </TableRow>
+                    </TableLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="2pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="4pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="Your public key forms your identity on the network. It is safe to be shared."
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="32px" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="2pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="Reset"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <TableLayout
+                        android:id="@+id/backupTableLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8pt"
+                        android:layout_marginLeft="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:background="@drawable/rounded"
+                        android:clickable="true"
+                        android:divider="#46878787"
+                        android:dividerPadding="4pt"
+                        android:paddingLeft="4pt"
+                        android:paddingTop="2pt"
+                        android:paddingRight="4pt"
+                        android:paddingBottom="2pt"
+                        android:showDividers="middle">
+
+                        <TableRow
+                            android:id="@+id/resetConfigurationRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:padding="4pt">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Reset configuration"
+                                android:textColor="@android:color/holo_red_dark" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="2pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="Resetting will overwrite with newly generated configuration. Your public keys and IP address on the network will change."
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </ScrollView>
 
         </LinearLayout>
     </FrameLayout>
