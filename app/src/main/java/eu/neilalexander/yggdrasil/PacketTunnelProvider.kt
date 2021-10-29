@@ -1,6 +1,6 @@
 package eu.neilalexander.yggdrasil
 
-import android.content.Intent
+import android.content.*
 import android.net.Uri
 import android.net.VpnService
 import android.os.Handler
@@ -50,17 +50,17 @@ class PacketTunnelProvider: VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent == null) {
+            Log.d("PacketTunnelProvider", "Intent is null")
             return START_NOT_STICKY
         }
         return when (intent.action ?: ACTION_STOP) {
-            ACTION_START -> {
-                start(); START_STICKY
-            }
             ACTION_STOP -> {
+                Log.d("PacketTunnelProvider", "Stopping...")
                 stop(); START_NOT_STICKY
             }
             else -> {
-                stop(); START_NOT_STICKY
+                Log.d("PacketTunnelProvider", "Starting...")
+                start(); START_STICKY
             }
         }
     }
@@ -169,7 +169,7 @@ class PacketTunnelProvider: VpnService() {
                 break@updates
             }
             try {
-                Thread.sleep(2000)
+                Thread.sleep(1000)
             } catch (e: java.lang.InterruptedException) {
                 return
             }

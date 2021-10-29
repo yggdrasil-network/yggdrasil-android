@@ -1,5 +1,6 @@
 package eu.neilalexander.yggdrasil
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.widget.Switch
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import mobile.Mobile
@@ -26,6 +28,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var peersLabel: TextView
     private lateinit var peersRow: TableRow
     private lateinit var settingsRow: TableRow
+
+    private fun start() {
+        val intent = Intent(this, PacketTunnelProvider::class.java)
+        intent.action = PacketTunnelProvider.ACTION_START
+        startService(intent)
+    }
+
+    private var startVpnActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+           start()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +58,14 @@ class MainActivity : AppCompatActivity() {
 
         enabledLabel.setTextColor(Color.GRAY)
 
-        VpnService.prepare(this)
-
         enabledSwitch.setOnCheckedChangeListener { _, isChecked ->
             when (isChecked) {
                 true -> {
-                    val vpnintent = VpnService.prepare(this)
-                    if (vpnintent != null) {
-                        startActivityForResult(vpnintent, 0)
+                    val vpnIntent = VpnService.prepare(this)
+                    if (vpnIntent != null) {
+                        startVpnActivity.launch(vpnIntent)
                     } else {
-                        onActivityResult(0, RESULT_OK, vpnintent)
+                        start()
                     }
                 }
                 false -> {
@@ -89,6 +101,7 @@ class MainActivity : AppCompatActivity() {
             when (intent.getStringExtra("type")) {
                 "state" -> {
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
+                        enabledSwitch.isChecked = true
                         if (state.dhtCount() == 0) {
                             enabledLabel.setTextColor(Color.RED)
                             "No connectivity"
@@ -97,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                             "Enabled"
                         }
                     } else {
+                        enabledSwitch.isChecked = false
                         enabledLabel.setTextColor(Color.GRAY)
                         "Not enabled"
                     }
@@ -116,16 +130,5 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (resultCode) {
-            RESULT_OK -> {
-                val intent = Intent(this, PacketTunnelProvider::class.java)
-                intent.action = PacketTunnelProvider.ACTION_START
-                startService(intent)
-            }
-        }
     }
 }
