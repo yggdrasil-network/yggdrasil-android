@@ -1,6 +1,8 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -53,6 +55,13 @@ class SettingsActivity : AppCompatActivity() {
                 dialog.cancel()
             }
             builder.show()
+        }
+
+        publicKeyLabel.setOnClickListener {
+            val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("public key", publicKeyLabel.text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
         }
 
         updateView()
