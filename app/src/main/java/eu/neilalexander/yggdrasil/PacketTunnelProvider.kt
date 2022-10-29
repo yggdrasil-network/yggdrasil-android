@@ -77,11 +77,25 @@ class PacketTunnelProvider: VpnService() {
         var builder = Builder()
             .addAddress(address, 7)
             .addRoute("200::", 7)
-            .allowBypass()
+            // We do this to trick the DNS-resolver into thinking that we have "regular" IPv6,
+            // and therefore we need to resolve AAAA DNS-records.
+            // See: https://android.googlesource.com/platform/bionic/+/refs/heads/master/libc/dns/net/getaddrinfo.c#1935
+            // and: https://android.googlesource.com/platform/bionic/+/refs/heads/master/libc/dns/net/getaddrinfo.c#365
+            // If we don't do this the DNS-resolver just doesn't do DNS-requests with record type AAAA,
+            // and we can't use DNS with Yggdrasil addresses.
+            .addRoute("2000::", 128)
             .allowFamily(OsConstants.AF_INET)
+            .allowBypass()
             .setBlocking(true)
             .setMtu(yggdrasil.mtu.toInt())
             .setSession("Yggdrasil")
+        // On Android API 29+ apps can opt-in/out to using metered networks.
+        // If we don't set metered status of VPN it is considered as metered.
+        // If we set it to false, then it will inherit this status from underlying network.
+        // See: https://developer.android.com/reference/android/net/VpnService.Builder#setMetered(boolean)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            builder.setMetered(false)
+        }
 
         parcel = builder.establish()
         val parcel = parcel
@@ -170,7 +184,7 @@ class PacketTunnelProvider: VpnService() {
             }
             try {
                 Thread.sleep(1000)
-            } catch (e: java.lang.InterruptedException) {
+            } catch (e: InterruptedException) {
                 return
             }
         }
