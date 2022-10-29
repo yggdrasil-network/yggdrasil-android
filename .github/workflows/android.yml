@@ -49,7 +49,7 @@ jobs:
         mkdir app/libs
         cd yggdrasil-go
         PATH=$PATH:~/go/bin/ ./contrib/mobile/build -a
-        cp {yggdrasil.aar,yggdrasil-sources.aar} ../app/libs
+        cp {yggdrasil.aar,yggdrasil-sources.jar} ../app/libs
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
