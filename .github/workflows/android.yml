@@ -1,0 +1,67 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out
+      uses: actions/checkout@v3
+        
+    - name: Check out Yggdrasil
+      uses: actions/checkout@v3
+      with:
+        repository: yggdrasil-network/yggdrasil-go
+        path: yggdrasil-go
+        ref: develop
+        fetch-depth: 0
+    
+    - name: Setup Go environment
+      uses: actions/setup-go@v3.3.1
+    
+    - name: Install gomobile
+      run: |
+        go install golang.org/x/mobile/cmd/gomobile@latest
+        ~/go/bin/gomobile init
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Install NDK
+      uses: nttld/setup-ndk@v1
+      id: setup-ndk
+      with:
+        ndk-version: r21e
+        add-to-path: false
+      
+    - name: Build Yggdrasil
+      run: |
+        mkdir app/libs
+        cd yggdrasil-go
+        PATH=$PATH:~/go/bin/ ./contrib/mobile/build -a
+        cp {yggdrasil.aar,yggdrasil-sources.jar} ../app/libs
+      env:
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+    - name: Gradle build
+      run: |
+        chmod +x gradlew
+        ./gradlew assemble
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: yggdrasil-android
+        path: app/build/outputs/apk/release/app-release-unsigned.apk
