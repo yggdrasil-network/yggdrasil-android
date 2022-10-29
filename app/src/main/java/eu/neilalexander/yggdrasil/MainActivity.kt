@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var coordinatesLabel: TextView
     private lateinit var peersLabel: TextView
     private lateinit var peersRow: TableRow
+    private lateinit var dnsLabel: TextView
+    private lateinit var dnsRow: TableRow
     private lateinit var settingsRow: TableRow
 
     private fun start() {
@@ -47,13 +49,15 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.versionValue).text = Mobile.getVersion()
 
-        enabledSwitch = findViewById(R.id.enableMulticastBeacon)
+        enabledSwitch = findViewById(R.id.enableYggdrasil)
         enabledLabel = findViewById(R.id.yggdrasilStatusLabel)
         ipAddressLabel = findViewById(R.id.ipAddressValue)
         subnetLabel = findViewById(R.id.subnetValue)
         coordinatesLabel = findViewById(R.id.coordinatesValue)
         peersLabel = findViewById(R.id.peersValue)
         peersRow = findViewById(R.id.peersTableRow)
+        dnsLabel = findViewById(R.id.dnsValue)
+        dnsRow = findViewById(R.id.dnsTableRow)
         settingsRow = findViewById(R.id.settingsTableRow)
 
         enabledLabel.setTextColor(Color.GRAY)
@@ -82,6 +86,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        dnsRow.isClickable = true
+        dnsRow.setOnClickListener {
+            val intent = Intent(this, DnsActivity::class.java)
+            startActivity(intent)
+        }
+
         settingsRow.isClickable = true
         settingsRow.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
@@ -94,6 +104,18 @@ class MainActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).registerReceiver(
             receiver, IntentFilter(PacketTunnelState.RECEIVER_INTENT)
         )
+        val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val serverString = preferences.getString(KEY_DNS_SERVERS, DEFAULT_DNS_SERVERS)
+        if (serverString!!.isNotEmpty()) {
+            val servers = serverString.split(",")
+            dnsLabel.text = when (servers.size) {
+                0 -> "No servers"
+                1 -> "1 server"
+                else -> "${servers.size} servers"
+            }
+        } else {
+            dnsLabel.text = "No servers"
+        }
     }
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {

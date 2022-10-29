@@ -17,6 +17,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
 
+private const val TAG = "PacketTunnelProvider"
+
 class PacketTunnelProvider: VpnService() {
     companion object {
         const val RECEIVER_INTENT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.MESSAGE"
@@ -50,16 +52,16 @@ class PacketTunnelProvider: VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent == null) {
-            Log.d("PacketTunnelProvider", "Intent is null")
+            Log.d(TAG, "Intent is null")
             return START_NOT_STICKY
         }
         return when (intent.action ?: ACTION_STOP) {
             ACTION_STOP -> {
-                Log.d("PacketTunnelProvider", "Stopping...")
+                Log.d(TAG, "Stopping...")
                 stop(); START_NOT_STICKY
             }
             else -> {
-                Log.d("PacketTunnelProvider", "Starting...")
+                Log.d(TAG, "Starting...")
                 start(); START_STICKY
             }
         }
@@ -70,11 +72,11 @@ class PacketTunnelProvider: VpnService() {
             return
         }
 
-        Log.d("PacketTunnelProvider", config.getJSON().toString())
+        Log.d(TAG, config.getJSON().toString())
         yggdrasil.startJSON(config.getJSONByteArray())
 
         val address = yggdrasil.addressString
-        var builder = Builder()
+        val builder = Builder()
             .addAddress(address, 7)
             .addRoute("200::", 7)
             // We do this to trick the DNS-resolver into thinking that we have "regular" IPv6,
@@ -95,6 +97,18 @@ class PacketTunnelProvider: VpnService() {
         // See: https://developer.android.com/reference/android/net/VpnService.Builder#setMetered(boolean)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             builder.setMetered(false)
+        }
+
+        val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val serverString = preferences.getString(KEY_DNS_SERVERS, DEFAULT_DNS_SERVERS)
+        if (serverString!!.isNotEmpty()) {
+            val servers = serverString.split(",")
+            if (servers.isNotEmpty()) {
+                servers.forEach {
+                    Log.i(TAG, "Using DNS server $it")
+                    builder.addDnsServer(it)
+                }
+            }
         }
 
         parcel = builder.establish()
@@ -123,7 +137,7 @@ class PacketTunnelProvider: VpnService() {
         intent.putExtra("ip", yggdrasil.addressString)
         intent.putExtra("subnet", yggdrasil.subnetString)
         intent.putExtra("coords", yggdrasil.coordsString)
-        intent.putExtra("peers", JSONArray(yggdrasil.peersJSON).length())
+        intent.putExtra("peers", yggdrasil.peersJSON)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
