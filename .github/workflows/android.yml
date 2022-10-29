@@ -12,15 +12,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
+    - name: Check out
+      uses: actions/checkout@v3
+        
+    - name: Check out Yggdrasil
+      uses: actions/checkout@v3
+      with:
+        repository: yggdrasil-network/yggdrasil-go
+        path: yggdrasil-go
+        ref: develop
+    
+    - name: Setup Go environment
+      uses: actions/setup-go@v3.3.1
+    
+    - name: Install gomobile
+      run: |
+        go install golang.org/x/mobile/cmd/gomobile@latest
+        gomobile init
+      
+    - name: Build Yggdrasil
+      run: |
+          mkdir app/libs
+          cd yggdrasil-go
+          ./contrib/mobile/build -a
+          cp {yggdrasil.aar,yggdrasil-sources.aar} ../app/libs
+    
+    - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Gradle build
+      run: |
+        chmod +x gradlew
+        ./gradlew build
