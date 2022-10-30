@@ -1,16 +1,14 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.graphics.Color
 import android.net.VpnService
 import android.os.Bundle
 import android.widget.Switch
 import android.widget.TableRow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -96,6 +94,22 @@ class MainActivity : AppCompatActivity() {
         settingsRow.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        ipAddressLabel.setOnLongClickListener {
+            val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("ip", ipAddressLabel.text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        subnetLabel.setOnLongClickListener {
+            val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("subnet", subnetLabel.text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            true
         }
     }
 
