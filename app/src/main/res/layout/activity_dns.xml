@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8pt"
-                    android:text="DNS"
+                    android:text="@string/dns_activity_title"
                     android:textColor="?attr/textDefault"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -68,13 +68,64 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="DNS servers"
+                        android:text=""
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
 
                     <TableLayout
                         android:id="@+id/configuredDnsTableLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8pt"
+                        android:layout_marginLeft="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:background="@drawable/rounded"
+                        android:divider="#46878787"
+                        android:dividerPadding="4pt"
+                        android:paddingLeft="4pt"
+                        android:paddingTop="2pt"
+                        android:paddingRight="4pt"
+                        android:paddingBottom="2pt"
+                        android:showDividers="middle" />
+
+                    <TextView
+                        android:id="@+id/configuredDnsHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="4pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="4pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="@string/dns_configured_servers_hint"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/usableDnsLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="2pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="@string/dns_usable_servers"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <TableLayout
+                        android:id="@+id/usableDnsTableLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8pt"
@@ -101,7 +152,87 @@
                         android:layout_marginBottom="4pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Yggdrasil will use these DNS servers in VPN config when service starts. All your DNS requests will be resolved through them."
+                        android:text="@string/dns_usable_servers_hint"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="32px" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="2pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="@string/dns_fixes"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
+                    <TableLayout
+                        android:id="@+id/fixesTableLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8pt"
+                        android:layout_marginLeft="8pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:background="@drawable/rounded"
+                        android:divider="#46878787"
+                        android:dividerPadding="4pt"
+                        android:paddingLeft="4pt"
+                        android:paddingTop="2pt"
+                        android:paddingRight="4pt"
+                        android:paddingBottom="2pt"
+                        android:showDividers="middle">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:paddingStart="4pt"
+                            android:paddingTop="2pt"
+                            android:paddingEnd="4pt"
+                            android:paddingBottom="4pt">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dns_fix_chrome_based_browsers"
+                                android:textColor="?attr/textDefault" />
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2" />
+
+                            <Switch
+                                android:id="@+id/enableChromeFix"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="4pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="@string/dns_fix_chrome_based_browsers_hint"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />

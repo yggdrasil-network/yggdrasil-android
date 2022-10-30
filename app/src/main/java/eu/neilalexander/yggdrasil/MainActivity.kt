@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             receiver, IntentFilter(PacketTunnelState.RECEIVER_INTENT)
         )
         val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
-        val serverString = preferences.getString(KEY_DNS_SERVERS, DEFAULT_DNS_SERVERS)
+        val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
             dnsLabel.text = when (servers.size) {

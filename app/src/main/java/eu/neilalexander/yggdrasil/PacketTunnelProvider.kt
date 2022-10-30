@@ -100,7 +100,7 @@ class PacketTunnelProvider: VpnService() {
         }
 
         val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
-        val serverString = preferences.getString(KEY_DNS_SERVERS, DEFAULT_DNS_SERVERS)
+        val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
             if (servers.isNotEmpty()) {
@@ -109,6 +109,9 @@ class PacketTunnelProvider: VpnService() {
                     builder.addDnsServer(it)
                 }
             }
+        }
+        if (preferences.getBoolean(KEY_ENABLE_CHROME_FIX, false)) {
+            builder.addRoute("2001:4860:4860::8888", 128)
         }
 
         parcel = builder.establish()
@@ -228,7 +231,7 @@ class PacketTunnelProvider: VpnService() {
     }
 
     private fun reader() {
-        var b = ByteArray(65535)
+        val b = ByteArray(65535)
         reads@ while (started.get()) {
             val readerStream = readerStream
             val readerThread = readerThread
