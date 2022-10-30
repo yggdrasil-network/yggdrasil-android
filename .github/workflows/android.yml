@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -56,22 +58,33 @@ jobs:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Gradle build  
-      if: github.ref_name != 'main'
+      if: github.event_name != 'release' && github.ref_name != 'main'
       run: |
         chmod +x gradlew
         ./gradlew buildRelease
 
     - name: Gradle signed build
-      if: github.ref_name == 'main'
+      if: github.event_name == 'release' || github.ref_name == 'main'
       run: |
         echo "${{ secrets.RELEASE_KEYSTORE }}" > app/gha.keystore.asc
         gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" --batch app/gha.keystore.asc > app/gha.jks
         chmod +x gradlew
         ./gradlew assembleYggdrasil
 
-    - name: Upload artifact
-      if: github.ref_name == 'main'
+    - name: Upload build artifact
+      if: github.event_name == 'release' || github.ref_name == 'main'
       uses: actions/upload-artifact@v3
       with:
         name: yggdrasil-android
         path: app/build/outputs/apk/yggdrasil/app-yggdrasil.apk
+        
+    - name: Upload release artifact
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: app/build/outputs/apk/yggdrasil/app-yggdrasil.apk
+        asset_name: yggdrasil-android.apk
+        asset_content_type: application/vnd.android.package-archive
