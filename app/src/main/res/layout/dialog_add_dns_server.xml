@@ -16,7 +16,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter the IP address of DNS server to add. It will be used by OS and all apps when Yggdrasil starts." />
+            android:text="Enter the IP address of the DNS server to add. Note that all DNS requests, including for non-Yggdrasil internet hostnames, will be sent to these servers." />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

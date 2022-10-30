@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Yggdrasil</string>
-    <string name="dns_configured_servers_hint">Yggdrasil will use these DNS servers in VPN config when service starts. All your DNS requests will be resolved by them.</string>
-    <string name="dns_configured_servers_hint_empty">Yggdrasil will not configure any DNS servers when service starts. All your DNS requests will be resolved by system resolver.</string>
-    <string name="dns_usable_servers_hint">These are DNS servers run by community members. Click plus button to add them to a list above. Long-tap to see more info.</string>
+    <string name="dns_configured_servers_hint">Use these DNS servers while Yggdrasil is running. Note that all DNS requests, including for non-Yggdrasil internet hostnames, will be sent to these servers.</string>
+    <string name="dns_configured_servers_hint_empty">Yggdrasil will not configure any DNS servers when the service starts. All DNS requests will be resolved by the default resolver.</string>
+    <string name="dns_usable_servers_hint">These DNS servers are provided by community members. Click the + button to add them to the list above. Long-tap to see more info.</string>
     <string name="dns_no_configured_servers">No servers configured</string>
     <string name="dns_configured_servers">Configured servers</string>
     <string name="dns_server_info_revertron">The server supports resolving regular ICANN domains, ALFIS domains, OpenNIC domains.\n\nAlso, it blocks ads, analytics and malware websites.\n\nThe server is run by Revertron.</string>
@@ -15,6 +15,6 @@
     <string name="dns_activity_title">DNS</string>
     <string name="dns_usable_servers">Usable servers</string>
     <string name="dns_fix_chrome_based_browsers">Fix Chrome-based browsers</string>
-    <string name="dns_fix_chrome_based_browsers_hint">Chrome-based browsers need an additional fix to understand that you have IPv6 connectivity.</string>
+    <string name="dns_fix_chrome_based_browsers_hint">If you do not have IPv6 internet connectivity, this option should help Chrome-based browsers to resolve Yggdrasil domain names correctly.</string>
     <string name="dns_fixes">DNS fixes</string>
 </resources>
