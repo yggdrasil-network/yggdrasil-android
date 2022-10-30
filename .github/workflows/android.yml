@@ -57,11 +57,13 @@ jobs:
 
     - name: Gradle build
       run: |
+        echo "${{ secrets.RELEASE_KEYSTORE }}" > app/gha.keystore.asc
+        gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" --batch app/gha.keystore.asc > app/gha.jks
         chmod +x gradlew
-        ./gradlew build
+        ./gradlew assembleYggdrasil
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: yggdrasil-android
-        path: app/release/app-release.apk
+        path: app/build/outputs/apk/yggdrasil/app-yggdrasil.apk

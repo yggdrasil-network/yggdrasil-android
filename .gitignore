@@ -16,3 +16,5 @@
 local.properties
 /app/libs/yggdrasil.aar
 /app/libs/yggdrasil-sources.jar
+/app/release/*
+/app/release
