@@ -55,7 +55,14 @@ jobs:
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    - name: Gradle build
+    - name: Gradle build  
+      if: github.ref_name != 'main'
+      run: |
+        chmod +x gradlew
+        ./gradlew buildRelease
+
+    - name: Gradle signed build
+      if: github.ref_name == 'main'
       run: |
         echo "${{ secrets.RELEASE_KEYSTORE }}" > app/gha.keystore.asc
         gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" --batch app/gha.keystore.asc > app/gha.jks
@@ -63,6 +70,7 @@ jobs:
         ./gradlew assembleYggdrasil
 
     - name: Upload artifact
+      if: github.ref_name == 'main'
       uses: actions/upload-artifact@v3
       with:
         name: yggdrasil-android

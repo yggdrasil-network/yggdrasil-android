@@ -16,19 +16,19 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter the full URI of the peer to add. Yggdrasil will automatically connect to this peer when started." />
+            android:text="Enter the IP address of the DNS server to add. Note that all DNS requests, including for non-Yggdrasil internet hostnames, will be sent to these servers." />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addPeerInput"
+                android:id="@+id/addDnsInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4pt"
                 android:lines="1"
-                android:hint="tcp://address:port" />
+                android:hint="8.8.8.8 or 302:7991::53" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </FrameLayout>

@@ -94,7 +94,7 @@
                                 android:layout_weight="2" />
 
                             <Switch
-                                android:id="@+id/enableMulticastBeacon"
+                                android:id="@+id/enableYggdrasil"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -348,6 +348,50 @@
                         </TableRow>
 
                         <TableRow
+                            android:id="@+id/dnsTableRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:paddingStart="4pt"
+                            android:paddingTop="6pt"
+                            android:paddingEnd="4pt"
+                            android:paddingBottom="6pt">
+
+                            <TextView
+                                android:id="@+id/dnsLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="DNS servers"
+                                android:textColor="?attr/textDefault" />
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2" />
+
+                            <TextView
+                                android:id="@+id/dnsValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.5"
+                                android:text="No servers"
+                                android:textAlignment="textEnd" />
+
+                            <ImageView
+                                android:id="@+id/dnsChevron"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="2pt"
+                                android:alpha="0.4"
+                                android:cropToPadding="false"
+                                android:scaleType="fitEnd"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
+                        </TableRow>
+
+                        <TableRow
                             android:id="@+id/settingsTableRow"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -426,12 +470,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16pt"
                         android:layout_marginLeft="16pt"
-                        android:layout_marginTop="2pt"
+                        android:layout_marginTop="4pt"
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="You must re-enable Yggdrasil after modifying Peers or Settings to make any changes effective."
+                        android:text="You must re-enable Yggdrasil after modifying Peers, DNS servers or Settings to make any changes effective."
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
