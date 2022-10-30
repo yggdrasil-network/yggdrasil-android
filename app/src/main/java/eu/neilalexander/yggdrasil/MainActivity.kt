@@ -96,18 +96,20 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        ipAddressLabel.setOnClickListener {
+        ipAddressLabel.setOnLongClickListener {
             val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("ip", ipAddressLabel.text)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            true
         }
 
-        subnetLabel.setOnClickListener {
+        subnetLabel.setOnLongClickListener {
             val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("subnet", subnetLabel.text)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext,R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            true
         }
     }
 
