@@ -26,7 +26,7 @@ cp /tmp/yggdrasil-go/yggdrasil.aar /tmp/yggdrasil-android/app/libs/
 
 ```
 cd /tmp/yggdrasil-android
-./gradlew assemble
+./gradlew assembleRelease
 ```
 
 note: you will need to use jdk-11 as jdk-16 `"doesn't work" ™`
