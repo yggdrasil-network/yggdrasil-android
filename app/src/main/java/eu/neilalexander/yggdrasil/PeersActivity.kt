@@ -49,14 +49,14 @@ class PeersActivity : AppCompatActivity() {
 
         addPeerButton = findViewById(R.id.addPeerButton)
         addPeerButton.setOnClickListener {
-            var view = inflater.inflate(R.layout.dialog_addpeer, null)
-            var input = view.findViewById<TextInputEditText>(R.id.addPeerInput)
+            val view = inflater.inflate(R.layout.dialog_addpeer, null)
+            val input = view.findViewById<TextInputEditText>(R.id.addPeerInput)
             val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
             builder.setTitle("Add Configured Peer")
             builder.setView(view)
             builder.setPositiveButton("Add") { dialog, _ ->
                 config.updateJSON { json ->
-                    json.getJSONArray("Peers").put(input.text)
+                    json.getJSONArray("Peers").put(input.text.toString().trim())
                 }
                 dialog.dismiss()
                 updateConfiguredPeers()
@@ -90,7 +90,7 @@ class PeersActivity : AppCompatActivity() {
                 configuredTableLayout.removeAllViewsInLayout()
                 for (i in 0 until peers.length()) {
                     val peer = peers[i].toString()
-                    var view = inflater.inflate(R.layout.peers_configured, null)
+                    val view = inflater.inflate(R.layout.peers_configured, null)
                     view.findViewById<TextView>(R.id.addressValue).text = peer
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
@@ -130,7 +130,7 @@ class PeersActivity : AppCompatActivity() {
                 connectedTableLayout.removeAllViewsInLayout()
                 for (i in 0 until peers.length()) {
                     val peer = peers.getJSONObject(i)
-                    var view = inflater.inflate(R.layout.peers_connected, null)
+                    val view = inflater.inflate(R.layout.peers_connected, null)
                     val ip = peer.getString("IP")
                     view.findViewById<TextView>(R.id.addressLabel).text = ip
                     view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("Remote")
