@@ -1,16 +1,12 @@
 package eu.neilalexander.yggdrasil
 
 import android.content.*
-import android.net.Uri
 import android.net.VpnService
-import android.os.Handler
-import android.os.Message
 import android.os.ParcelFileDescriptor
 import android.system.OsConstants
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import mobile.Yggdrasil
-import org.json.JSONArray
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.atomic.AtomicBoolean
@@ -208,6 +204,7 @@ class PacketTunnelProvider: VpnService() {
     }
 
     private fun writer() {
+        val buf = ByteArray(65535)
         writes@ while (started.get()) {
             val writerStream = writerStream
             val writerThread = writerThread
@@ -218,8 +215,10 @@ class PacketTunnelProvider: VpnService() {
                 break@writes
             }
             try {
-                val b = yggdrasil.recv()
-                writerStream.write(b)
+                val len = yggdrasil.recvBuffer(buf)
+                if (len > 0) {
+                    writerStream.write(buf, 0, len.toInt())
+                }
             } catch (e: Exception) {
                 break@writes
             }
@@ -243,7 +242,7 @@ class PacketTunnelProvider: VpnService() {
             }
             try {
                 val n = readerStream.read(b)
-                yggdrasil.send(b.sliceArray(0..n))
+                yggdrasil.sendBuffer(b, n.toLong())
             } catch (e: Exception) {
                 break@reads
             }
