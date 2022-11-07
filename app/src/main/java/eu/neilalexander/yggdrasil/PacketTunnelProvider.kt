@@ -184,7 +184,6 @@ class PacketTunnelProvider: VpnService() {
     private fun updater() {
         updates@ while (started.get()) {
             if ((application as  GlobalApplication).needUiUpdates()) {
-                Log.d(TAG, "Sending stats to UI...")
                 val intent = Intent(STATE_INTENT)
                 intent.putExtra("type", "state")
                 intent.putExtra("started", true)
