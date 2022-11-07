@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8pt"
-                android:text="Yggdrasil"
+                android:text="@string/app_name"
                 android:textColor="?attr/textDefault"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                         android:layout_marginRight="8pt"
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
-                        android:text="Status"
+                        android:text="@string/main_status"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -84,7 +84,7 @@
                                 android:id="@+id/enableYggdrasilLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Enable Yggdrasil"
+                                android:text="@string/main_enable_yggdrasil"
                                 android:textColor="?attr/textDefault"
                                 android:textSize="14sp" />
 
@@ -114,7 +114,7 @@
                                 android:id="@+id/yggdrasilStatusLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Not enabled"
+                                android:text="@string/main_disabled"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -137,7 +137,7 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Statistics"
+                        android:text="@string/main_statistics"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -175,7 +175,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
-                                android:text="IP"
+                                android:text="@string/main_ip"
                                 android:textColor="?attr/textDefault" />
 
                             <TextView
@@ -188,7 +188,7 @@
                                 android:scrollHorizontally="true"
                                 android:selectAllOnFocus="true"
                                 android:singleLine="true"
-                                android:text="N/A"
+                                android:text="@string/main_not_available"
                                 android:textAlignment="viewEnd"
                                 android:textIsSelectable="true"
                                 android:textSize="14sp" />
@@ -209,7 +209,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
-                                android:text="Subnet"
+                                android:text="@string/main_subnet"
                                 android:textColor="?attr/textDefault" />
 
                             <TextView
@@ -222,7 +222,7 @@
                                 android:scrollHorizontally="true"
                                 android:selectAllOnFocus="true"
                                 android:singleLine="true"
-                                android:text="N/A"
+                                android:text="@string/main_not_available"
                                 android:textAlignment="viewEnd"
                                 android:textIsSelectable="true"
                                 android:textSize="14sp" />
@@ -244,7 +244,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
-                                android:text="Coordinates"
+                                android:text="@string/main_coordinates"
                                 android:textColor="?attr/textDefault" />
 
                             <TextView
@@ -280,7 +280,7 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Configuration"
+                        android:text="@string/main_configuration"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -318,7 +318,7 @@
                                 android:id="@+id/multicastLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Peers"
+                                android:text="@string/main_peers"
                                 android:textColor="?attr/textDefault" />
 
                             <Space
@@ -331,7 +331,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:alpha="0.5"
-                                android:text="No peers"
+                                android:text="@string/main_no_peers"
                                 android:textAlignment="textEnd" />
 
                             <ImageView
@@ -362,7 +362,7 @@
                                 android:id="@+id/dnsLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="DNS servers"
+                                android:text="@string/main_dns_servers"
                                 android:textColor="?attr/textDefault" />
 
                             <Space
@@ -375,7 +375,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:alpha="0.5"
-                                android:text="No servers"
+                                android:text="@string/dns_no_servers"
                                 android:textAlignment="textEnd" />
 
                             <ImageView
@@ -405,7 +405,7 @@
                                 android:id="@+id/settingsLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Settings"
+                                android:text="@string/main_settings"
                                 android:textColor="?attr/textDefault" />
 
                             <Space
@@ -445,7 +445,7 @@
                                 android:id="@+id/versionLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Version"
+                                android:text="@string/main_version"
                                 android:textColor="?attr/textDefault" />
 
                             <Space
@@ -458,7 +458,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:alpha="0.5"
-                                android:text="Unknown"
+                                android:text="@string/main_unknown"
                                 android:textAlignment="textEnd" />
 
                         </TableRow>
@@ -475,7 +475,7 @@
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="You must re-enable Yggdrasil after modifying Peers, DNS servers or Settings to make any changes effective."
+                        android:text="@string/main_bottom_warning"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />

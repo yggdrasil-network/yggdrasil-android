@@ -38,4 +38,23 @@
     <string name="peers_connected_title">Connected Peers</string>
     <string name="settings_warning_title">Warning</string>
     <string name="settings_reset">Reset</string>
+    <string name="main_status">Status</string>
+    <string name="main_enable_yggdrasil">Enable Yggdrasil</string>
+    <string name="main_statistics">Statistics</string>
+    <string name="main_not_available">N/A</string>
+    <string name="main_ip">IP</string>
+    <string name="main_subnet">Subnet</string>
+    <string name="main_coordinates">Coordinates</string>
+    <string name="main_configuration">Configuration</string>
+    <string name="main_peers">Peers</string>
+    <string name="main_dns_servers">DNS servers</string>
+    <string name="main_settings">Settings</string>
+    <string name="main_version">Version</string>
+    <string name="main_unknown">Unknown</string>
+    <string name="main_bottom_warning">You must re-enable Yggdrasil after modifying Peers, DNS servers or Settings to make any changes effective.</string>
+    <string name="peer_connectivity_title">Peer Connectivity</string>
+    <string name="discoverable_over_multicast">Discoverable over multicast</string>
+    <string name="search_for_multicast_peers">Search for multicast peers</string>
+    <string name="configured_peers_hint">Yggdrasil will automatically attempt to connect to configured peers when started. If you configure more than one peer, your device may carry traffic on behalf of other network nodes. Avoid this by configuring only a single peer.</string>
+    <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB. Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
 </resources>
