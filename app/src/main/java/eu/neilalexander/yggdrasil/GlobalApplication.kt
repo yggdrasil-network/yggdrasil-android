@@ -1,25 +1,27 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.Application
-import android.content.IntentFilter
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class GlobalApplication: Application() {
-    private var state = PacketTunnelState
     private lateinit var config: ConfigurationProxy
+    var updaterConnections: Int = 0
 
     override fun onCreate() {
         super.onCreate()
         config = ConfigurationProxy(applicationContext)
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            state, IntentFilter(PacketTunnelProvider.RECEIVER_INTENT)
-        )
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
+    fun subscribe() {
+        updaterConnections++
+    }
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(state)
+    fun unsubscribe() {
+        if (updaterConnections > 0) {
+            updaterConnections--
+        }
+    }
+
+    fun needUiUpdates(): Boolean {
+        return updaterConnections > 0
     }
 }

@@ -108,7 +108,7 @@ class DnsActivity : AppCompatActivity() {
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
                         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-                        builder.setTitle("Remove ${server}?")
+                        builder.setTitle(getString(R.string.dns_remove_title, server))
                         builder.setPositiveButton(getString(R.string.remove)) { dialog, _ ->
                             servers.removeAt(button.tag as Int)
                             preferences.edit().apply {

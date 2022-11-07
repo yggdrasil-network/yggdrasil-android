@@ -12,12 +12,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import eu.neilalexander.yggdrasil.PacketTunnelProvider.Companion.STATE_INTENT
 import mobile.Mobile
+import org.json.JSONArray
 
 
 class MainActivity : AppCompatActivity() {
-    private var state = PacketTunnelState
-
     private lateinit var enabledSwitch: Switch
     private lateinit var enabledLabel: TextView
     private lateinit var ipAddressLabel: TextView
@@ -116,20 +116,27 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         LocalBroadcastManager.getInstance(this).registerReceiver(
-            receiver, IntentFilter(PacketTunnelState.RECEIVER_INTENT)
+            receiver, IntentFilter(STATE_INTENT)
         )
         val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
             dnsLabel.text = when (servers.size) {
-                0 -> "No servers"
-                1 -> "1 server"
-                else -> "${servers.size} servers"
+                0 -> getString(R.string.dns_no_servers)
+                1 -> getString(R.string.dns_one_server)
+                else -> getString(R.string.dns_many_servers, servers.size)
             }
         } else {
-            dnsLabel.text = "No servers"
+            dnsLabel.text = getString(R.string.dns_no_servers)
         }
+        (application as GlobalApplication).subscribe()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (application as GlobalApplication).unsubscribe()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
     }
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -138,33 +145,39 @@ class MainActivity : AppCompatActivity() {
                 "state" -> {
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
                         enabledSwitch.isChecked = true
-                        if (state.dhtCount() == 0) {
+                        var count = 0
+                        if (intent.hasExtra("dht")) {
+                            val dht = intent.getStringExtra("dht")
+                            if (dht != null && dht != "null") {
+                                val dhtState = JSONArray(dht)
+                                count = dhtState.length()
+                            }
+                        }
+                        if (count == 0) {
                             enabledLabel.setTextColor(Color.RED)
-                            "No connectivity"
+                            getString(R.string.main_no_connectivity)
                         } else {
                             enabledLabel.setTextColor(Color.GREEN)
-                            "Enabled"
+                            getString(R.string.main_enabled)
                         }
                     } else {
                         enabledSwitch.isChecked = false
                         enabledLabel.setTextColor(Color.GRAY)
-                        "Not enabled"
+                        getString(R.string.main_disabled)
                     }
                     ipAddressLabel.text = intent.getStringExtra("ip") ?: "N/A"
                     subnetLabel.text = intent.getStringExtra("subnet") ?: "N/A"
                     coordinatesLabel.text = intent.getStringExtra("coords") ?: "[]"
-                    peersLabel.text = when (val count = state.peerCount()) {
-                        0 -> "No peers"
-                        1 -> "1 peer"
-                        else -> "$count peers"
+                    if (intent.hasExtra("peers")) {
+                        val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
+                        peersLabel.text = when (val count = peerState.length()) {
+                            0 -> getString(R.string.main_no_peers)
+                            1 -> getString(R.string.main_one_peer)
+                            else -> getString(R.string.main_many_peers, count)
+                        }
                     }
                 }
             }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
     }
 }

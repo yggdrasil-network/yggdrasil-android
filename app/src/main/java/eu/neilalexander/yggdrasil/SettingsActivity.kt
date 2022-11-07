@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.*
-import androidx.core.view.setPadding
 import androidx.core.widget.doOnTextChanged
 import org.json.JSONObject
 
@@ -33,7 +32,7 @@ class SettingsActivity : AppCompatActivity() {
 
         deviceNameEntry.doOnTextChanged { text, _, _, _ ->
             config.updateJSON { cfg ->
-                var nodeinfo = cfg.optJSONObject("NodeInfo")
+                val nodeinfo = cfg.optJSONObject("NodeInfo")
                 if (nodeinfo == null) {
                     cfg.put("NodeInfo", JSONObject("{}"))
                 }
@@ -42,16 +41,16 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         resetConfigurationRow.setOnClickListener {
-            var view = inflater.inflate(R.layout.dialog_resetconfig, null)
+            val view = inflater.inflate(R.layout.dialog_resetconfig, null)
             val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
-            builder.setTitle("Warning")
+            builder.setTitle(getString(R.string.settings_warning_title))
             builder.setView(view)
-            builder.setPositiveButton("Reset") { dialog, _ ->
+            builder.setPositiveButton(getString(R.string.settings_reset)) { dialog, _ ->
                 config.resetJSON()
                 updateView()
                 dialog.dismiss()
             }
-            builder.setNegativeButton("Cancel") { dialog, _ ->
+            builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.cancel()
             }
             builder.show()
@@ -68,7 +67,7 @@ class SettingsActivity : AppCompatActivity() {
         updateView()
     }
 
-    fun updateView() {
+    private fun updateView() {
         val nodeinfo = config.getJSON().optJSONObject("NodeInfo")
         if (nodeinfo != null) {
             deviceNameEntry.setText(nodeinfo.getString("name"), TextView.BufferType.EDITABLE)

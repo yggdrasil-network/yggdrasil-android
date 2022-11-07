@@ -18,4 +18,24 @@
     <string name="dns_fix_chrome_based_browsers">Fix Chrome-based browsers</string>
     <string name="dns_fix_chrome_based_browsers_hint">If you do not have IPv6 internet connectivity, this option should help Chrome-based browsers to resolve Yggdrasil domain names correctly.</string>
     <string name="dns_fixes">DNS fixes</string>
+    <string name="dns_no_servers">No servers</string>
+    <string name="dns_one_server">1 server</string>
+    <string name="dns_many_servers">%d server</string>
+    <string name="dns_remove_title">Remove %s?</string>
+    <string name="main_no_connectivity">No connectivity</string>
+    <string name="main_enabled">Enabled</string>
+    <string name="main_disabled">Not enabled</string>
+    <string name="main_no_peers">No peers</string>
+    <string name="main_one_peer">1 peer</string>
+    <string name="main_many_peers">%d peers</string>
+    <string name="peers_add_peer">Add Configured Peer</string>
+    <string name="peers_add">Add</string>
+    <string name="peers_remove_title">Remove %s?</string>
+    <string name="peers_remove">Remove</string>
+    <string name="peers_no_configured_title">No peers currently configured</string>
+    <string name="peers_configured_title">Configured Peers</string>
+    <string name="peers_no_connected_title">No peers currently connected</string>
+    <string name="peers_connected_title">Connected Peers</string>
+    <string name="settings_warning_title">Warning</string>
+    <string name="settings_reset">Reset</string>
 </resources>
