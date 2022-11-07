@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8pt"
-                    android:text="Peers"
+                    android:text="@string/main_peers"
                     android:textColor="?attr/textDefault"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -67,7 +67,7 @@
                         android:layout_marginRight="8pt"
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
-                        android:text="Connected Peers"
+                        android:text="@string/peers_connected_title"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -101,7 +101,7 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Configured Peers"
+                        android:text="@string/peers_configured_title"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -134,7 +134,7 @@
                         android:layout_marginBottom="4pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Yggdrasil will automatically attempt to connect to configured peers when started. If you configure more than one peer, your device may carry traffic on behalf of other network nodes. Avoid this by configuring only a single peer."
+                        android:text="@string/configured_peers_hint"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -153,7 +153,7 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Peer Connectivity"
+                        android:text="@string/peer_connectivity_title"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -188,7 +188,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Discoverable over multicast"
+                                android:text="@string/discoverable_over_multicast"
                                 android:textColor="?attr/textDefault" />
 
                             <Space
@@ -215,7 +215,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Search for multicast peers"
+                                android:text="@string/search_for_multicast_peers"
                                 android:textColor="?attr/textDefault" />
 
                             <Space
@@ -242,7 +242,7 @@
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="Multicast peers will be discovered on the same Wi-Fi network or via USB. Data charges may apply when using mobile data. You can prevent data usage in the device settings."
+                        android:text="@string/peer_connectivity_hint"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />

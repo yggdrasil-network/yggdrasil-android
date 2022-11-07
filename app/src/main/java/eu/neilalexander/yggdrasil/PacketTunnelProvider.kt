@@ -17,7 +17,7 @@ private const val TAG = "PacketTunnelProvider"
 
 class PacketTunnelProvider: VpnService() {
     companion object {
-        const val RECEIVER_INTENT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.MESSAGE"
+        const val STATE_INTENT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STATE_MESSAGE"
 
         const val ACTION_START = "eu.neilalexander.yggdrasil.PacketTunnelProvider.START"
         const val ACTION_STOP = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STOP"
@@ -130,7 +130,7 @@ class PacketTunnelProvider: VpnService() {
             updater()
         }
 
-        val intent = Intent(RECEIVER_INTENT)
+        val intent = Intent(STATE_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", true)
         intent.putExtra("ip", yggdrasil.addressString)
@@ -173,7 +173,7 @@ class PacketTunnelProvider: VpnService() {
             updateThread = null
         }
 
-        val intent = Intent(RECEIVER_INTENT)
+        val intent = Intent(STATE_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", false)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
@@ -183,15 +183,23 @@ class PacketTunnelProvider: VpnService() {
 
     private fun updater() {
         updates@ while (started.get()) {
-            val intent = Intent(RECEIVER_INTENT)
-            intent.putExtra("type", "state")
-            intent.putExtra("started", true)
-            intent.putExtra("ip", yggdrasil.addressString)
-            intent.putExtra("subnet", yggdrasil.subnetString)
-            intent.putExtra("coords", yggdrasil.coordsString)
-            intent.putExtra("peers", yggdrasil.peersJSON)
-            intent.putExtra("dht", yggdrasil.dhtjson)
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+            if ((application as  GlobalApplication).needUiUpdates()) {
+                val intent = Intent(STATE_INTENT)
+                intent.putExtra("type", "state")
+                intent.putExtra("started", true)
+                intent.putExtra("ip", yggdrasil.addressString)
+                intent.putExtra("subnet", yggdrasil.subnetString)
+                intent.putExtra("coords", yggdrasil.coordsString)
+                intent.putExtra("peers", yggdrasil.peersJSON)
+                intent.putExtra("dht", yggdrasil.dhtjson)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+            } else {
+                try {
+                    Thread.sleep(1000)
+                } catch (e: InterruptedException) {
+                    return
+                }
+            }
             if (Thread.currentThread().isInterrupted) {
                 break@updates
             }
