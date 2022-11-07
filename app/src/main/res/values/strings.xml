@@ -57,4 +57,12 @@
     <string name="search_for_multicast_peers">Search for multicast peers</string>
     <string name="configured_peers_hint">Yggdrasil will automatically attempt to connect to configured peers when started. If you configure more than one peer, your device may carry traffic on behalf of other network nodes. Avoid this by configuring only a single peer.</string>
     <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB. Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
+    <string name="node_info">Node Info</string>
+    <string name="device_name">Device Name</string>
+    <string name="tap_to_edit">Tap to edit</string>
+    <string name="node_info_hint">Information entered here is public and may be shown on network maps.</string>
+    <string name="public_key">Public Key</string>
+    <string name="public_key_hint">Your public key forms your identity on the network. It is safe to be shared.</string>
+    <string name="reset_configuration">Reset configuration</string>
+    <string name="reset_configuration_hint">Resetting will overwrite with newly generated configuration. Your public keys and IP address on the network will change.</string>
 </resources>
