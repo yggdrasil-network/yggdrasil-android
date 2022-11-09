@@ -9,6 +9,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import mobile.Yggdrasil
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.net.NetworkInterface
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
@@ -21,6 +23,7 @@ class PacketTunnelProvider: VpnService() {
 
         const val ACTION_START = "eu.neilalexander.yggdrasil.PacketTunnelProvider.START"
         const val ACTION_STOP = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STOP"
+        const val ACTION_CONNECT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.CONNECT"
     }
 
     private var yggdrasil = Yggdrasil()
@@ -55,6 +58,10 @@ class PacketTunnelProvider: VpnService() {
             ACTION_STOP -> {
                 Log.d(TAG, "Stopping...")
                 stop(); START_NOT_STICKY
+            }
+            ACTION_CONNECT -> {
+                Log.d(TAG, "Connecting...")
+                connect(); START_STICKY
             }
             else -> {
                 Log.d(TAG, "Starting...")
@@ -181,6 +188,14 @@ class PacketTunnelProvider: VpnService() {
         stopSelf()
     }
 
+    private fun connect() {
+        if (!started.get()) {
+            return
+        }
+        yggdrasil.setMulticastInterfaces(getInterfaces().joinToString("\n"))
+        yggdrasil.connectAnyPeer()
+    }
+
     private fun updater() {
         updates@ while (started.get()) {
             if ((application as  GlobalApplication).needUiUpdates()) {
@@ -259,5 +274,27 @@ class PacketTunnelProvider: VpnService() {
             it.close()
             readerStream = null
         }
+    }
+
+    private fun getInterfaces(): Array<String> {
+        val result = ArrayList<String>()
+
+        val interfaces: List<NetworkInterface> = try {
+            Collections.list(NetworkInterface.getNetworkInterfaces())
+        } catch (e: java.lang.Exception) {
+            return result.toTypedArray()
+        }
+
+        for (i in interfaces) {
+            if (!i.isUp) continue
+
+            if (i.supportsMulticast() && !i.isPointToPoint) {
+                for (addr in i.inetAddresses) {
+                    val a = addr.toString().replace("/", "")
+                    result.add("${i.name}|${a}")
+                }
+            }
+        }
+        return result.toTypedArray()
     }
 }
