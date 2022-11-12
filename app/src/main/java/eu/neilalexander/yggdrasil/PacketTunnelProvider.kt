@@ -190,7 +190,7 @@ class PacketTunnelProvider: VpnService() {
         if (!started.get()) {
             return
         }
-        yggdrasil.connectAnyPeer()
+        yggdrasil.retryPeersNow()
     }
 
     private fun updater() {
