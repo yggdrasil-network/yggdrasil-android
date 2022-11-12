@@ -21,6 +21,7 @@ class PacketTunnelProvider: VpnService() {
 
         const val ACTION_START = "eu.neilalexander.yggdrasil.PacketTunnelProvider.START"
         const val ACTION_STOP = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STOP"
+        const val ACTION_CONNECT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.CONNECT"
     }
 
     private var yggdrasil = Yggdrasil()
@@ -55,6 +56,10 @@ class PacketTunnelProvider: VpnService() {
             ACTION_STOP -> {
                 Log.d(TAG, "Stopping...")
                 stop(); START_NOT_STICKY
+            }
+            ACTION_CONNECT -> {
+                Log.d(TAG, "Connecting...")
+                connect(); START_STICKY
             }
             else -> {
                 Log.d(TAG, "Starting...")
@@ -179,6 +184,13 @@ class PacketTunnelProvider: VpnService() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
         stopSelf()
+    }
+
+    private fun connect() {
+        if (!started.get()) {
+            return
+        }
+        yggdrasil.retryPeersNow()
     }
 
     private fun updater() {

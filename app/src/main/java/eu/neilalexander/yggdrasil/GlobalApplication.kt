@@ -9,6 +9,7 @@ class GlobalApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         config = ConfigurationProxy(applicationContext)
+        val callback = NetworkStateCallback(this)
     }
 
     fun subscribe() {
