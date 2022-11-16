@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputEditText
 
 const val KEY_DNS_SERVERS = "dns_servers"
 const val KEY_ENABLE_CHROME_FIX = "enable_chrome_fix"
-const val DEFAULT_DNS_SERVERS = "302:7991::53,302:db60::53,300:6223::53,301:1088::53"
 
 class DnsActivity : AppCompatActivity() {
     private lateinit var config: ConfigurationProxy
@@ -28,6 +27,8 @@ class DnsActivity : AppCompatActivity() {
     private lateinit var servers: MutableList<String>
     private lateinit var preferences: SharedPreferences
 
+    private lateinit var defaultDnsServers: HashMap<String, Pair<String, String>>
+
     @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,15 @@ class DnsActivity : AppCompatActivity() {
 
         config = ConfigurationProxy(applicationContext)
         inflater = LayoutInflater.from(this)
+
+        val descriptionRevertron = getString(R.string.dns_server_info_revertron)
+        // Here we can add some other DNS servers in a future
+        defaultDnsServers = hashMapOf(
+            "302:7991::53" to Pair(getString(R.string.location_amsterdam), descriptionRevertron),
+            "302:db60::53" to Pair(getString(R.string.location_prague), descriptionRevertron),
+            "300:6223::53" to Pair(getString(R.string.location_bratislava), descriptionRevertron),
+            "301:1088::53" to Pair(getString(R.string.location_buffalo), descriptionRevertron),
+        )
 
         serversTableLayout = findViewById(R.id.configuredDnsTableLayout)
         serversTableLabel = findViewById(R.id.configuredDnsLabel)
@@ -68,6 +78,11 @@ class DnsActivity : AppCompatActivity() {
                 putBoolean(KEY_ENABLE_CHROME_FIX, isChecked)
                 commit()
             }
+        }
+
+        val enableChromeFixPanel = findViewById<TableRow>(R.id.enableChromeFixPanel)
+        enableChromeFixPanel.setOnClickListener {
+            enableChromeFix.toggle()
         }
 
         preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
@@ -132,10 +147,10 @@ class DnsActivity : AppCompatActivity() {
     @SuppressLint("ApplySharedPref")
     private fun updateUsableServers() {
         val usableTableLayout: TableLayout = findViewById(R.id.usableDnsTableLayout)
-        val defaultServers = DEFAULT_DNS_SERVERS.split(",")
 
-        defaultServers.forEach {
-            val server = it
+        defaultDnsServers.forEach {
+            val server = it.key
+            val infoPair = it.value
             val view = inflater.inflate(R.layout.dns_server_usable, null)
             view.findViewById<TextView>(R.id.serverValue).text = server
             val addButton = view.findViewById<ImageButton>(R.id.addButton)
@@ -152,7 +167,7 @@ class DnsActivity : AppCompatActivity() {
             view.setOnLongClickListener {
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
                 builder.setTitle(getString(R.string.dns_server_info_dialog_title))
-                builder.setMessage(getText(R.string.dns_server_info_revertron))
+                builder.setMessage("${infoPair.first}\n\n${infoPair.second}")
                 builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                     dialog.dismiss()
                 }

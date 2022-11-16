@@ -10,10 +10,11 @@
         android:id="@+id/serverValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
         android:ellipsize="end"
         android:singleLine="true"
         android:text=""
@@ -21,24 +22,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/addButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/space" />
-
-    <Space
-        android:id="@+id/space"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/addButton"
-        app:layout_constraintEnd_toStartOf="@+id/addButton"
-        app:layout_constraintStart_toEndOf="@+id/serverValue"
-        app:layout_constraintTop_toTopOf="@+id/addButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

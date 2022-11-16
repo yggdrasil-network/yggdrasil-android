@@ -65,4 +65,8 @@
     <string name="public_key_hint">Ваш публичный ключ идентифицирует вас в сети. Его распространение безопасно.</string>
     <string name="reset_configuration">Сбросить настройки</string>
     <string name="reset_configuration_hint">Сброс создаст полностью новые настройки. Это изменит ваш публичный ключ и адрес IP.</string>
+    <string name="location_amsterdam">Амстердам, Нидерланды</string>
+    <string name="location_prague">Прага, Чехия</string>
+    <string name="location_bratislava">Братислава, Словакия</string>
+    <string name="location_buffalo">Баффало, США</string>
 </resources>

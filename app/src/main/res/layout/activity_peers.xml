@@ -111,9 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8pt"
-                        android:layout_marginLeft="8pt"
                         android:layout_marginEnd="8pt"
-                        android:layout_marginRight="8pt"
                         android:background="@drawable/rounded"
                         android:divider="#46878787"
                         android:dividerPadding="4pt"
@@ -167,7 +165,6 @@
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:background="@drawable/rounded"
-                        android:clickable="true"
                         android:divider="#46878787"
                         android:dividerPadding="4pt"
                         android:paddingLeft="4pt"
@@ -177,13 +174,8 @@
                         android:showDividers="middle">
 
                         <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            android:paddingStart="4pt"
-                            android:paddingTop="2pt"
-                            android:paddingEnd="4pt"
-                            android:paddingBottom="4pt">
+                            android:id="@+id/enableMulticastBeaconPanel"
+                            style="@style/SelectableSwitchItemStyle">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -204,13 +196,8 @@
                         </TableRow>
 
                         <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            android:paddingStart="4pt"
-                            android:paddingTop="4pt"
-                            android:paddingEnd="4pt"
-                            android:paddingBottom="2pt">
+                            android:id="@+id/enableMulticastListenPanel"
+                            style="@style/SelectableSwitchItemStyle">
 
                             <TextView
                                 android:layout_width="wrap_content"

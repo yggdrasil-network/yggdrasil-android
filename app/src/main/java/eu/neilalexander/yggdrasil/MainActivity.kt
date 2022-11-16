@@ -78,6 +78,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val enableYggdrasilPanel = findViewById<TableRow>(R.id.enableYggdrasilPanel)
+        enableYggdrasilPanel.setOnClickListener {
+            enabledSwitch.toggle()
+        }
+
         peersRow.isClickable = true
         peersRow.setOnClickListener {
             val intent = Intent(this, PeersActivity::class.java)
