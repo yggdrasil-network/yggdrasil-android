@@ -71,14 +71,8 @@
                         android:showDividers="middle">
 
                         <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4pt"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="6pt"
-                            android:layout_marginEnd="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="6pt">
+                            android:id="@+id/enableYggdrasilPanel"
+                            style="@style/SelectableSwitchItemStyle">
 
                             <TextView
                                 android:id="@+id/enableYggdrasilLabel"
@@ -100,20 +94,14 @@
 
                         </TableRow>
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4pt"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="6pt"
-                            android:layout_marginEnd="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="6pt">
+                        <TableRow style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/yggdrasilStatusLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
                                 android:text="@string/main_disabled"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -160,15 +148,7 @@
                         android:paddingBottom="2pt"
                         android:showDividers="middle">
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4pt"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="6pt"
-                            android:layout_marginEnd="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="6pt">
+                        <TableRow style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/ipAddressLabel"
@@ -194,15 +174,7 @@
                                 android:textSize="14sp" />
                         </TableRow>
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4pt"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="6pt"
-                            android:layout_marginEnd="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="6pt">
+                        <TableRow style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/subnetLabel"
@@ -229,15 +201,7 @@
 
                         </TableRow>
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4pt"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="6pt"
-                            android:layout_marginEnd="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="6pt">
+                        <TableRow style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/coordinatesLabel"
@@ -305,14 +269,7 @@
 
                         <TableRow
                             android:id="@+id/peersTableRow"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:paddingStart="4pt"
-                            android:paddingTop="6pt"
-                            android:paddingEnd="4pt"
-                            android:paddingBottom="6pt">
+                            style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/multicastLabel"
@@ -349,14 +306,7 @@
 
                         <TableRow
                             android:id="@+id/dnsTableRow"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:paddingStart="4pt"
-                            android:paddingTop="6pt"
-                            android:paddingEnd="4pt"
-                            android:paddingBottom="6pt">
+                            style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/dnsLabel"
@@ -393,13 +343,7 @@
 
                         <TableRow
                             android:id="@+id/settingsTableRow"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:paddingStart="4pt"
-                            android:paddingTop="6pt"
-                            android:paddingEnd="4pt"
-                            android:paddingBottom="6pt">
+                            style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/settingsLabel"
@@ -431,15 +375,7 @@
 
                         </TableRow>
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4pt"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="6pt"
-                            android:layout_marginEnd="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="6pt">
+                        <TableRow style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/versionLabel"

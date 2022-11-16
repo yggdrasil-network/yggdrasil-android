@@ -194,13 +194,8 @@
                         android:showDividers="middle">
 
                         <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            android:paddingStart="4pt"
-                            android:paddingTop="2pt"
-                            android:paddingEnd="4pt"
-                            android:paddingBottom="4pt">
+                            android:id="@+id/enableChromeFixPanel"
+                            style="@style/SelectableSwitchItemStyle">
 
                             <TextView
                                 android:layout_width="wrap_content"

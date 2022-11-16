@@ -162,13 +162,7 @@
                         android:paddingBottom="2pt"
                         android:showDividers="middle">
 
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="4pt"
-                            android:layout_marginTop="4pt"
-                            android:layout_marginRight="4pt"
-                            android:layout_marginBottom="4pt">
+                        <TableRow style="@style/SelectableItemStyle">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -242,11 +236,7 @@
 
                         <TableRow
                             android:id="@+id/resetConfigurationRow"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:padding="4pt">
+                            style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:layout_width="wrap_content"

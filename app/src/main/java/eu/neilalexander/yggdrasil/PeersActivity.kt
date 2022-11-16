@@ -54,6 +54,15 @@ class PeersActivity : AppCompatActivity() {
         multicastListenSwitch.isChecked = config.multicastListen
         multicastBeaconSwitch.isChecked = config.multicastBeacon
 
+        val multicastBeaconPanel = findViewById<TableRow>(R.id.enableMulticastBeaconPanel)
+        multicastBeaconPanel.setOnClickListener {
+            multicastBeaconSwitch.toggle()
+        }
+        val multicastListenPanel = findViewById<TableRow>(R.id.enableMulticastListenPanel)
+        multicastListenPanel.setOnClickListener {
+            multicastListenSwitch.toggle()
+        }
+
         addPeerButton = findViewById(R.id.addPeerButton)
         addPeerButton.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_addpeer, null)
