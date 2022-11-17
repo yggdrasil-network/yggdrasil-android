@@ -6,7 +6,9 @@ import android.os.ParcelFileDescriptor
 import android.system.OsConstants
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import eu.neilalexander.yggdrasil.YggStateReceiver.Companion.YGG_STATE_INTENT
 import mobile.Yggdrasil
+import org.json.JSONArray
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.atomic.AtomicBoolean
@@ -21,6 +23,7 @@ class PacketTunnelProvider: VpnService() {
 
         const val ACTION_START = "eu.neilalexander.yggdrasil.PacketTunnelProvider.START"
         const val ACTION_STOP = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STOP"
+        const val ACTION_TOGGLE = "eu.neilalexander.yggdrasil.PacketTunnelProvider.TOGGLE"
         const val ACTION_CONNECT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.CONNECT"
     }
 
@@ -59,7 +62,20 @@ class PacketTunnelProvider: VpnService() {
             }
             ACTION_CONNECT -> {
                 Log.d(TAG, "Connecting...")
-                connect(); START_STICKY
+                if (started.get()) {
+                    connect();
+                } else {
+                    start();
+                }
+                START_STICKY
+            }
+            ACTION_TOGGLE -> {
+                Log.d(TAG, "Toggling...")
+                if (started.get()) {
+                    stop(); START_NOT_STICKY
+                } else {
+                    start(); START_STICKY
+                }
             }
             else -> {
                 Log.d(TAG, "Starting...")
@@ -135,13 +151,17 @@ class PacketTunnelProvider: VpnService() {
             updater()
         }
 
-        val intent = Intent(STATE_INTENT)
+        var intent = Intent(STATE_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", true)
         intent.putExtra("ip", yggdrasil.addressString)
         intent.putExtra("subnet", yggdrasil.subnetString)
         intent.putExtra("coords", yggdrasil.coordsString)
         intent.putExtra("peers", yggdrasil.peersJSON)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+        intent = Intent(YGG_STATE_INTENT)
+        intent.putExtra("state", STATE_ENABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
@@ -178,9 +198,13 @@ class PacketTunnelProvider: VpnService() {
             updateThread = null
         }
 
-        val intent = Intent(STATE_INTENT)
+        var intent = Intent(STATE_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", false)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+        intent = Intent(YGG_STATE_INTENT)
+        intent.putExtra("state", STATE_DISABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
         stopSelf()
@@ -194,6 +218,7 @@ class PacketTunnelProvider: VpnService() {
     }
 
     private fun updater() {
+        var lastStateUpdate = System.currentTimeMillis()
         updates@ while (started.get()) {
             if ((application as  GlobalApplication).needUiUpdates()) {
                 val intent = Intent(STATE_INTENT)
@@ -205,22 +230,35 @@ class PacketTunnelProvider: VpnService() {
                 intent.putExtra("peers", yggdrasil.peersJSON)
                 intent.putExtra("dht", yggdrasil.dhtjson)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-            } else {
-                try {
-                    Thread.sleep(1000)
-                } catch (e: InterruptedException) {
-                    return
-                }
             }
+            val curTime = System.currentTimeMillis()
+            if (lastStateUpdate + 10000 < curTime) {
+                val intent = Intent(YGG_STATE_INTENT)
+                var state = STATE_ENABLED
+                val dht = yggdrasil.dhtjson
+                val dhtState = JSONArray(dht)
+                val count = dhtState.length()
+                if (count > 1)
+                    state = STATE_CONNECTED
+                intent.putExtra("state", state)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                lastStateUpdate = curTime
+            }
+
             if (Thread.currentThread().isInterrupted) {
                 break@updates
             }
-            try {
-                Thread.sleep(1000)
-            } catch (e: InterruptedException) {
-                return
-            }
+            if (sleep()) return
         }
+    }
+
+    private fun sleep(): Boolean {
+        try {
+            Thread.sleep(1000)
+        } catch (e: InterruptedException) {
+            return true
+        }
+        return false
     }
 
     private fun writer() {

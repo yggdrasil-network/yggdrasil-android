@@ -65,6 +65,9 @@
     <string name="public_key_hint">Your public key forms your identity on the network. It is safe to be shared.</string>
     <string name="reset_configuration">Reset configuration</string>
     <string name="reset_configuration_hint">Resetting will overwrite with newly generated configuration. Your public keys and IP address on the network will change.</string>
+    <string name="tile_disabled">Disabled</string>
+    <string name="tile_enabled">Enabled</string>
+    <string name="tile_connected">Connected</string>
     <string name="location_amsterdam">Amsterdam, NL</string>
     <string name="location_prague">Prague, CZ</string>
     <string name="location_bratislava">Bratislava, SK</string>
