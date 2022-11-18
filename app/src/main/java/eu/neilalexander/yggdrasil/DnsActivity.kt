@@ -9,6 +9,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 
 const val KEY_DNS_SERVERS = "dns_servers"
@@ -85,7 +86,7 @@ class DnsActivity : AppCompatActivity() {
             enableChromeFix.toggle()
         }
 
-        preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         servers = if (serverString!!.isNotEmpty()) {
             serverString.split(",").toMutableList()

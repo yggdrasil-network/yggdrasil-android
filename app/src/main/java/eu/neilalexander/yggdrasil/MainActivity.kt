@@ -11,7 +11,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
 import eu.neilalexander.yggdrasil.PacketTunnelProvider.Companion.STATE_INTENT
 import mobile.Mobile
 import org.json.JSONArray
@@ -76,6 +78,8 @@ class MainActivity : AppCompatActivity() {
                     startService(intent)
                 }
             }
+            val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+            preferences.edit(commit = true) { putBoolean(PREF_KEY_ENABLED, isChecked) }
         }
 
         val enableYggdrasilPanel = findViewById<TableRow>(R.id.enableYggdrasilPanel)
@@ -123,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).registerReceiver(
             receiver, IntentFilter(STATE_INTENT)
         )
-        val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")

@@ -22,8 +22,8 @@
     <string name="dns_one_server">1 server</string>
     <string name="dns_many_servers">%d server</string>
     <string name="dns_remove_title">Remove %s?</string>
-    <string name="main_no_connectivity">No connectivity</string>
-    <string name="main_enabled">Enabled</string>
+    <string name="main_no_connectivity">Enabled (No connectivity)</string>
+    <string name="main_enabled">Connected</string>
     <string name="main_disabled">Not enabled</string>
     <string name="main_no_peers">No peers</string>
     <string name="main_one_peer">1 peer</string>
@@ -66,10 +66,12 @@
     <string name="reset_configuration">Reset configuration</string>
     <string name="reset_configuration_hint">Resetting will overwrite with newly generated configuration. Your public keys and IP address on the network will change.</string>
     <string name="tile_disabled">Disabled</string>
-    <string name="tile_enabled">Enabled</string>
+    <string name="tile_enabled">Enabled (No connectivity)</string>
     <string name="tile_connected">Connected</string>
     <string name="location_amsterdam">Amsterdam, NL</string>
     <string name="location_prague">Prague, CZ</string>
     <string name="location_bratislava">Bratislava, SK</string>
     <string name="location_buffalo">Buffalo, US</string>
+    <string name="channel_name">VPN Service</string>
+    <string name="channel_description">Main channel for foreground notification</string>
 </resources>

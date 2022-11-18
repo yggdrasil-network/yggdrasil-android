@@ -2,10 +2,12 @@ package eu.neilalexander.yggdrasil
 
 import android.content.*
 import android.net.VpnService
+import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.system.OsConstants
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
 import eu.neilalexander.yggdrasil.YggStateReceiver.Companion.YGG_STATE_INTENT
 import mobile.Yggdrasil
 import org.json.JSONArray
@@ -16,6 +18,7 @@ import kotlin.concurrent.thread
 
 
 private const val TAG = "PacketTunnelProvider"
+const val SERVICE_NOTIFICATION_ID = 1000
 
 class PacketTunnelProvider: VpnService() {
     companion object {
@@ -55,6 +58,11 @@ class PacketTunnelProvider: VpnService() {
             Log.d(TAG, "Intent is null")
             return START_NOT_STICKY
         }
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        if (!preferences.getBoolean(PREF_KEY_ENABLED, false)) {
+            Log.d(TAG, "Service is disabled")
+            return START_NOT_STICKY
+        }
         return when (intent.action ?: ACTION_STOP) {
             ACTION_STOP -> {
                 Log.d(TAG, "Stopping...")
@@ -89,6 +97,9 @@ class PacketTunnelProvider: VpnService() {
             return
         }
 
+        val notification = createServiceNotification(this, State.Enabled)
+        startForeground(SERVICE_NOTIFICATION_ID, notification)
+
         Log.d(TAG, config.getJSON().toString())
         yggdrasil.startJSON(config.getJSONByteArray())
 
@@ -112,11 +123,11 @@ class PacketTunnelProvider: VpnService() {
         // If we don't set metered status of VPN it is considered as metered.
         // If we set it to false, then it will inherit this status from underlying network.
         // See: https://developer.android.com/reference/android/net/VpnService.Builder#setMetered(boolean)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             builder.setMetered(false)
         }
 
-        val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
@@ -207,6 +218,7 @@ class PacketTunnelProvider: VpnService() {
         intent.putExtra("state", STATE_DISABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
+        stopForeground(true)
         stopSelf()
     }
 
@@ -236,10 +248,12 @@ class PacketTunnelProvider: VpnService() {
                 val intent = Intent(YGG_STATE_INTENT)
                 var state = STATE_ENABLED
                 val dht = yggdrasil.dhtjson
-                val dhtState = JSONArray(dht)
-                val count = dhtState.length()
-                if (count > 1)
-                    state = STATE_CONNECTED
+                if (dht != null && dht != "null") {
+                    val dhtState = JSONArray(dht)
+                    val count = dhtState.length()
+                    if (count > 1)
+                        state = STATE_CONNECTED
+                }
                 intent.putExtra("state", state)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
                 lastStateUpdate = curTime

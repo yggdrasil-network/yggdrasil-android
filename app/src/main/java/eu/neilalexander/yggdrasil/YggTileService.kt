@@ -8,6 +8,8 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 
 private const val TAG = "TileService"
 
@@ -63,6 +65,11 @@ class YggTileService: TileService(), YggStateReceiver.StateReceiver {
 
     override fun onClick() {
         super.onClick()
+        // Saving new state
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val enabled = preferences.getBoolean(PREF_KEY_ENABLED, false)
+        preferences.edit(commit = true) { putBoolean(PREF_KEY_ENABLED, !enabled) }
+        // Starting or stopping VPN service
         val intent = Intent(this, PacketTunnelProvider::class.java)
         intent.action = PacketTunnelProvider.ACTION_TOGGLE
         startService(intent)
@@ -71,12 +78,11 @@ class YggTileService: TileService(), YggStateReceiver.StateReceiver {
     private fun updateTileState(state: State) {
         val tile = qsTile ?: return
         val oldState = tile.state
-        tile.state = when (state) {
-            State.Unknown -> Tile.STATE_UNAVAILABLE
-            State.Disabled -> Tile.STATE_INACTIVE
-            State.Enabled -> Tile.STATE_ACTIVE
-            State.Connected -> Tile.STATE_ACTIVE
-            State.Reconnecting -> Tile.STATE_ACTIVE
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val enabled = preferences.getBoolean(PREF_KEY_ENABLED, false)
+        tile.state = when (enabled) {
+            false -> Tile.STATE_INACTIVE
+            true -> Tile.STATE_ACTIVE
         }
         var changed = oldState != tile.state
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
