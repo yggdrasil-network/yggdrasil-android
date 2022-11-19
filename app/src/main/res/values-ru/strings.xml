@@ -22,8 +22,9 @@
     <string name="dns_one_server">1 сервер</string>
     <string name="dns_many_servers">%d сервера/серверов</string>
     <string name="dns_remove_title">Убрать %s?</string>
-    <string name="main_no_connectivity">Нет подключения</string>
-    <string name="main_enabled">Включено</string>
+    <string name="dns_already_added_server">Этот сервер уже добавлен.</string>
+    <string name="main_no_connectivity">Включено (Нет подключения)</string>
+    <string name="main_enabled">Подключено</string>
     <string name="main_disabled">Выключено</string>
     <string name="main_no_peers">Нет пиров</string>
     <string name="main_one_peer">1 пир</string>
@@ -65,8 +66,13 @@
     <string name="public_key_hint">Ваш публичный ключ идентифицирует вас в сети. Его распространение безопасно.</string>
     <string name="reset_configuration">Сбросить настройки</string>
     <string name="reset_configuration_hint">Сброс создаст полностью новые настройки. Это изменит ваш публичный ключ и адрес IP.</string>
+    <string name="tile_disabled">Выключено</string>
+    <string name="tile_enabled">Включено (Нет подключения)</string>
+    <string name="tile_connected">Подключено</string>
     <string name="location_amsterdam">Амстердам, Нидерланды</string>
     <string name="location_prague">Прага, Чехия</string>
     <string name="location_bratislava">Братислава, Словакия</string>
     <string name="location_buffalo">Баффало, США</string>
+    <string name="channel_name">Сервис VPN</string>
+    <string name="channel_description">Главный канал нотификаций сервиса</string>
 </resources>

@@ -9,6 +9,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 
 const val KEY_DNS_SERVERS = "dns_servers"
@@ -59,13 +60,17 @@ class DnsActivity : AppCompatActivity() {
             builder.setTitle(getString(R.string.dns_add_server_dialog_title))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.add)) { dialog, _ ->
-                servers.add(input.text.toString())
-                preferences.edit().apply {
-                    putString(KEY_DNS_SERVERS, servers.joinToString(","))
-                    commit()
+                val server = input.text.toString()
+                if (!servers.contains(server)) {
+                    servers.add(server)
+                    preferences.edit().apply {
+                        putString(KEY_DNS_SERVERS, servers.joinToString(","))
+                        commit()
+                    }
+                    updateConfiguredServers()
+                } else {
+                    Toast.makeText(this, R.string.dns_already_added_server, Toast.LENGTH_SHORT).show()
                 }
-                dialog.dismiss()
-                updateConfiguredServers()
             }
             builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.cancel()
@@ -85,7 +90,7 @@ class DnsActivity : AppCompatActivity() {
             enableChromeFix.toggle()
         }
 
-        preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         servers = if (serverString!!.isNotEmpty()) {
             serverString.split(",").toMutableList()
@@ -157,12 +162,17 @@ class DnsActivity : AppCompatActivity() {
             addButton.tag = server
 
             addButton.setOnClickListener { button ->
-                servers.add(button.tag as String)
-                preferences.edit().apply {
-                    this.putString(KEY_DNS_SERVERS, servers.joinToString(","))
-                    this.commit()
+                val serverString = button.tag as String
+                if (!servers.contains(serverString)) {
+                    servers.add(serverString)
+                    preferences.edit().apply {
+                        this.putString(KEY_DNS_SERVERS, servers.joinToString(","))
+                        this.commit()
+                    }
+                    updateConfiguredServers()
+                } else {
+                    Toast.makeText(this, R.string.dns_already_added_server, Toast.LENGTH_SHORT).show()
                 }
-                updateConfiguredServers()
             }
             view.setOnLongClickListener {
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)

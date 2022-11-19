@@ -2,11 +2,15 @@ package eu.neilalexander.yggdrasil
 
 import android.content.*
 import android.net.VpnService
+import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.system.OsConstants
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
+import eu.neilalexander.yggdrasil.YggStateReceiver.Companion.YGG_STATE_INTENT
 import mobile.Yggdrasil
+import org.json.JSONArray
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.atomic.AtomicBoolean
@@ -14,6 +18,7 @@ import kotlin.concurrent.thread
 
 
 private const val TAG = "PacketTunnelProvider"
+const val SERVICE_NOTIFICATION_ID = 1000
 
 class PacketTunnelProvider: VpnService() {
     companion object {
@@ -21,6 +26,7 @@ class PacketTunnelProvider: VpnService() {
 
         const val ACTION_START = "eu.neilalexander.yggdrasil.PacketTunnelProvider.START"
         const val ACTION_STOP = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STOP"
+        const val ACTION_TOGGLE = "eu.neilalexander.yggdrasil.PacketTunnelProvider.TOGGLE"
         const val ACTION_CONNECT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.CONNECT"
     }
 
@@ -52,6 +58,8 @@ class PacketTunnelProvider: VpnService() {
             Log.d(TAG, "Intent is null")
             return START_NOT_STICKY
         }
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val enabled = preferences.getBoolean(PREF_KEY_ENABLED, false)
         return when (intent.action ?: ACTION_STOP) {
             ACTION_STOP -> {
                 Log.d(TAG, "Stopping...")
@@ -59,9 +67,26 @@ class PacketTunnelProvider: VpnService() {
             }
             ACTION_CONNECT -> {
                 Log.d(TAG, "Connecting...")
-                connect(); START_STICKY
+                if (started.get()) {
+                    connect();
+                } else {
+                    start();
+                }
+                START_STICKY
+            }
+            ACTION_TOGGLE -> {
+                Log.d(TAG, "Toggling...")
+                if (started.get()) {
+                    stop(); START_NOT_STICKY
+                } else {
+                    start(); START_STICKY
+                }
             }
             else -> {
+                if (!enabled) {
+                    Log.d(TAG, "Service is disabled")
+                    return START_NOT_STICKY
+                }
                 Log.d(TAG, "Starting...")
                 start(); START_STICKY
             }
@@ -72,6 +97,9 @@ class PacketTunnelProvider: VpnService() {
         if (!started.compareAndSet(false, true)) {
             return
         }
+
+        val notification = createServiceNotification(this, State.Enabled)
+        startForeground(SERVICE_NOTIFICATION_ID, notification)
 
         Log.d(TAG, config.getJSON().toString())
         yggdrasil.startJSON(config.getJSONByteArray())
@@ -96,11 +124,11 @@ class PacketTunnelProvider: VpnService() {
         // If we don't set metered status of VPN it is considered as metered.
         // If we set it to false, then it will inherit this status from underlying network.
         // See: https://developer.android.com/reference/android/net/VpnService.Builder#setMetered(boolean)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             builder.setMetered(false)
         }
 
-        val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
@@ -135,13 +163,17 @@ class PacketTunnelProvider: VpnService() {
             updater()
         }
 
-        val intent = Intent(STATE_INTENT)
+        var intent = Intent(STATE_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", true)
         intent.putExtra("ip", yggdrasil.addressString)
         intent.putExtra("subnet", yggdrasil.subnetString)
         intent.putExtra("coords", yggdrasil.coordsString)
         intent.putExtra("peers", yggdrasil.peersJSON)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+        intent = Intent(YGG_STATE_INTENT)
+        intent.putExtra("state", STATE_ENABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
@@ -178,11 +210,16 @@ class PacketTunnelProvider: VpnService() {
             updateThread = null
         }
 
-        val intent = Intent(STATE_INTENT)
+        var intent = Intent(STATE_INTENT)
         intent.putExtra("type", "state")
         intent.putExtra("started", false)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
+        intent = Intent(YGG_STATE_INTENT)
+        intent.putExtra("state", STATE_DISABLED)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+        stopForeground(true)
         stopSelf()
     }
 
@@ -194,6 +231,7 @@ class PacketTunnelProvider: VpnService() {
     }
 
     private fun updater() {
+        var lastStateUpdate = System.currentTimeMillis()
         updates@ while (started.get()) {
             if ((application as  GlobalApplication).needUiUpdates()) {
                 val intent = Intent(STATE_INTENT)
@@ -205,22 +243,37 @@ class PacketTunnelProvider: VpnService() {
                 intent.putExtra("peers", yggdrasil.peersJSON)
                 intent.putExtra("dht", yggdrasil.dhtjson)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-            } else {
-                try {
-                    Thread.sleep(1000)
-                } catch (e: InterruptedException) {
-                    return
-                }
             }
+            val curTime = System.currentTimeMillis()
+            if (lastStateUpdate + 10000 < curTime) {
+                val intent = Intent(YGG_STATE_INTENT)
+                var state = STATE_ENABLED
+                val dht = yggdrasil.dhtjson
+                if (dht != null && dht != "null") {
+                    val dhtState = JSONArray(dht)
+                    val count = dhtState.length()
+                    if (count > 1)
+                        state = STATE_CONNECTED
+                }
+                intent.putExtra("state", state)
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                lastStateUpdate = curTime
+            }
+
             if (Thread.currentThread().isInterrupted) {
                 break@updates
             }
-            try {
-                Thread.sleep(1000)
-            } catch (e: InterruptedException) {
-                return
-            }
+            if (sleep()) return
         }
+    }
+
+    private fun sleep(): Boolean {
+        try {
+            Thread.sleep(1000)
+        } catch (e: InterruptedException) {
+            return true
+        }
+        return false
     }
 
     private fun writer() {
