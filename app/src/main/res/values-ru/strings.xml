@@ -22,6 +22,7 @@
     <string name="dns_one_server">1 сервер</string>
     <string name="dns_many_servers">%d сервера/серверов</string>
     <string name="dns_remove_title">Убрать %s?</string>
+    <string name="dns_already_added_server">Этот сервер уже добавлен.</string>
     <string name="main_no_connectivity">Включено (Нет подключения)</string>
     <string name="main_enabled">Подключено</string>
     <string name="main_disabled">Выключено</string>
