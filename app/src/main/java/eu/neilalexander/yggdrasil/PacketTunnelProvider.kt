@@ -59,10 +59,7 @@ class PacketTunnelProvider: VpnService() {
             return START_NOT_STICKY
         }
         val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
-        if (!preferences.getBoolean(PREF_KEY_ENABLED, false)) {
-            Log.d(TAG, "Service is disabled")
-            return START_NOT_STICKY
-        }
+        val enabled = preferences.getBoolean(PREF_KEY_ENABLED, false)
         return when (intent.action ?: ACTION_STOP) {
             ACTION_STOP -> {
                 Log.d(TAG, "Stopping...")
@@ -86,6 +83,10 @@ class PacketTunnelProvider: VpnService() {
                 }
             }
             else -> {
+                if (!enabled) {
+                    Log.d(TAG, "Service is disabled")
+                    return START_NOT_STICKY
+                }
                 Log.d(TAG, "Starting...")
                 start(); START_STICKY
             }

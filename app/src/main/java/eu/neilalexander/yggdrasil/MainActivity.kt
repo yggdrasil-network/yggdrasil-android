@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity() {
             receiver, IntentFilter(STATE_INTENT)
         )
         val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+        enabledSwitch.isChecked = preferences.getBoolean(PREF_KEY_ENABLED, false)
         val serverString = preferences.getString(KEY_DNS_SERVERS, "")
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
@@ -153,7 +154,6 @@ class MainActivity : AppCompatActivity() {
             when (intent.getStringExtra("type")) {
                 "state" -> {
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
-                        enabledSwitch.isChecked = true
                         var count = 0
                         if (intent.hasExtra("dht")) {
                             val dht = intent.getStringExtra("dht")
@@ -170,7 +170,6 @@ class MainActivity : AppCompatActivity() {
                             getString(R.string.main_enabled)
                         }
                     } else {
-                        enabledSwitch.isChecked = false
                         enabledLabel.setTextColor(Color.GRAY)
                         getString(R.string.main_disabled)
                     }
