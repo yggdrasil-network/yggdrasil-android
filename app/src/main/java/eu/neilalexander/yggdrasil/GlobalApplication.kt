@@ -91,8 +91,8 @@ fun createServiceNotification(context: Context, state: State): Notification {
     }
 
     return NotificationCompat.Builder(context, channelId)
-        .setContentTitle(context.getText(R.string.app_name))
-        .setContentText(text)
+        .setShowWhen(false)
+        .setContentTitle(text)
         .setSmallIcon(R.drawable.ic_tile_icon)
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_MIN)
