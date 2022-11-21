@@ -1,0 +1,4 @@
+* Added quick-settings tile for fast on/off switching
+* Added notification with the connection status (it is needed for quick-settings tile)
+* Fixed small UI bugs
+* Updated Yggdrasil library to 0.4.7
