@@ -20,7 +20,7 @@
     <string name="dns_fixes">DNS fixes</string>
     <string name="dns_no_servers">No servers</string>
     <string name="dns_one_server">1 server</string>
-    <string name="dns_many_servers">%d server</string>
+    <string name="dns_many_servers">%d servers</string>
     <string name="dns_remove_title">Remove %s?</string>
     <string name="dns_already_added_server">This server is already added.</string>
     <string name="main_no_connectivity">Enabled (No connectivity)</string>
