@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
 const val PREF_KEY_ENABLED = "enabled"
+const val MAIN_CHANNEL_ID = "Yggdrasil Service"
 
 class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
     private lateinit var config: ConfigurationProxy
@@ -62,21 +63,7 @@ class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
 }
 
 fun createServiceNotification(context: Context, state: State): Notification {
-    // Create the NotificationChannel, but only on API 26+ because
-    // the NotificationChannel class is new and not in the support library
-    val channelId = "Foreground Service"
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = context.getString(R.string.channel_name)
-        val descriptionText = context.getString(R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_MIN
-        val channel = NotificationChannel(channelId, name, importance).apply {
-            description = descriptionText
-        }
-        // Register the channel with the system
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
+    createNotificationChannels(context)
 
     val intent = Intent(context, MainActivity::class.java).apply {
         this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -90,11 +77,46 @@ fun createServiceNotification(context: Context, state: State): Notification {
         else -> context.getText(R.string.tile_disabled)
     }
 
-    return NotificationCompat.Builder(context, channelId)
+    return NotificationCompat.Builder(context, MAIN_CHANNEL_ID)
         .setShowWhen(false)
         .setContentTitle(text)
         .setSmallIcon(R.drawable.ic_tile_icon)
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_MIN)
         .build()
+}
+
+fun createPermissionMissingNotification(context: Context): Notification {
+    createNotificationChannels(context)
+    val intent = Intent(context, MainActivity::class.java).apply {
+        this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+    return NotificationCompat.Builder(context, MAIN_CHANNEL_ID)
+        .setShowWhen(false)
+        .setContentTitle(context.getText(R.string.app_name))
+        .setContentText(context.getText(R.string.permission_notification_text))
+        .setSmallIcon(R.drawable.ic_tile_icon)
+        .setContentIntent(pendingIntent)
+        .setAutoCancel(true)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .build()
+}
+
+private fun createNotificationChannels(context: Context) {
+    // Create the NotificationChannel, but only on API 26+ because
+    // the NotificationChannel class is new and not in the support library
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = context.getString(R.string.channel_name)
+        val descriptionText = context.getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_MIN
+        val channel = NotificationChannel(MAIN_CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+        // Register the channel with the system
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
 }

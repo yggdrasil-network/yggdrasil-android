@@ -75,4 +75,5 @@
     <string name="location_buffalo">Баффало, США</string>
     <string name="channel_name">Сервис VPN</string>
     <string name="channel_description">Главный канал нотификаций сервиса</string>
+    <string name="permission_notification_text">Нажмите здесь чтобы включить Yggdrasil.</string>
 </resources>

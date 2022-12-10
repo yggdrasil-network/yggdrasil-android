@@ -20,7 +20,7 @@ import kotlin.concurrent.thread
 private const val TAG = "PacketTunnelProvider"
 const val SERVICE_NOTIFICATION_ID = 1000
 
-class PacketTunnelProvider: VpnService() {
+open class PacketTunnelProvider: VpnService() {
     companion object {
         const val STATE_INTENT = "eu.neilalexander.yggdrasil.PacketTunnelProvider.STATE_MESSAGE"
 
@@ -68,9 +68,9 @@ class PacketTunnelProvider: VpnService() {
             ACTION_CONNECT -> {
                 Log.d(TAG, "Connecting...")
                 if (started.get()) {
-                    connect();
+                    connect()
                 } else {
-                    start();
+                    start()
                 }
                 START_STICKY
             }

@@ -75,4 +75,5 @@
     <string name="location_buffalo">Buffalo, US</string>
     <string name="channel_name">VPN Service</string>
     <string name="channel_description">Main channel for foreground notification</string>
+    <string name="permission_notification_text">Tap here to enable Yggdrasil.</string>
 </resources>
