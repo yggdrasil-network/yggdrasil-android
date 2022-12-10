@@ -29,6 +29,14 @@ object ConfigurationProxy {
         fix()
     }
 
+    fun resetKeys() {
+        val newJson = JSONObject(String(Mobile.generateConfigJSON()))
+        updateJSON { json ->
+            json.put("PrivateKey", newJson.getString("PrivateKey"))
+            json.put("PublicKey", newJson.getString("PublicKey"))
+        }
+    }
+
     fun updateJSON(fn: (JSONObject) -> Unit) {
         json = JSONObject(file.readText(Charsets.UTF_8))
         fn(json)

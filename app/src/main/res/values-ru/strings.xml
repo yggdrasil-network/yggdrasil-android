@@ -64,6 +64,7 @@
     <string name="node_info_hint">Эта информация публична и может появиться на картах сети.</string>
     <string name="public_key">Публичный ключ</string>
     <string name="public_key_hint">Ваш публичный ключ идентифицирует вас в сети. Его распространение безопасно.</string>
+    <string name="reset_keys">Сбросить ключи (и адрес IP)</string>
     <string name="reset_configuration">Сбросить настройки</string>
     <string name="reset_configuration_hint">Сброс создаст полностью новые настройки. Это изменит ваш публичный ключ и адрес IP.</string>
     <string name="tile_disabled">Выключено</string>

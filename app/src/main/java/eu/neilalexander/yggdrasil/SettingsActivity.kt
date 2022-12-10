@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import org.json.JSONObject
@@ -32,8 +33,8 @@ class SettingsActivity : AppCompatActivity() {
 
         deviceNameEntry.doOnTextChanged { text, _, _, _ ->
             config.updateJSON { cfg ->
-                val nodeinfo = cfg.optJSONObject("NodeInfo")
-                if (nodeinfo == null) {
+                val nodeInfo = cfg.optJSONObject("NodeInfo")
+                if (nodeInfo == null) {
                     cfg.put("NodeInfo", JSONObject("{}"))
                 }
                 cfg.getJSONObject("NodeInfo").put("name", text)
@@ -54,6 +55,11 @@ class SettingsActivity : AppCompatActivity() {
                 dialog.cancel()
             }
             builder.show()
+        }
+
+        findViewById<View>(R.id.resetKeysRow).setOnClickListener {
+            config.resetKeys()
+            updateView()
         }
 
         publicKeyLabel.setOnLongClickListener {
