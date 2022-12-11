@@ -38,6 +38,7 @@
     <string name="peers_no_connected_title">No peers currently connected</string>
     <string name="peers_connected_title">Connected Peers</string>
     <string name="settings_warning_title">Warning</string>
+    <string name="settings_config">Config</string>
     <string name="settings_reset">Reset</string>
     <string name="main_status">Status</string>
     <string name="main_enable_yggdrasil">Enable Yggdrasil</string>
@@ -64,7 +65,7 @@
     <string name="node_info_hint">Information entered here is public and may be shown on network maps.</string>
     <string name="public_key">Public Key</string>
     <string name="public_key_hint">Your public key forms your identity on the network. It is safe to be shared.</string>
-    <string name="reset_keys">Reset keys (and IP-address)</string>
+    <string name="regenerate_keys">Regenerate keys (and IPv6-address)</string>
     <string name="reset_configuration">Reset configuration</string>
     <string name="reset_configuration_hint">Resetting will overwrite with newly generated configuration. Your public keys and IP address on the network will change.</string>
     <string name="tile_disabled">Disabled</string>
@@ -77,4 +78,9 @@
     <string name="channel_name">VPN Service</string>
     <string name="channel_description">Main channel for foreground notification</string>
     <string name="permission_notification_text">Tap here to enable Yggdrasil.</string>
+    <string name="add_peer_help">Enter the full URI of the peer to add. Yggdrasil will automatically connect to this peer when started.</string>
+    <string name="public_key_label">Public key:</string>
+    <string name="private_key_label">Private key:</string>
+    <string name="set_keys">Set your own keys</string>
+    <string name="save">Save</string>
 </resources>

@@ -62,6 +62,24 @@ class SettingsActivity : AppCompatActivity() {
             updateView()
         }
 
+        findViewById<View>(R.id.setKeysRow).setOnClickListener {
+            val view = inflater.inflate(R.layout.dialog_set_keys, null)
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val privateKey = view.findViewById<EditText>(R.id.private_key)
+            val publicKey = view.findViewById<EditText>(R.id.public_key)
+            builder.setTitle(getString(R.string.set_keys))
+            builder.setView(view)
+            builder.setPositiveButton(getString(R.string.save)) { dialog, _ ->
+                config.setKeys(privateKey.text.toString(), publicKey.text.toString())
+                updateView()
+                dialog.dismiss()
+            }
+            builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.cancel()
+            }
+            builder.show()
+        }
+
         publicKeyLabel.setOnLongClickListener {
             val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("public key", publicKeyLabel.text)

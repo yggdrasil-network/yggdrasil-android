@@ -1,7 +1,6 @@
 package eu.neilalexander.yggdrasil
 
 import android.content.Context
-import android.provider.Settings
 import mobile.Mobile
 import org.json.JSONArray
 import org.json.JSONObject
@@ -34,6 +33,13 @@ object ConfigurationProxy {
         updateJSON { json ->
             json.put("PrivateKey", newJson.getString("PrivateKey"))
             json.put("PublicKey", newJson.getString("PublicKey"))
+        }
+    }
+
+    fun setKeys(privateKey: String, publicKey: String) {
+        updateJSON { json ->
+            json.put("PrivateKey", privateKey)
+            json.put("PublicKey", publicKey)
         }
     }
 

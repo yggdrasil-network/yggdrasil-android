@@ -211,7 +211,7 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="@string/settings_reset"
+                        android:text="@string/settings_config"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -241,7 +241,17 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/reset_keys" />
+                                android:text="@string/regenerate_keys" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/setKeysRow"
+                            style="@style/SelectableItemStyle">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/set_keys" />
                         </TableRow>
 
                         <TableRow
