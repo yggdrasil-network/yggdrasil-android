@@ -59,7 +59,7 @@ class DnsActivity : AppCompatActivity() {
             val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
             builder.setTitle(getString(R.string.dns_add_server_dialog_title))
             builder.setView(view)
-            builder.setPositiveButton(getString(R.string.add)) { dialog, _ ->
+            builder.setPositiveButton(getString(R.string.add)) { _, _ ->
                 val server = input.text.toString()
                 if (!servers.contains(server)) {
                     servers.add(server)
