@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import org.json.JSONObject
@@ -32,8 +33,8 @@ class SettingsActivity : AppCompatActivity() {
 
         deviceNameEntry.doOnTextChanged { text, _, _, _ ->
             config.updateJSON { cfg ->
-                val nodeinfo = cfg.optJSONObject("NodeInfo")
-                if (nodeinfo == null) {
+                val nodeInfo = cfg.optJSONObject("NodeInfo")
+                if (nodeInfo == null) {
                     cfg.put("NodeInfo", JSONObject("{}"))
                 }
                 cfg.getJSONObject("NodeInfo").put("name", text)
@@ -47,6 +48,29 @@ class SettingsActivity : AppCompatActivity() {
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.settings_reset)) { dialog, _ ->
                 config.resetJSON()
+                updateView()
+                dialog.dismiss()
+            }
+            builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.cancel()
+            }
+            builder.show()
+        }
+
+        findViewById<View>(R.id.resetKeysRow).setOnClickListener {
+            config.resetKeys()
+            updateView()
+        }
+
+        findViewById<View>(R.id.setKeysRow).setOnClickListener {
+            val view = inflater.inflate(R.layout.dialog_set_keys, null)
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val privateKey = view.findViewById<EditText>(R.id.private_key)
+            val publicKey = view.findViewById<EditText>(R.id.public_key)
+            builder.setTitle(getString(R.string.set_keys))
+            builder.setView(view)
+            builder.setPositiveButton(getString(R.string.save)) { dialog, _ ->
+                config.setKeys(privateKey.text.toString(), publicKey.text.toString())
                 updateView()
                 dialog.dismiss()
             }

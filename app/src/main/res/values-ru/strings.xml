@@ -38,6 +38,7 @@
     <string name="peers_no_connected_title">Нет подключенных пиров</string>
     <string name="peers_connected_title">Подключенные пиры</string>
     <string name="settings_warning_title">Внимание</string>
+    <string name="settings_config">Конфигурация</string>
     <string name="settings_reset">Сброс</string>
     <string name="main_status">Состояние</string>
     <string name="main_enable_yggdrasil">Включить Yggdrasil</string>
@@ -64,6 +65,7 @@
     <string name="node_info_hint">Эта информация публична и может появиться на картах сети.</string>
     <string name="public_key">Публичный ключ</string>
     <string name="public_key_hint">Ваш публичный ключ идентифицирует вас в сети. Его распространение безопасно.</string>
+    <string name="regenerate_keys">Сбросить ключи (и адрес IPv6)</string>
     <string name="reset_configuration">Сбросить настройки</string>
     <string name="reset_configuration_hint">Сброс создаст полностью новые настройки. Это изменит ваш публичный ключ и адрес IP.</string>
     <string name="tile_disabled">Выключено</string>
@@ -76,4 +78,9 @@
     <string name="channel_name">Сервис VPN</string>
     <string name="channel_description">Главный канал нотификаций сервиса</string>
     <string name="permission_notification_text">Нажмите здесь чтобы включить Yggdrasil.</string>
+    <string name="add_peer_help">Введите полный URI пира для добавления. Yggdrasil будет автоматически подключаться к нему при запуске.</string>
+    <string name="public_key_label">Публичный ключ:</string>
+    <string name="private_key_label">Приватный ключ:</string>
+    <string name="set_keys">Установить свои ключи</string>
+    <string name="save">Сохранить</string>
 </resources>

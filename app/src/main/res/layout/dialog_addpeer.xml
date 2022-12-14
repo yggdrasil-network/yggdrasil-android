@@ -16,7 +16,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter the full URI of the peer to add. Yggdrasil will automatically connect to this peer when started." />
+            android:text="@string/add_peer_help" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

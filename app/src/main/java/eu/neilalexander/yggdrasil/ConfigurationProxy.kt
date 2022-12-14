@@ -1,7 +1,6 @@
 package eu.neilalexander.yggdrasil
 
 import android.content.Context
-import android.provider.Settings
 import mobile.Mobile
 import org.json.JSONArray
 import org.json.JSONObject
@@ -27,6 +26,21 @@ object ConfigurationProxy {
         val conf = Mobile.generateConfigJSON()
         file.writeBytes(conf)
         fix()
+    }
+
+    fun resetKeys() {
+        val newJson = JSONObject(String(Mobile.generateConfigJSON()))
+        updateJSON { json ->
+            json.put("PrivateKey", newJson.getString("PrivateKey"))
+            json.put("PublicKey", newJson.getString("PublicKey"))
+        }
+    }
+
+    fun setKeys(privateKey: String, publicKey: String) {
+        updateJSON { json ->
+            json.put("PrivateKey", privateKey)
+            json.put("PublicKey", publicKey)
+        }
     }
 
     fun updateJSON(fn: (JSONObject) -> Unit) {
