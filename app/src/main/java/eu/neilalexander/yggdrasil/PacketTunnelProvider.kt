@@ -282,9 +282,11 @@ open class PacketTunnelProvider: VpnService() {
             val writerStream = writerStream
             val writerThread = writerThread
             if (writerThread == null || writerStream == null) {
+                Log.i(TAG, "Write thread or stream is null")
                 break@writes
             }
             if (Thread.currentThread().isInterrupted || !writerStream.fd.valid()) {
+                Log.i(TAG, "Write thread interrupted or file descriptor is invalid")
                 break@writes
             }
             try {
@@ -293,6 +295,10 @@ open class PacketTunnelProvider: VpnService() {
                     writerStream.write(buf, 0, len.toInt())
                 }
             } catch (e: Exception) {
+                Log.i(TAG, "Error in write: $e")
+                if (e.toString().contains("ENOBUFS")) {
+                    continue
+                }
                 break@writes
             }
         }
@@ -308,15 +314,18 @@ open class PacketTunnelProvider: VpnService() {
             val readerStream = readerStream
             val readerThread = readerThread
             if (readerThread == null || readerStream == null) {
+                Log.i(TAG, "Read thread or stream is null")
                 break@reads
             }
             if (Thread.currentThread().isInterrupted ||!readerStream.fd.valid()) {
+                Log.i(TAG, "Read thread interrupted or file descriptor is invalid")
                 break@reads
             }
             try {
                 val n = readerStream.read(b)
                 yggdrasil.sendBuffer(b, n.toLong())
             } catch (e: Exception) {
+                Log.i(TAG, "Error in sendBuffer: $e")
                 break@reads
             }
         }
