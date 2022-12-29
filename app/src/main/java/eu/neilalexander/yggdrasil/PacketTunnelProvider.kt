@@ -297,6 +297,8 @@ open class PacketTunnelProvider: VpnService() {
             } catch (e: Exception) {
                 Log.i(TAG, "Error in write: $e")
                 if (e.toString().contains("ENOBUFS")) {
+                    //TODO Check this by some error code
+                    //More info about this: https://github.com/AdguardTeam/AdguardForAndroid/issues/724
                     continue
                 }
                 break@writes
