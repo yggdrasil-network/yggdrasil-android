@@ -121,7 +121,7 @@ class PeersActivity : AppCompatActivity() {
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
                         builder.setTitle(getString(R.string.peers_remove_title, peer))
                         builder.setPositiveButton(getString(R.string.peers_remove)) { dialog, _ ->
                             config.updateJSON { json ->
