@@ -6,11 +6,11 @@ import android.graphics.Color
 import android.net.VpnService
 import android.os.Bundle
 import android.widget.Switch
-import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.edit
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
@@ -26,10 +26,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var subnetLabel: TextView
     private lateinit var coordinatesLabel: TextView
     private lateinit var peersLabel: TextView
-    private lateinit var peersRow: TableRow
+    private lateinit var peersRow: LinearLayoutCompat
     private lateinit var dnsLabel: TextView
-    private lateinit var dnsRow: TableRow
-    private lateinit var settingsRow: TableRow
+    private lateinit var dnsRow: LinearLayoutCompat
+    private lateinit var settingsRow: LinearLayoutCompat
 
     private fun start() {
         val intent = Intent(this, PacketTunnelProvider::class.java)
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             preferences.edit(commit = true) { putBoolean(PREF_KEY_ENABLED, isChecked) }
         }
 
-        val enableYggdrasilPanel = findViewById<TableRow>(R.id.enableYggdrasilPanel)
+        val enableYggdrasilPanel = findViewById<LinearLayoutCompat>(R.id.enableYggdrasilPanel)
         enableYggdrasilPanel.setOnClickListener {
             enabledSwitch.toggle()
         }

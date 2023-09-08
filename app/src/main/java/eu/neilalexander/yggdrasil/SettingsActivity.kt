@@ -5,10 +5,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.doOnTextChanged
 import org.json.JSONObject
 
@@ -18,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private lateinit var deviceNameEntry: EditText
     private lateinit var publicKeyLabel: TextView
-    private lateinit var resetConfigurationRow: TableRow
+    private lateinit var resetConfigurationRow: LinearLayoutCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +41,24 @@ class SettingsActivity : AppCompatActivity() {
                     cfg.put("NodeInfo", JSONObject("{}"))
                 }
                 cfg.getJSONObject("NodeInfo").put("name", text)
+            }
+        }
+
+        deviceNameEntry.setOnKeyListener { view, keyCode, event ->
+            (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
+        }
+
+        findViewById<View>(R.id.deviceNameTableRow).setOnKeyListener { view, keyCode, event ->
+            Log.i("Key", keyCode.toString())
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                    deviceNameEntry.requestFocus()
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
             }
         }
 
