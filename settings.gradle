@@ -1,2 +1,8 @@
 rootProject.name = "Yggdrasil"
 include ':app'
+
+sourceControl {
+    gitRepository("https://codeberg.org/aakselrod/blemesh-android.git") {
+        producesModule("org.akselrod.blemesh:lib")
+    }
+}

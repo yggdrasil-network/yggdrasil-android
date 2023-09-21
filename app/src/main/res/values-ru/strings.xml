@@ -57,8 +57,12 @@
     <string name="peer_connectivity_title">Подключения пиров</string>
     <string name="discoverable_over_multicast">Находимый через multicast</string>
     <string name="search_for_multicast_peers">Искать пиров через multicast</string>
+    <string name="enable_ble">Искать пиров через Bluetooth LE</string>
+    <string name="enable_coded_phy">Использовать BLE Coded PHY</string>
+    <string name="explain_perms">Для поиска Bluetooth пиров, разрешите Nearby Devices и Location</string>
+    <string name="manual_perms">Для поиска Bluetooth пиров, разрешите Nearby Devices и Location в настройках</string>
     <string name="configured_peers_hint">Yggdrasil будет пытаться подключаться к этим пирам автоматически. Если вы добавите несколько пиров, ваше устройство может быть использовано для переноса данных между другими узлами сети. Чтобы этого избежать настройте только один пир.</string>
-    <string name="peer_connectivity_hint">Пиры могут быть найдены с помощью Multicast если они находятся в той же Wi-Fi сети, либо через USB. Трафик в мобильной сети может быть платным. Вы можете отключить мобильные данные в настройках устройства.</string>
+    <string name="peer_connectivity_hint">Пиры могут быть найдены с помощью Multicast если они находятся в той же Wi-Fi сети, либо через USB или BLE (Android 12+). Трафик в мобильной сети может быть платным. Вы можете отключить мобильные данные в настройках устройства.</string>
     <string name="node_info">Об узле</string>
     <string name="device_name">Название устройства</string>
     <string name="tap_to_edit">Нажмите для изменения</string>

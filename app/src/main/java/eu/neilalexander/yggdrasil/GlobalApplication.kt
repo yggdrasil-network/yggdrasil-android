@@ -10,6 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
 const val PREF_KEY_ENABLED = "enabled"
+const val BLE_ENABLED = "ble"
+const val CODED_PHY_ENABLED = "codedPhy"
 const val MAIN_CHANNEL_ID = "Yggdrasil Service"
 
 class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
@@ -68,7 +70,7 @@ fun createServiceNotification(context: Context, state: State): Notification {
     val intent = Intent(context, MainActivity::class.java).apply {
         this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
-    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
     val text = when (state) {
         State.Disabled -> context.getText(R.string.tile_disabled)

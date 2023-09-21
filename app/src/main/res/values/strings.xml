@@ -57,8 +57,12 @@
     <string name="peer_connectivity_title">Peer Connectivity</string>
     <string name="discoverable_over_multicast">Discoverable over multicast</string>
     <string name="search_for_multicast_peers">Search for multicast peers</string>
+    <string name="enable_ble">Search for peers over Bluetooth LE</string>
+    <string name="enable_coded_phy">Use BLE Coded PHY</string>
+    <string name="explain_perms">Bluetooth peering requires Nearby Devices and Location permissions</string>
+    <string name="manual_perms">To use Bluetooth peering, enable Nearby Devices and Location permissions manually</string>
     <string name="configured_peers_hint">Yggdrasil will automatically attempt to connect to configured peers when started. If you configure more than one peer, your device may carry traffic on behalf of other network nodes. Avoid this by configuring only a single peer.</string>
-    <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB. Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
+    <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB or BLE (Android 12+). Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
     <string name="node_info">Node Info</string>
     <string name="device_name">Device Name</string>
     <string name="tap_to_edit">Tap to edit</string>

@@ -55,6 +55,7 @@ object ConfigurationProxy {
             json.put("AdminListen", "none")
             json.put("IfName", "none")
             json.put("IfMTU", 65535)
+            json.put("Listen", JSONArray(arrayOf("tcp://127.0.0.1:9004")))
 
             if (json.getJSONArray("MulticastInterfaces").get(0) is String) {
                 var ar = JSONArray()

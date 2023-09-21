@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "eu.neilalexander.yggdrasil"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 13
         versionName "0.1-013"
 
@@ -37,6 +37,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig = signingConfigs.getByName("yggdrasil")
+            matchingFallbacks = ['release']
         }
     }
     compileOptions {
@@ -51,12 +52,19 @@ android {
 dependencies {
     implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.preference:preference-ktx:1.1.0'
+    implementation 'com.guolindev.permissionx:permissionx:1.6.4'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation('org.akselrod.blemesh:lib:0.0.1') {
+        version {
+	    branch = 'main'
+        }
+    }
 }

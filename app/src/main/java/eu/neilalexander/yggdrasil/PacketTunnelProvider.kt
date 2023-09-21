@@ -9,10 +9,14 @@ import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import eu.neilalexander.yggdrasil.YggStateReceiver.Companion.YGG_STATE_INTENT
+import org.akselrod.blemesh.BLEService
 import mobile.Yggdrasil
 import org.json.JSONArray
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.Socket
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
@@ -42,6 +46,8 @@ open class PacketTunnelProvider: VpnService() {
     private var parcel: ParcelFileDescriptor? = null
     private var readerStream: FileInputStream? = null
     private var writerStream: FileOutputStream? = null
+
+    private var bleService: BLEService? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -175,12 +181,22 @@ open class PacketTunnelProvider: VpnService() {
         intent = Intent(YGG_STATE_INTENT)
         intent.putExtra("state", STATE_ENABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+	if (preferences.getBoolean(BLE_ENABLED, (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S))) {
+            val publicKey = config.getJSON().getString("PublicKey")
+	    val codedPhy = preferences.getBoolean(CODED_PHY_ENABLED, false)
+	    bleService = BLEService(this.baseContext, publicKey, codedPhy, ::peerConnect)
+	    bleService?.start()
+	}
     }
 
     private fun stop() {
         if (!started.compareAndSet(true, false)) {
             return
         }
+
+        bleService?.stop()
+	bleService = null
 
         yggdrasil.stop()
 
@@ -336,4 +352,17 @@ open class PacketTunnelProvider: VpnService() {
             readerStream = null
         }
     }
+
+    private fun peerConnect(): Pair<InputStream, OutputStream>? {
+        var socket: Socket?
+        try {
+            socket = Socket("127.0.0.1", 9004)
+        } catch (e: Exception) {
+            Log.e(TAG, "Couldn't open peer socket: $e")
+	    return null
+        }
+        return Pair(socket.inputStream, socket.outputStream)
+    }
+
+
 }
