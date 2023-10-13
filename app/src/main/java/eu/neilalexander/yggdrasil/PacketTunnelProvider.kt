@@ -18,6 +18,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.net.Socket
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.UUID
 import kotlin.concurrent.thread
 
 
@@ -185,7 +186,14 @@ open class PacketTunnelProvider: VpnService() {
 	if (preferences.getBoolean(BLE_ENABLED, (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S))) {
             val publicKey = config.getJSON().getString("PublicKey")
 	    val codedPhy = preferences.getBoolean(CODED_PHY_ENABLED, false)
-	    bleService = BLEService(this.baseContext, publicKey, codedPhy, ::peerConnect)
+	    bleService = BLEService(
+                this.baseContext,
+                UUID.fromString("4ec394b1-44c7-5f5b-9172-530cbf056f8e"),
+                UUID.fromString("9ed2717f-4dad-53fb-b682-52b2a4b077f8"),
+                publicKey,
+                codedPhy,
+                ::peerConnect,
+            )
 	    bleService?.start()
 	}
     }
