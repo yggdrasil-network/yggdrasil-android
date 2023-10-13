@@ -7,11 +7,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
 import org.json.JSONObject
@@ -27,6 +29,8 @@ class PeersActivity : AppCompatActivity() {
     private lateinit var configuredTableLabel: TextView
     private lateinit var multicastListenSwitch: Switch
     private lateinit var multicastBeaconSwitch: Switch
+    private lateinit var enableBLESwitch: Switch
+    private lateinit var enableCodedPHYSwitch: Switch
     private lateinit var addPeerButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +55,29 @@ class PeersActivity : AppCompatActivity() {
         multicastBeaconSwitch.setOnCheckedChangeListener { button, _ ->
             config.multicastBeacon = button.isChecked
         }
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
+
+	enableBLESwitch = findViewById(R.id.enableBLE)
+	enableBLESwitch.setOnCheckedChangeListener { button, _ ->
+            preferences.edit().apply {
+	        putBoolean(BLE_ENABLED, button.isChecked)
+	        commit()
+	    }
+	}
+	enableCodedPHYSwitch = findViewById(R.id.enableCodedPHY)
+	enableCodedPHYSwitch.setOnCheckedChangeListener { button, _ ->
+            preferences.edit().apply {
+	        putBoolean(CODED_PHY_ENABLED, button.isChecked)
+	        commit()
+	    }
+	}
+
         multicastListenSwitch.isChecked = config.multicastListen
         multicastBeaconSwitch.isChecked = config.multicastBeacon
-
+	enableBLESwitch.isChecked = preferences.getBoolean(BLE_ENABLED, (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S))
+	enableCodedPHYSwitch.isChecked = preferences.getBoolean(CODED_PHY_ENABLED, false)
+	
         val multicastBeaconPanel = findViewById<TableRow>(R.id.enableMulticastBeaconPanel)
         multicastBeaconPanel.setOnClickListener {
             multicastBeaconSwitch.toggle()
@@ -61,6 +85,19 @@ class PeersActivity : AppCompatActivity() {
         val multicastListenPanel = findViewById<TableRow>(R.id.enableMulticastListenPanel)
         multicastListenPanel.setOnClickListener {
             multicastListenSwitch.toggle()
+        }
+
+        val enableBLEPanel = findViewById<TableRow>(R.id.enableBLEPanel)
+        val enableCodedPHYPanel = findViewById<TableRow>(R.id.enableCodedPHYPanel)
+
+        enableBLEPanel.isEnabled = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        enableCodedPHYPanel.isEnabled = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+
+        enableBLEPanel.setOnClickListener {
+            enableBLESwitch.toggle()
+        }
+        enableCodedPHYPanel.setOnClickListener {
+            enableCodedPHYSwitch.toggle()
         }
 
         addPeerButton = findViewById(R.id.addPeerButton)

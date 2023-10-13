@@ -217,6 +217,50 @@
 
                         </TableRow>
 
+                        <TableRow
+                            android:id="@+id/enableBLEPanel"
+                            style="@style/SelectableSwitchItemStyle">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/enable_ble"
+                                android:textColor="?attr/textDefault" />
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2" />
+
+                            <Switch
+                                android:id="@+id/enableBLE"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/enableCodedPHYPanel"
+                            style="@style/SelectableSwitchItemStyle">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/enable_coded_phy"
+                                android:textColor="?attr/textDefault" />
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2" />
+
+                            <Switch
+                                android:id="@+id/enableCodedPHY"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </TableRow>
+
                     </TableLayout>
 
                     <TextView
