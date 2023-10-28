@@ -47,8 +47,10 @@ class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStateChange(state: State) {
         if (state != currentState) {
-            val componentName = ComponentName(this, YggTileService::class.java)
-            TileService.requestListeningState(this, componentName)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val componentName = ComponentName(this, YggTileService::class.java)
+                TileService.requestListeningState(this, componentName)
+            }
 
             if (state != State.Disabled) {
                 val notification = createServiceNotification(this, state)
@@ -68,7 +70,11 @@ fun createServiceNotification(context: Context, state: State): Notification {
     val intent = Intent(context, MainActivity::class.java).apply {
         this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
-    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    var flags = PendingIntent.FLAG_UPDATE_CURRENT
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
 
     val text = when (state) {
         State.Disabled -> context.getText(R.string.tile_disabled)
@@ -91,7 +97,11 @@ fun createPermissionMissingNotification(context: Context): Notification {
     val intent = Intent(context, MainActivity::class.java).apply {
         this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
-    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    var flags = PendingIntent.FLAG_UPDATE_CURRENT
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
 
     return NotificationCompat.Builder(context, MAIN_CHANNEL_ID)
         .setShowWhen(false)
