@@ -52,8 +52,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
 
-                    <TableLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/connectedPeersTableLayout"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8pt"
@@ -70,7 +71,7 @@
                         android:paddingBottom="2pt"
                         android:showDividers="middle">
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/enableYggdrasilPanel"
                             style="@style/SelectableSwitchItemStyle">
 
@@ -92,9 +93,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow style="@style/SelectableItemStyle">
+                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/yggdrasilStatusLabel"
@@ -106,9 +107,9 @@
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </TableLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <Space
                         android:layout_width="match_parent"
@@ -130,8 +131,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
 
-                    <TableLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/configuredPeersTableLayout"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8pt"
@@ -148,7 +150,7 @@
                         android:paddingBottom="2pt"
                         android:showDividers="middle">
 
-                        <TableRow style="@style/SelectableItemStyle">
+                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/ipAddressLabel"
@@ -172,9 +174,9 @@
                                 android:textAlignment="viewEnd"
                                 android:textIsSelectable="true"
                                 android:textSize="14sp" />
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow style="@style/SelectableItemStyle">
+                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/subnetLabel"
@@ -199,20 +201,20 @@
                                 android:textIsSelectable="true"
                                 android:textSize="14sp" />
 
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow style="@style/SelectableItemStyle">
+                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/coordinatesLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
-                                android:text="@string/main_coordinates"
+                                android:text="@string/main_tree_length"
                                 android:textColor="?attr/textDefault" />
 
                             <TextView
-                                android:id="@+id/coordinatesValue"
+                                android:id="@+id/treeLengthValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -222,12 +224,12 @@
                                 android:scrollHorizontally="false"
                                 android:selectAllOnFocus="true"
                                 android:singleLine="true"
-                                android:text="[]"
+                                android:text="0"
                                 android:textAlignment="viewEnd"
                                 android:textIsSelectable="true" />
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </TableLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <Space
                         android:layout_width="match_parent"
@@ -249,8 +251,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
 
-                    <TableLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/configurationTableLayout"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8pt"
@@ -258,7 +261,6 @@
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:background="@drawable/rounded"
-                        android:clickable="true"
                         android:divider="#46878787"
                         android:dividerPadding="4pt"
                         android:paddingLeft="4pt"
@@ -267,7 +269,7 @@
                         android:paddingBottom="2pt"
                         android:showDividers="middle">
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/peersTableRow"
                             style="@style/SelectableItemStyle">
 
@@ -302,9 +304,9 @@
                                 android:scaleX="1.2"
                                 android:scaleY="1.2"
                                 app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/dnsTableRow"
                             style="@style/SelectableItemStyle">
 
@@ -339,9 +341,9 @@
                                 android:scaleX="1.2"
                                 android:scaleY="1.2"
                                 app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/settingsTableRow"
                             style="@style/SelectableItemStyle">
 
@@ -373,9 +375,9 @@
                                 android:scaleY="1.2"
                                 app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
 
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow style="@style/SelectableItemStyle">
+                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/versionLabel"
@@ -397,9 +399,9 @@
                                 android:text="@string/main_unknown"
                                 android:textAlignment="textEnd" />
 
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </TableLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -407,6 +409,7 @@
                         android:layout_marginStart="16pt"
                         android:layout_marginLeft="16pt"
                         android:layout_marginTop="4pt"
+                        android:layout_marginBottom="4pt"
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"

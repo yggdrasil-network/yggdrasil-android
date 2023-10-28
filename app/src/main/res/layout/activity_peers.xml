@@ -217,6 +217,37 @@
 
                         </TableRow>
 
+                        <TableRow
+                            android:id="@+id/passwordTableRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:paddingStart="4pt"
+                            android:paddingTop="4pt"
+                            android:paddingEnd="4pt"
+                            android:paddingBottom="4pt">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/peers_multicast_password_hint"
+                                android:textColor="?attr/textDefault" />
+
+                            <EditText
+                                android:id="@+id/passwordEdit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:ems="10"
+                                android:hint="@string/tap_to_edit"
+                                android:inputType="textVisiblePassword"
+                                android:padding="0pt"
+                                android:textAlignment="textEnd"
+                                android:textSize="14sp" />
+
+                        </TableRow>
+
                     </TableLayout>
 
                     <TextView
@@ -225,6 +256,7 @@
                         android:layout_marginStart="16pt"
                         android:layout_marginLeft="16pt"
                         android:layout_marginTop="4pt"
+                        android:layout_marginBottom="4pt"
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"

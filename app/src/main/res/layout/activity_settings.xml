@@ -173,6 +173,7 @@
                                     android:id="@+id/publicKeyLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:focusable="true"
                                     android:fontFamily="monospace"
                                     android:text="@string/public_key"
                                     android:textSize="14sp" />
@@ -216,8 +217,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
 
-                    <TableLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/backupTableLayout"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8pt"
@@ -225,7 +227,6 @@
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:background="@drawable/rounded"
-                        android:clickable="true"
                         android:divider="#46878787"
                         android:dividerPadding="4pt"
                         android:paddingLeft="4pt"
@@ -234,7 +235,7 @@
                         android:paddingBottom="2pt"
                         android:showDividers="middle">
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/resetKeysRow"
                             style="@style/SelectableItemStyle">
 
@@ -242,9 +243,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/regenerate_keys" />
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/setKeysRow"
                             style="@style/SelectableItemStyle">
 
@@ -252,9 +253,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/set_keys" />
-                        </TableRow>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <TableRow
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/resetConfigurationRow"
                             style="@style/SelectableItemStyle">
 
@@ -263,15 +264,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/reset_configuration"
                                 android:textColor="@android:color/holo_red_dark" />
-                        </TableRow>
-                    </TableLayout>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16pt"
                         android:layout_marginLeft="16pt"
-                        android:layout_marginTop="2pt"
+                        android:layout_marginTop="4pt"
+                        android:layout_marginBottom="4pt"
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"
