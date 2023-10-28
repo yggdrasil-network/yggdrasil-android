@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var enabledLabel: TextView
     private lateinit var ipAddressLabel: TextView
     private lateinit var subnetLabel: TextView
-    private lateinit var coordinatesLabel: TextView
+    private lateinit var treeLengthLabel: TextView
     private lateinit var peersLabel: TextView
     private lateinit var peersRow: LinearLayoutCompat
     private lateinit var dnsLabel: TextView
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         enabledLabel = findViewById(R.id.yggdrasilStatusLabel)
         ipAddressLabel = findViewById(R.id.ipAddressValue)
         subnetLabel = findViewById(R.id.subnetValue)
-        coordinatesLabel = findViewById(R.id.coordinatesValue)
+        treeLengthLabel = findViewById(R.id.treeLengthValue)
         peersLabel = findViewById(R.id.peersValue)
         peersRow = findViewById(R.id.peersTableRow)
         dnsLabel = findViewById(R.id.dnsValue)
@@ -155,11 +155,11 @@ class MainActivity : AppCompatActivity() {
                 "state" -> {
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
                         var count = 0
-                        if (intent.hasExtra("dht")) {
-                            val dht = intent.getStringExtra("dht")
-                            if (dht != null && dht != "null") {
-                                val dhtState = JSONArray(dht)
-                                count = dhtState.length()
+                        if (intent.hasExtra("tree")) {
+                            val tree = intent.getStringExtra("tree")
+                            if (tree != null && tree != "null") {
+                                val treeState = JSONArray(tree)
+                                count = treeState.length()
                             }
                         }
                         if (count == 0) {
@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     ipAddressLabel.text = intent.getStringExtra("ip") ?: "N/A"
                     subnetLabel.text = intent.getStringExtra("subnet") ?: "N/A"
-                    coordinatesLabel.text = intent.getStringExtra("coords") ?: "[]"
+                    treeLengthLabel.text = intent.getStringExtra("coords") ?: "0"
                     if (intent.hasExtra("peers")) {
                         val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
                         peersLabel.text = when (val count = peerState.length()) {

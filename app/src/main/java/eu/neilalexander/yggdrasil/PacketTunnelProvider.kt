@@ -1,7 +1,8 @@
 package eu.neilalexander.yggdrasil
 
-import android.content.*
+import android.content.Intent
 import android.net.VpnService
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.system.OsConstants
@@ -42,6 +43,7 @@ open class PacketTunnelProvider: VpnService() {
     private var parcel: ParcelFileDescriptor? = null
     private var readerStream: FileInputStream? = null
     private var writerStream: FileOutputStream? = null
+    private var multicastLock: WifiManager.MulticastLock? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -100,6 +102,13 @@ open class PacketTunnelProvider: VpnService() {
 
         val notification = createServiceNotification(this, State.Enabled)
         startForeground(SERVICE_NOTIFICATION_ID, notification)
+
+        // Acquire multicast lock
+        val wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        multicastLock = wifi.createMulticastLock("Yggdrasil").apply {
+            setReferenceCounted(false)
+            acquire()
+        }
 
         Log.d(TAG, config.getJSON().toString())
         yggdrasil.startJSON(config.getJSONByteArray())
@@ -163,16 +172,7 @@ open class PacketTunnelProvider: VpnService() {
             updater()
         }
 
-        var intent = Intent(STATE_INTENT)
-        intent.putExtra("type", "state")
-        intent.putExtra("started", true)
-        intent.putExtra("ip", yggdrasil.addressString)
-        intent.putExtra("subnet", yggdrasil.subnetString)
-        intent.putExtra("coords", yggdrasil.coordsString)
-        intent.putExtra("peers", yggdrasil.peersJSON)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-
-        intent = Intent(YGG_STATE_INTENT)
+        var intent = Intent(YGG_STATE_INTENT)
         intent.putExtra("state", STATE_ENABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
@@ -221,6 +221,7 @@ open class PacketTunnelProvider: VpnService() {
 
         stopForeground(true)
         stopSelf()
+        multicastLock?.release()
     }
 
     private fun connect() {
@@ -231,27 +232,37 @@ open class PacketTunnelProvider: VpnService() {
     }
 
     private fun updater() {
+        Thread.sleep(500)
         var lastStateUpdate = System.currentTimeMillis()
         updates@ while (started.get()) {
+            val treeJSON = yggdrasil.treeJSON
+            var treeLength = 0
+            if (treeJSON != null && treeJSON != "null") {
+                val treeState = JSONArray(treeJSON)
+                treeLength = treeState.length()
+            }
             if ((application as  GlobalApplication).needUiUpdates()) {
                 val intent = Intent(STATE_INTENT)
                 intent.putExtra("type", "state")
                 intent.putExtra("started", true)
                 intent.putExtra("ip", yggdrasil.addressString)
                 intent.putExtra("subnet", yggdrasil.subnetString)
-                intent.putExtra("coords", yggdrasil.coordsString)
+                intent.putExtra("pubkey", yggdrasil.publicKeyString)
+                intent.putExtra("coords", "$treeLength")
                 intent.putExtra("peers", yggdrasil.peersJSON)
-                intent.putExtra("dht", yggdrasil.dhtjson)
+                intent.putExtra("tree", treeJSON)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             }
             val curTime = System.currentTimeMillis()
             if (lastStateUpdate + 10000 < curTime) {
                 val intent = Intent(YGG_STATE_INTENT)
                 var state = STATE_ENABLED
-                val dht = yggdrasil.dhtjson
-                if (dht != null && dht != "null") {
-                    val dhtState = JSONArray(dht)
-                    val count = dhtState.length()
+                if (yggdrasil.routingEntries > 0) {
+                    state = STATE_CONNECTED
+                }
+                if (treeJSON != null && treeJSON != "null") {
+                    val treeState = JSONArray(treeJSON)
+                    val count = treeState.length()
                     if (count > 1)
                         state = STATE_CONNECTED
                 }

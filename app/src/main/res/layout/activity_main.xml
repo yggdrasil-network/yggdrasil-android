@@ -210,11 +210,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
-                                android:text="@string/main_coordinates"
+                                android:text="@string/main_tree_length"
                                 android:textColor="?attr/textDefault" />
 
                             <TextView
-                                android:id="@+id/coordinatesValue"
+                                android:id="@+id/treeLengthValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -224,7 +224,7 @@
                                 android:scrollHorizontally="false"
                                 android:selectAllOnFocus="true"
                                 android:singleLine="true"
-                                android:text="[]"
+                                android:text="0"
                                 android:textAlignment="viewEnd"
                                 android:textIsSelectable="true" />
                         </androidx.appcompat.widget.LinearLayoutCompat>

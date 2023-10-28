@@ -1,8 +1,12 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +17,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.json.JSONObject
 
 class SettingsActivity : AppCompatActivity() {
@@ -87,11 +92,10 @@ class SettingsActivity : AppCompatActivity() {
             val view = inflater.inflate(R.layout.dialog_set_keys, null)
             val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
             val privateKey = view.findViewById<EditText>(R.id.private_key)
-            val publicKey = view.findViewById<EditText>(R.id.public_key)
             builder.setTitle(getString(R.string.set_keys))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.save)) { dialog, _ ->
-                config.setKeys(privateKey.text.toString(), publicKey.text.toString())
+                config.setKeys(privateKey.text.toString())
                 updateView()
                 dialog.dismiss()
             }
@@ -113,13 +117,40 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateView() {
-        val nodeinfo = config.getJSON().optJSONObject("NodeInfo")
+        val json = config.getJSON()
+        val nodeinfo = json.optJSONObject("NodeInfo")
         if (nodeinfo != null) {
             deviceNameEntry.setText(nodeinfo.getString("name"), TextView.BufferType.EDITABLE)
         } else {
             deviceNameEntry.setText("", TextView.BufferType.EDITABLE)
         }
 
-        publicKeyLabel.text = config.getJSON().getString("PublicKey")
+        publicKeyLabel.text = json.optString("PublicKey")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            receiver, IntentFilter(PacketTunnelProvider.STATE_INTENT)
+        )
+        (application as GlobalApplication).subscribe()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (application as GlobalApplication).unsubscribe()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+    }
+
+    // To be able to get public key from running Yggdrasil we use this receiver, as we don't have this field in config
+    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            if (intent.hasExtra("pubkey")) {
+                val tree = intent.getStringExtra("pubkey")
+                if (tree != null && tree != "null") {
+                    publicKeyLabel.text = intent.getStringExtra("pubkey")
+                }
+            }
+        }
     }
 }
