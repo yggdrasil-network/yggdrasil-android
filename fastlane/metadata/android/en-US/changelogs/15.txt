@@ -1,0 +1,3 @@
+* Updated core Yggdrasil library to 0.5.1
+* Updated UI to reflect changes in new version
+* Fixed small bugs in UI

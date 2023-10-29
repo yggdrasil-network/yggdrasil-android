@@ -95,7 +95,7 @@ object ConfigurationProxy {
         }
 
     var multicastPassword: String
-        get() = (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).getString("Password")
+        get() = (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).optString("Password")
         set(value) {
             updateJSON { json ->
                 (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).put("Password", value)
