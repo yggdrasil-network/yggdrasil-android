@@ -127,7 +127,7 @@ class DnsActivity : AppCompatActivity() {
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
                         builder.setTitle(getString(R.string.dns_remove_title, server))
                         builder.setPositiveButton(getString(R.string.remove)) { dialog, _ ->
                             servers.removeAt(button.tag as Int)
@@ -175,7 +175,7 @@ class DnsActivity : AppCompatActivity() {
                 }
             }
             view.setOnLongClickListener {
-                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
                 builder.setTitle(getString(R.string.dns_server_info_dialog_title))
                 builder.setMessage("${infoPair.first}\n\n${infoPair.second}")
                 builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
