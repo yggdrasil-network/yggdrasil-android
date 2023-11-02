@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.cancel),
                 )
             }
-            .request { allGranted, _, _ -> {}
+            .request { allGranted, _, _ ->
                 if (!allGranted) {
                     Toast.makeText(this, R.string.ntfn_denied, Toast.LENGTH_LONG).show()
                 }
