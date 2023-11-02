@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return
+        }
+
         PermissionX.init(this)
             .permissions(
                 Manifest.permission.POST_NOTIFICATIONS,
@@ -61,7 +65,10 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.cancel),
                 )
             }
-            .request { _, _, _ -> {}
+            .request { allGranted, _, _ -> {}
+                if (!allGranted) {
+                    Toast.makeText(this, R.string.ntfn_denied, Toast.LENGTH_LONG).show()
+                }
             }
     }
 
