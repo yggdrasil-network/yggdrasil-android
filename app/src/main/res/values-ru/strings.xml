@@ -42,6 +42,8 @@
     <string name="settings_reset">Сброс</string>
     <string name="main_status">Состояние</string>
     <string name="main_enable_yggdrasil">Включить Yggdrasil</string>
+    <string name="explain_ntfn_perms">Пожалуйста включите нотификации чтобы видеть статус подключения Yggdrasil</string>
+    <string name="manual_ntfn_perms">Чтобы видеть статус подключения Yggdrasil, включите нотификации в настройках</string>
     <string name="main_statistics">Статистика</string>
     <string name="main_not_available">Н/Д</string>
     <string name="main_ip">Адрес</string>
