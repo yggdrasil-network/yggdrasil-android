@@ -1,9 +1,11 @@
 package eu.neilalexander.yggdrasil
 
+import android.Manifest
 import android.app.Activity
 import android.content.*
 import android.graphics.Color
 import android.net.VpnService
+import android.os.Build
 import android.os.Bundle
 import android.widget.Switch
 import android.widget.TextView
@@ -14,6 +16,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.edit
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
+import com.permissionx.guolindev.PermissionX
 import eu.neilalexander.yggdrasil.PacketTunnelProvider.Companion.STATE_INTENT
 import mobile.Mobile
 import org.json.JSONArray
@@ -35,6 +38,38 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, PacketTunnelProvider::class.java)
         intent.action = PacketTunnelProvider.ACTION_START
         startService(intent)
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return
+        }
+
+        PermissionX.init(this)
+            .permissions(
+                Manifest.permission.POST_NOTIFICATIONS,
+            )
+            .onExplainRequestReason { scope, deniedList ->
+                scope.showRequestReasonDialog(
+                    deniedList,
+                    getString(R.string.explain_ntfn_perms),
+                    getString(R.string.ok),
+                    getString(R.string.cancel),
+                )
+            }
+            .onForwardToSettings { scope, deniedList ->
+                scope.showForwardToSettingsDialog(
+                    deniedList,
+                    getString(R.string.manual_ntfn_perms),
+                    getString(R.string.ok),
+                    getString(R.string.cancel),
+                )
+            }
+            .request { allGranted, _, _ ->
+                if (!allGranted) {
+                    Toast.makeText(this, R.string.ntfn_denied, Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
     private var startVpnActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -65,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         enabledSwitch.setOnCheckedChangeListener { _, isChecked ->
             when (isChecked) {
                 true -> {
+                    checkNotificationPermission()
                     val vpnIntent = VpnService.prepare(this)
                     if (vpnIntent != null) {
                         startVpnActivity.launch(vpnIntent)

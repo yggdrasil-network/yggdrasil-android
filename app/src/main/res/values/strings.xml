@@ -42,6 +42,9 @@
     <string name="settings_reset">Reset</string>
     <string name="main_status">Status</string>
     <string name="main_enable_yggdrasil">Enable Yggdrasil</string>
+    <string name="explain_ntfn_perms">Please enable notifications to easily see Yggdrasil connection status</string>
+    <string name="manual_ntfn_perms">To see Yggdrasil connection status, enable notifications in app settings</string>
+    <string name="ntfn_denied">Yggdrasil connection status notification will not be shown</string>
     <string name="main_statistics">Statistics</string>
     <string name="main_not_available">N/A</string>
     <string name="main_ip">IP</string>
