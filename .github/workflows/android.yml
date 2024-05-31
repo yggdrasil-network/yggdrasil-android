@@ -23,7 +23,7 @@ jobs:
       with:
         repository: yggdrasil-network/yggdrasil-go
         path: yggdrasil-go
-        ref: develop
+        ref: master
         fetch-depth: 0
     
     - name: Setup Go environment
