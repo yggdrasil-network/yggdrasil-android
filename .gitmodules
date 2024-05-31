@@ -1,3 +1,0 @@
-[submodule "libs/yggdrasil-go"]
-	path = libs/yggdrasil-go
-	url = https://github.com/yggdrasil-network/yggdrasil-go

@@ -155,11 +155,11 @@ class MainActivity : AppCompatActivity() {
                 "state" -> {
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
                         var count = 0
-                        if (intent.hasExtra("tree")) {
-                            val tree = intent.getStringExtra("tree")
-                            if (tree != null && tree != "null") {
-                                val treeState = JSONArray(tree)
-                                count = treeState.length()
+                        if (intent.hasExtra("peers")) {
+                            val peers = intent.getStringExtra("peers")
+                            if (peers != null && peers != "null") {
+                                val peerState = JSONArray(peers)
+                                count = peerState.length()
                             }
                         }
                         if (count == 0) {
