@@ -73,9 +73,9 @@
     <string name="tile_enabled">Включено (Нет подключения)</string>
     <string name="tile_connected">Подключено</string>
     <string name="location_amsterdam">Амстердам, Нидерланды</string>
-    <string name="location_prague">Прага, Чехия</string>
+    <string name="location_frankfurt">Франкфурт, Германия</string>
     <string name="location_bratislava">Братислава, Словакия</string>
-    <string name="location_buffalo">Баффало, США</string>
+    <string name="location_buffalo">Буффало, США</string>
     <string name="channel_name">Сервис VPN</string>
     <string name="channel_description">Главный канал нотификаций сервиса</string>
     <string name="permission_notification_text">Нажмите здесь чтобы включить Yggdrasil.</string>

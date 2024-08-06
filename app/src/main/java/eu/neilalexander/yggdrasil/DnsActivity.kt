@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 
 const val KEY_DNS_SERVERS = "dns_servers"
+const val KEY_DNS_VERSION = "dns_version"
 const val KEY_ENABLE_CHROME_FIX = "enable_chrome_fix"
 
 class DnsActivity : AppCompatActivity() {
@@ -41,10 +42,10 @@ class DnsActivity : AppCompatActivity() {
         val descriptionRevertron = getString(R.string.dns_server_info_revertron)
         // Here we can add some other DNS servers in a future
         defaultDnsServers = hashMapOf(
-            "302:7991::53" to Pair(getString(R.string.location_amsterdam), descriptionRevertron),
-            "302:db60::53" to Pair(getString(R.string.location_prague), descriptionRevertron),
-            "300:6223::53" to Pair(getString(R.string.location_bratislava), descriptionRevertron),
-            "301:1088::53" to Pair(getString(R.string.location_buffalo), descriptionRevertron),
+            "308:62:45:62::" to Pair(getString(R.string.location_amsterdam), descriptionRevertron),
+            "308:84:68:55::" to Pair(getString(R.string.location_frankfurt), descriptionRevertron),
+            "308:25:40:bd::" to Pair(getString(R.string.location_bratislava), descriptionRevertron),
+            "308:c8:48:45::" to Pair(getString(R.string.location_buffalo), descriptionRevertron),
         )
 
         serversTableLayout = findViewById(R.id.configuredDnsTableLayout)
