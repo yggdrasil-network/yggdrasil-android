@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var enabledLabel: TextView
     private lateinit var ipAddressLabel: TextView
     private lateinit var subnetLabel: TextView
-    private lateinit var treeLengthLabel: TextView
     private lateinit var peersLabel: TextView
     private lateinit var peersRow: LinearLayoutCompat
     private lateinit var dnsLabel: TextView
@@ -53,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         enabledLabel = findViewById(R.id.yggdrasilStatusLabel)
         ipAddressLabel = findViewById(R.id.ipAddressValue)
         subnetLabel = findViewById(R.id.subnetValue)
-        treeLengthLabel = findViewById(R.id.treeLengthValue)
         peersLabel = findViewById(R.id.peersValue)
         peersRow = findViewById(R.id.peersTableRow)
         dnsLabel = findViewById(R.id.dnsValue)
@@ -175,7 +173,6 @@ class MainActivity : AppCompatActivity() {
                     }
                     ipAddressLabel.text = intent.getStringExtra("ip") ?: "N/A"
                     subnetLabel.text = intent.getStringExtra("subnet") ?: "N/A"
-                    treeLengthLabel.text = intent.getStringExtra("coords") ?: "0"
                     if (intent.hasExtra("peers")) {
                         val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
                         peersLabel.text = when (val count = peerState.length()) {

@@ -236,11 +236,6 @@ open class PacketTunnelProvider: VpnService() {
         var lastStateUpdate = System.currentTimeMillis()
         updates@ while (started.get()) {
             val treeJSON = yggdrasil.treeJSON
-            var treeLength = 0
-            if (treeJSON != null && treeJSON != "null") {
-                val treeState = JSONArray(treeJSON)
-                treeLength = treeState.length()
-            }
             if ((application as  GlobalApplication).needUiUpdates()) {
                 val intent = Intent(STATE_INTENT)
                 intent.putExtra("type", "state")
@@ -248,9 +243,7 @@ open class PacketTunnelProvider: VpnService() {
                 intent.putExtra("ip", yggdrasil.addressString)
                 intent.putExtra("subnet", yggdrasil.subnetString)
                 intent.putExtra("pubkey", yggdrasil.publicKeyString)
-                intent.putExtra("coords", "$treeLength")
                 intent.putExtra("peers", yggdrasil.peersJSON)
-                intent.putExtra("tree", treeJSON)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             }
             val curTime = System.currentTimeMillis()

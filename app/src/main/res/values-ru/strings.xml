@@ -42,11 +42,10 @@
     <string name="settings_reset">Сброс</string>
     <string name="main_status">Состояние</string>
     <string name="main_enable_yggdrasil">Включить Yggdrasil</string>
-    <string name="main_statistics">Статистика</string>
+    <string name="main_network_info">Адрес и сеть</string>
     <string name="main_not_available">Н/Д</string>
     <string name="main_ip">Адрес</string>
     <string name="main_subnet">Подсеть</string>
-    <string name="main_tree_length">Высота дерева</string>
     <string name="main_configuration">Конфигурация</string>
     <string name="main_peers">Пиры</string>
     <string name="main_dns_servers">Серверы DNS</string>

@@ -42,11 +42,10 @@
     <string name="settings_reset">Reset</string>
     <string name="main_status">Status</string>
     <string name="main_enable_yggdrasil">Enable Yggdrasil</string>
-    <string name="main_statistics">Statistics</string>
+    <string name="main_network_info">Network info</string>
     <string name="main_not_available">N/A</string>
     <string name="main_ip">IP</string>
     <string name="main_subnet">Subnet</string>
-    <string name="main_tree_length">Tree length</string>
     <string name="main_configuration">Configuration</string>
     <string name="main_peers">Peers</string>
     <string name="main_dns_servers">DNS servers</string>
