@@ -57,6 +57,7 @@
     <string name="discoverable_over_multicast">Находимый через multicast</string>
     <string name="search_for_multicast_peers">Искать пиров через multicast</string>
     <string name="configured_peers_hint">Yggdrasil будет пытаться подключаться к этим пирам автоматически. Если вы добавите несколько пиров, ваше устройство может быть использовано для переноса данных между другими узлами сети. Чтобы этого избежать настройте только один пир.</string>
+    <string name="peers_discovery_hint">Вы можете найти публичные пиры <a href="https://publicpeers.neilalexander.dev/">по этой ссылке</a>.</string>
     <string name="peer_connectivity_hint">Пиры могут быть найдены с помощью Multicast если они находятся в той же Wi-Fi сети, либо через USB. У них должен быть одинаковый пароль. Трафик в мобильной сети может быть платным. Вы можете отключить мобильные данные в настройках устройства.</string>
     <string name="peers_multicast_password_hint">Пароль</string>
     <string name="node_info">Об узле</string>

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.KeyEvent
@@ -46,6 +47,9 @@ class PeersActivity : AppCompatActivity() {
 
         configuredTableLayout = findViewById(R.id.configuredPeersTableLayout)
         configuredTableLabel = findViewById(R.id.configuredPeersLabel)
+
+        val discoveryLink = findViewById<TextView>(R.id.peers_discovery_link)
+        discoveryLink.movementMethod = LinkMovementMethod.getInstance()
 
         multicastListenSwitch = findViewById(R.id.enableMulticastListen)
         multicastListenSwitch.setOnCheckedChangeListener { button, _ ->

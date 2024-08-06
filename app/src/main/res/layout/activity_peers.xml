@@ -137,6 +137,23 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
 
+                    <TextView
+                        android:id="@+id/peers_discovery_link"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16pt"
+                        android:layout_marginLeft="16pt"
+                        android:layout_marginTop="4pt"
+                        android:layout_marginEnd="8pt"
+                        android:layout_marginRight="8pt"
+                        android:layout_marginBottom="4pt"
+                        android:alpha="0.7"
+                        android:paddingRight="8pt"
+                        android:text="@string/peers_discovery_hint"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp" />
+
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="32px" />

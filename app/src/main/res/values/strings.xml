@@ -57,6 +57,7 @@
     <string name="discoverable_over_multicast">Discoverable over multicast</string>
     <string name="search_for_multicast_peers">Search for multicast peers</string>
     <string name="configured_peers_hint">Yggdrasil will automatically attempt to connect to configured peers when started. If you configure more than one peer, your device may carry traffic on behalf of other network nodes. Avoid this by configuring only a single peer.</string>
+    <string name="peers_discovery_hint">You can find public peers by opening <a href="https://publicpeers.neilalexander.dev/">this link</a>.</string>
     <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB. They must have the same password. Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
     <string name="peers_multicast_password_hint">Password</string>
     <string name="node_info">Node Info</string>
