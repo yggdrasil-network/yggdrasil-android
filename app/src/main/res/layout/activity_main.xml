@@ -116,7 +116,7 @@
                         android:layout_height="32px" />
 
                     <TextView
-                        android:id="@+id/statisticsSectionLabel"
+                        android:id="@+id/networkInfoSectionLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16pt"
@@ -126,7 +126,7 @@
                         android:layout_marginBottom="2pt"
                         android:alpha="0.7"
                         android:paddingRight="8pt"
-                        android:text="@string/main_statistics"
+                        android:text="@string/main_network_info"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="12sp" />
@@ -201,32 +201,6 @@
                                 android:textIsSelectable="true"
                                 android:textSize="14sp" />
 
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
-
-                            <TextView
-                                android:id="@+id/coordinatesLabel"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0"
-                                android:text="@string/main_tree_length"
-                                android:textColor="?attr/textDefault" />
-
-                            <TextView
-                                android:id="@+id/treeLengthValue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:alpha="0.5"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:scrollHorizontally="false"
-                                android:selectAllOnFocus="true"
-                                android:singleLine="true"
-                                android:text="0"
-                                android:textAlignment="viewEnd"
-                                android:textIsSelectable="true" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>

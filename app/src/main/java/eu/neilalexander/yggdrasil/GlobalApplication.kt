@@ -8,6 +8,7 @@ import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.preference.PreferenceManager
 
 const val PREF_KEY_ENABLED = "enabled"
 const val MAIN_CHANNEL_ID = "Yggdrasil Service"
@@ -15,7 +16,7 @@ const val MAIN_CHANNEL_ID = "Yggdrasil Service"
 class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
     private lateinit var config: ConfigurationProxy
     private var currentState: State = State.Disabled
-    var updaterConnections: Int = 0
+    private var updaterConnections: Int = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -24,6 +25,7 @@ class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
         callback.register()
         val receiver = YggStateReceiver(this)
         receiver.register(this)
+        migrateDnsServers(this)
     }
 
     fun subscribe() {
@@ -61,6 +63,28 @@ class GlobalApplication: Application(), YggStateReceiver.StateReceiver {
 
             currentState = state
         }
+    }
+}
+
+fun migrateDnsServers(context: Context) {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    if (preferences.getInt(KEY_DNS_VERSION, 0) >= 1) {
+        return
+    }
+    val serverString = preferences.getString(KEY_DNS_SERVERS, "")
+    if (serverString!!.isNotEmpty()) {
+        // Replacing old Revertron's servers by new ones
+        val newServers = serverString
+            .replace("300:6223::53", "308:25:40:bd::")
+            .replace("302:7991::53", "308:62:45:62::")
+            .replace("302:db60::53", "308:84:68:55::")
+            .replace("301:1088::53", "308:c8:48:45::")
+        val editor = preferences.edit()
+        editor.putInt(KEY_DNS_VERSION, 1)
+        if (newServers != serverString) {
+            editor.putString(KEY_DNS_SERVERS, newServers)
+        }
+        editor.apply()
     }
 }
 
