@@ -232,7 +232,11 @@ open class PacketTunnelProvider: VpnService() {
     }
 
     private fun updater() {
-        Thread.sleep(500)
+        try {
+            Thread.sleep(500)
+        } catch (_: InterruptedException) {
+            return
+        }
         var lastStateUpdate = System.currentTimeMillis()
         updates@ while (started.get()) {
             val treeJSON = yggdrasil.treeJSON
