@@ -1,7 +1,8 @@
 package eu.neilalexander.yggdrasil
 
-import android.content.*
+import android.content.Intent
 import android.net.VpnService
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.system.OsConstants
@@ -42,6 +43,7 @@ open class PacketTunnelProvider: VpnService() {
     private var parcel: ParcelFileDescriptor? = null
     private var readerStream: FileInputStream? = null
     private var writerStream: FileOutputStream? = null
+    private var multicastLock: WifiManager.MulticastLock? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -100,6 +102,13 @@ open class PacketTunnelProvider: VpnService() {
 
         val notification = createServiceNotification(this, State.Enabled)
         startForeground(SERVICE_NOTIFICATION_ID, notification)
+
+        // Acquire multicast lock
+        val wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        multicastLock = wifi.createMulticastLock("Yggdrasil").apply {
+            setReferenceCounted(false)
+            acquire()
+        }
 
         Log.d(TAG, config.getJSON().toString())
         yggdrasil.startJSON(config.getJSONByteArray())
@@ -163,16 +172,7 @@ open class PacketTunnelProvider: VpnService() {
             updater()
         }
 
-        var intent = Intent(STATE_INTENT)
-        intent.putExtra("type", "state")
-        intent.putExtra("started", true)
-        intent.putExtra("ip", yggdrasil.addressString)
-        intent.putExtra("subnet", yggdrasil.subnetString)
-        intent.putExtra("coords", yggdrasil.coordsString)
-        intent.putExtra("peers", yggdrasil.peersJSON)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-
-        intent = Intent(YGG_STATE_INTENT)
+        var intent = Intent(YGG_STATE_INTENT)
         intent.putExtra("state", STATE_ENABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
@@ -221,6 +221,7 @@ open class PacketTunnelProvider: VpnService() {
 
         stopForeground(true)
         stopSelf()
+        multicastLock?.release()
     }
 
     private fun connect() {
@@ -231,27 +232,34 @@ open class PacketTunnelProvider: VpnService() {
     }
 
     private fun updater() {
+        try {
+            Thread.sleep(500)
+        } catch (_: InterruptedException) {
+            return
+        }
         var lastStateUpdate = System.currentTimeMillis()
         updates@ while (started.get()) {
+            val treeJSON = yggdrasil.treeJSON
             if ((application as  GlobalApplication).needUiUpdates()) {
                 val intent = Intent(STATE_INTENT)
                 intent.putExtra("type", "state")
                 intent.putExtra("started", true)
                 intent.putExtra("ip", yggdrasil.addressString)
                 intent.putExtra("subnet", yggdrasil.subnetString)
-                intent.putExtra("coords", yggdrasil.coordsString)
+                intent.putExtra("pubkey", yggdrasil.publicKeyString)
                 intent.putExtra("peers", yggdrasil.peersJSON)
-                intent.putExtra("dht", yggdrasil.dhtjson)
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             }
             val curTime = System.currentTimeMillis()
             if (lastStateUpdate + 10000 < curTime) {
                 val intent = Intent(YGG_STATE_INTENT)
                 var state = STATE_ENABLED
-                val dht = yggdrasil.dhtjson
-                if (dht != null && dht != "null") {
-                    val dhtState = JSONArray(dht)
-                    val count = dhtState.length()
+                if (yggdrasil.routingEntries > 0) {
+                    state = STATE_CONNECTED
+                }
+                if (treeJSON != null && treeJSON != "null") {
+                    val treeState = JSONArray(treeJSON)
+                    val count = treeState.length()
                     if (count > 1)
                         state = STATE_CONNECTED
                 }
@@ -282,9 +290,11 @@ open class PacketTunnelProvider: VpnService() {
             val writerStream = writerStream
             val writerThread = writerThread
             if (writerThread == null || writerStream == null) {
+                Log.i(TAG, "Write thread or stream is null")
                 break@writes
             }
             if (Thread.currentThread().isInterrupted || !writerStream.fd.valid()) {
+                Log.i(TAG, "Write thread interrupted or file descriptor is invalid")
                 break@writes
             }
             try {
@@ -293,6 +303,12 @@ open class PacketTunnelProvider: VpnService() {
                     writerStream.write(buf, 0, len.toInt())
                 }
             } catch (e: Exception) {
+                Log.i(TAG, "Error in write: $e")
+                if (e.toString().contains("ENOBUFS")) {
+                    //TODO Check this by some error code
+                    //More info about this: https://github.com/AdguardTeam/AdguardForAndroid/issues/724
+                    continue
+                }
                 break@writes
             }
         }
@@ -308,15 +324,18 @@ open class PacketTunnelProvider: VpnService() {
             val readerStream = readerStream
             val readerThread = readerThread
             if (readerThread == null || readerStream == null) {
+                Log.i(TAG, "Read thread or stream is null")
                 break@reads
             }
             if (Thread.currentThread().isInterrupted ||!readerStream.fd.valid()) {
+                Log.i(TAG, "Read thread interrupted or file descriptor is invalid")
                 break@reads
             }
             try {
                 val n = readerStream.read(b)
                 yggdrasil.sendBuffer(b, n.toLong())
             } catch (e: Exception) {
+                Log.i(TAG, "Error in sendBuffer: $e")
                 break@reads
             }
         }

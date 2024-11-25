@@ -42,11 +42,10 @@
     <string name="settings_reset">Сброс</string>
     <string name="main_status">Состояние</string>
     <string name="main_enable_yggdrasil">Включить Yggdrasil</string>
-    <string name="main_statistics">Статистика</string>
+    <string name="main_network_info">Адрес и сеть</string>
     <string name="main_not_available">Н/Д</string>
     <string name="main_ip">Адрес</string>
     <string name="main_subnet">Подсеть</string>
-    <string name="main_coordinates">Координаты</string>
     <string name="main_configuration">Конфигурация</string>
     <string name="main_peers">Пиры</string>
     <string name="main_dns_servers">Серверы DNS</string>
@@ -58,7 +57,9 @@
     <string name="discoverable_over_multicast">Находимый через multicast</string>
     <string name="search_for_multicast_peers">Искать пиров через multicast</string>
     <string name="configured_peers_hint">Yggdrasil будет пытаться подключаться к этим пирам автоматически. Если вы добавите несколько пиров, ваше устройство может быть использовано для переноса данных между другими узлами сети. Чтобы этого избежать настройте только один пир.</string>
-    <string name="peer_connectivity_hint">Пиры могут быть найдены с помощью Multicast если они находятся в той же Wi-Fi сети, либо через USB. Трафик в мобильной сети может быть платным. Вы можете отключить мобильные данные в настройках устройства.</string>
+    <string name="peers_discovery_hint">Вы можете найти публичные пиры <a href="https://publicpeers.neilalexander.dev/">по этой ссылке</a>.</string>
+    <string name="peer_connectivity_hint">Пиры могут быть найдены с помощью Multicast если они находятся в той же Wi-Fi сети, либо через USB. У них должен быть одинаковый пароль. Трафик в мобильной сети может быть платным. Вы можете отключить мобильные данные в настройках устройства.</string>
+    <string name="peers_multicast_password_hint">Пароль</string>
     <string name="node_info">Об узле</string>
     <string name="device_name">Название устройства</string>
     <string name="tap_to_edit">Нажмите для изменения</string>
@@ -72,15 +73,14 @@
     <string name="tile_enabled">Включено (Нет подключения)</string>
     <string name="tile_connected">Подключено</string>
     <string name="location_amsterdam">Амстердам, Нидерланды</string>
-    <string name="location_prague">Прага, Чехия</string>
+    <string name="location_frankfurt">Франкфурт, Германия</string>
     <string name="location_bratislava">Братислава, Словакия</string>
-    <string name="location_buffalo">Баффало, США</string>
+    <string name="location_buffalo">Буффало, США</string>
     <string name="channel_name">Сервис VPN</string>
     <string name="channel_description">Главный канал нотификаций сервиса</string>
     <string name="permission_notification_text">Нажмите здесь чтобы включить Yggdrasil.</string>
     <string name="add_peer_help">Введите полный URI пира для добавления. Yggdrasil будет автоматически подключаться к нему при запуске.</string>
-    <string name="public_key_label">Публичный ключ:</string>
     <string name="private_key_label">Приватный ключ:</string>
-    <string name="set_keys">Установить свои ключи</string>
+    <string name="set_keys">Установить свой ключ</string>
     <string name="save">Сохранить</string>
 </resources>

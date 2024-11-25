@@ -42,11 +42,10 @@
     <string name="settings_reset">Reset</string>
     <string name="main_status">Status</string>
     <string name="main_enable_yggdrasil">Enable Yggdrasil</string>
-    <string name="main_statistics">Statistics</string>
+    <string name="main_network_info">Network info</string>
     <string name="main_not_available">N/A</string>
     <string name="main_ip">IP</string>
     <string name="main_subnet">Subnet</string>
-    <string name="main_coordinates">Coordinates</string>
     <string name="main_configuration">Configuration</string>
     <string name="main_peers">Peers</string>
     <string name="main_dns_servers">DNS servers</string>
@@ -58,7 +57,9 @@
     <string name="discoverable_over_multicast">Discoverable over multicast</string>
     <string name="search_for_multicast_peers">Search for multicast peers</string>
     <string name="configured_peers_hint">Yggdrasil will automatically attempt to connect to configured peers when started. If you configure more than one peer, your device may carry traffic on behalf of other network nodes. Avoid this by configuring only a single peer.</string>
-    <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB. Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
+    <string name="peers_discovery_hint">You can find public peers by opening <a href="https://publicpeers.neilalexander.dev/">this link</a>.</string>
+    <string name="peer_connectivity_hint">Multicast peers will be discovered on the same Wi-Fi network or via USB. They must have the same password. Data charges may apply when using mobile data. You can prevent data usage in the device settings.</string>
+    <string name="peers_multicast_password_hint">Password</string>
     <string name="node_info">Node Info</string>
     <string name="device_name">Device Name</string>
     <string name="tap_to_edit">Tap to edit</string>
@@ -72,15 +73,14 @@
     <string name="tile_enabled">Enabled (No connectivity)</string>
     <string name="tile_connected">Connected</string>
     <string name="location_amsterdam">Amsterdam, NL</string>
-    <string name="location_prague">Prague, CZ</string>
+    <string name="location_frankfurt">Frankfurt, DE</string>
     <string name="location_bratislava">Bratislava, SK</string>
     <string name="location_buffalo">Buffalo, US</string>
     <string name="channel_name">VPN Service</string>
     <string name="channel_description">Main channel for foreground notification</string>
     <string name="permission_notification_text">Tap here to enable Yggdrasil.</string>
     <string name="add_peer_help">Enter the full URI of the peer to add. Yggdrasil will automatically connect to this peer when started.</string>
-    <string name="public_key_label">Public key:</string>
     <string name="private_key_label">Private key:</string>
-    <string name="set_keys">Set your own keys</string>
+    <string name="set_keys">Set your own key</string>
     <string name="save">Save</string>
 </resources>

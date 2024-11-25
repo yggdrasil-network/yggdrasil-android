@@ -6,11 +6,11 @@ import android.graphics.Color
 import android.net.VpnService
 import android.os.Bundle
 import android.widget.Switch
-import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.edit
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
@@ -24,12 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var enabledLabel: TextView
     private lateinit var ipAddressLabel: TextView
     private lateinit var subnetLabel: TextView
-    private lateinit var coordinatesLabel: TextView
     private lateinit var peersLabel: TextView
-    private lateinit var peersRow: TableRow
+    private lateinit var peersRow: LinearLayoutCompat
     private lateinit var dnsLabel: TextView
-    private lateinit var dnsRow: TableRow
-    private lateinit var settingsRow: TableRow
+    private lateinit var dnsRow: LinearLayoutCompat
+    private lateinit var settingsRow: LinearLayoutCompat
 
     private fun start() {
         val intent = Intent(this, PacketTunnelProvider::class.java)
@@ -53,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         enabledLabel = findViewById(R.id.yggdrasilStatusLabel)
         ipAddressLabel = findViewById(R.id.ipAddressValue)
         subnetLabel = findViewById(R.id.subnetValue)
-        coordinatesLabel = findViewById(R.id.coordinatesValue)
         peersLabel = findViewById(R.id.peersValue)
         peersRow = findViewById(R.id.peersTableRow)
         dnsLabel = findViewById(R.id.dnsValue)
@@ -70,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                         startVpnActivity.launch(vpnIntent)
                     } else {
                         start()
+                        enabledSwitch.isEnabled = false
                     }
                 }
                 false -> {
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             preferences.edit(commit = true) { putBoolean(PREF_KEY_ENABLED, isChecked) }
         }
 
-        val enableYggdrasilPanel = findViewById<TableRow>(R.id.enableYggdrasilPanel)
+        val enableYggdrasilPanel = findViewById<LinearLayoutCompat>(R.id.enableYggdrasilPanel)
         enableYggdrasilPanel.setOnClickListener {
             enabledSwitch.toggle()
         }
@@ -155,11 +154,11 @@ class MainActivity : AppCompatActivity() {
                 "state" -> {
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
                         var count = 0
-                        if (intent.hasExtra("dht")) {
-                            val dht = intent.getStringExtra("dht")
-                            if (dht != null && dht != "null") {
-                                val dhtState = JSONArray(dht)
-                                count = dhtState.length()
+                        if (intent.hasExtra("peers")) {
+                            val peers = intent.getStringExtra("peers")
+                            if (peers != null && peers != "null") {
+                                val peerState = JSONArray(peers)
+                                count = peerState.length()
                             }
                         }
                         if (count == 0) {
@@ -175,7 +174,6 @@ class MainActivity : AppCompatActivity() {
                     }
                     ipAddressLabel.text = intent.getStringExtra("ip") ?: "N/A"
                     subnetLabel.text = intent.getStringExtra("subnet") ?: "N/A"
-                    coordinatesLabel.text = intent.getStringExtra("coords") ?: "[]"
                     if (intent.hasExtra("peers")) {
                         val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
                         peersLabel.text = when (val count = peerState.length()) {
@@ -183,6 +181,9 @@ class MainActivity : AppCompatActivity() {
                             1 -> getString(R.string.main_one_peer)
                             else -> getString(R.string.main_many_peers, count)
                         }
+                    }
+                    if (!enabledSwitch.isEnabled) {
+                        enabledSwitch.isEnabled = true
                     }
                 }
             }

@@ -7,10 +7,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.core.widget.doOnTextChanged
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
@@ -27,6 +31,7 @@ class PeersActivity : AppCompatActivity() {
     private lateinit var configuredTableLabel: TextView
     private lateinit var multicastListenSwitch: Switch
     private lateinit var multicastBeaconSwitch: Switch
+    private lateinit var passwordEdit: EditText
     private lateinit var addPeerButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +47,9 @@ class PeersActivity : AppCompatActivity() {
 
         configuredTableLayout = findViewById(R.id.configuredPeersTableLayout)
         configuredTableLabel = findViewById(R.id.configuredPeersLabel)
+
+        val discoveryLink = findViewById<TextView>(R.id.peers_discovery_link)
+        discoveryLink.movementMethod = LinkMovementMethod.getInstance()
 
         multicastListenSwitch = findViewById(R.id.enableMulticastListen)
         multicastListenSwitch.setOnCheckedChangeListener { button, _ ->
@@ -61,6 +69,30 @@ class PeersActivity : AppCompatActivity() {
         val multicastListenPanel = findViewById<TableRow>(R.id.enableMulticastListenPanel)
         multicastListenPanel.setOnClickListener {
             multicastListenSwitch.toggle()
+        }
+        passwordEdit = findViewById(R.id.passwordEdit)
+        passwordEdit.setText(config.multicastPassword)
+
+        passwordEdit.doOnTextChanged { text, _, _, _ ->
+            config.multicastPassword = text.toString()
+        }
+
+        passwordEdit.setOnKeyListener { _, keyCode, _ ->
+            (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
+        }
+
+        findViewById<View>(R.id.passwordTableRow).setOnKeyListener { _, keyCode, event ->
+            Log.i("Key", keyCode.toString())
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                    passwordEdit.requestFocus()
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
         }
 
         addPeerButton = findViewById(R.id.addPeerButton)
@@ -121,7 +153,7 @@ class PeersActivity : AppCompatActivity() {
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
                         builder.setTitle(getString(R.string.peers_remove_title, peer))
                         builder.setPositiveButton(getString(R.string.peers_remove)) { dialog, _ ->
                             config.updateJSON { json ->
@@ -156,7 +188,7 @@ class PeersActivity : AppCompatActivity() {
                     val view = inflater.inflate(R.layout.peers_connected, null)
                     val ip = peer.getString("IP")
                     view.findViewById<TextView>(R.id.addressLabel).text = ip
-                    view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("Remote")
+                    view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("URI")
                     connectedTableLayout.addView(view)
                 }
             }
@@ -168,7 +200,9 @@ class PeersActivity : AppCompatActivity() {
             when (intent.getStringExtra("type")) {
                 "state" -> {
                     if (intent.hasExtra("peers")) {
-                        val peersArray = JSONArray(intent.getStringExtra("peers") ?: "[]")
+                        val peers1 = intent.getStringExtra("peers")
+                        //Log.i("PeersActivity", "Peers json: $peers1")
+                        val peersArray = JSONArray(peers1 ?: "[]")
                         val array = Array(peersArray.length()) { i ->
                             peersArray.getJSONObject(i)
                         }

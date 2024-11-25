@@ -223,6 +223,7 @@
                         android:layout_marginStart="16pt"
                         android:layout_marginLeft="16pt"
                         android:layout_marginTop="4pt"
+                        android:layout_marginBottom="4pt"
                         android:layout_marginEnd="8pt"
                         android:layout_marginRight="8pt"
                         android:alpha="0.7"

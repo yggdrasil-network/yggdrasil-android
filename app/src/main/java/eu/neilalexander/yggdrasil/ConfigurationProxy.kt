@@ -32,14 +32,12 @@ object ConfigurationProxy {
         val newJson = JSONObject(String(Mobile.generateConfigJSON()))
         updateJSON { json ->
             json.put("PrivateKey", newJson.getString("PrivateKey"))
-            json.put("PublicKey", newJson.getString("PublicKey"))
         }
     }
 
-    fun setKeys(privateKey: String, publicKey: String) {
+    fun setKeys(privateKey: String) {
         updateJSON { json ->
             json.put("PrivateKey", privateKey)
-            json.put("PublicKey", publicKey)
         }
     }
 
@@ -62,7 +60,8 @@ object ConfigurationProxy {
                     {
                         "Regex": ".*",
                         "Beacon": true,
-                        "Listen": true
+                        "Listen": true,
+                        "Password": ""
                     }
                 """.trimIndent()))
                 json.put("MulticastInterfaces", ar)
@@ -92,6 +91,14 @@ object ConfigurationProxy {
         set(value) {
             updateJSON { json ->
                 (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).put("Beacon", value)
+            }
+        }
+
+    var multicastPassword: String
+        get() = (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).optString("Password")
+        set(value) {
+            updateJSON { json ->
+                (json.getJSONArray("MulticastInterfaces").get(0) as JSONObject).put("Password", value)
             }
         }
 }
