@@ -152,15 +152,15 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent) {
             when (intent.getStringExtra("type")) {
                 "state" -> {
-                    enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
-                        var count = 0
-                        if (intent.hasExtra("peers")) {
-                            val peers = intent.getStringExtra("peers")
-                            if (peers != null && peers != "null") {
-                                val peerState = JSONArray(peers)
-                                count = peerState.length()
-                            }
+                    val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
+                    var count = 0
+                    for (i in 0..<peerState.length()) {
+                        val peer = peerState.getJSONObject(i)
+                        if (peer.getString("IP").isNotEmpty()) {
+                            count += 1
                         }
+                    }
+                    enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
                         if (count == 0) {
                             enabledLabel.setTextColor(Color.RED)
                             getString(R.string.main_no_connectivity)
@@ -175,8 +175,7 @@ class MainActivity : AppCompatActivity() {
                     ipAddressLabel.text = intent.getStringExtra("ip") ?: "N/A"
                     subnetLabel.text = intent.getStringExtra("subnet") ?: "N/A"
                     if (intent.hasExtra("peers")) {
-                        val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
-                        peersLabel.text = when (val count = peerState.length()) {
+                        peersLabel.text = when (count) {
                             0 -> getString(R.string.main_no_peers)
                             1 -> getString(R.string.main_one_peer)
                             else -> getString(R.string.main_many_peers, count)
