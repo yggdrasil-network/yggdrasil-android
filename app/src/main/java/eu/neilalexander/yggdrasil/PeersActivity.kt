@@ -180,16 +180,25 @@ class PeersActivity : AppCompatActivity() {
                 connectedTableLabel.text = getString(R.string.peers_no_connected_title)
             }
             else -> {
-                connectedTableLayout.visibility = View.VISIBLE
-                connectedTableLabel.text = getString(R.string.peers_connected_title)
-
+                var connected = false
                 connectedTableLayout.removeAllViewsInLayout()
                 for (peer in peers) {
                     val view = inflater.inflate(R.layout.peers_connected, null)
                     val ip = peer.getString("IP")
-                    view.findViewById<TextView>(R.id.addressLabel).text = ip
-                    view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("URI")
-                    connectedTableLayout.addView(view)
+                    // Only connected peers have IPs
+                    if (ip.isNotEmpty()) {
+                        view.findViewById<TextView>(R.id.addressLabel).text = ip
+                        view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("URI")
+                        connectedTableLayout.addView(view)
+                        connected = true
+                    }
+                }
+                if (connected) {
+                    connectedTableLayout.visibility = View.VISIBLE
+                    connectedTableLabel.text = getString(R.string.peers_connected_title)
+                } else {
+                    connectedTableLayout.visibility = View.GONE
+                    connectedTableLabel.text = getString(R.string.peers_no_connected_title)
                 }
             }
         }
