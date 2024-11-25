@@ -99,7 +99,7 @@ class PeersActivity : AppCompatActivity() {
         addPeerButton.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_addpeer, null)
             val input = view.findViewById<TextInputEditText>(R.id.addPeerInput)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             builder.setTitle(getString(R.string.peers_add_peer))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.peers_add)) { dialog, _ ->
@@ -153,7 +153,7 @@ class PeersActivity : AppCompatActivity() {
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
                         builder.setTitle(getString(R.string.peers_remove_title, peer))
                         builder.setPositiveButton(getString(R.string.peers_remove)) { dialog, _ ->
                             config.updateJSON { json ->

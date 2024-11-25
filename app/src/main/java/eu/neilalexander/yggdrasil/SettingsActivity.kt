@@ -70,7 +70,7 @@ class SettingsActivity : AppCompatActivity() {
 
         resetConfigurationRow.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_resetconfig, null)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             builder.setTitle(getString(R.string.settings_warning_title))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.settings_reset)) { dialog, _ ->
@@ -92,7 +92,7 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.setKeysRow).setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_set_keys, null)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             val privateKey = view.findViewById<EditText>(R.id.private_key)
             builder.setTitle(getString(R.string.set_keys))
             builder.setView(view)

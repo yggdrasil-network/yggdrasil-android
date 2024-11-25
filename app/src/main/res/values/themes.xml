@@ -18,4 +18,8 @@
         <item name="tableBackgroundColor">@color/white</item>
         <item name="textDefault">@color/black</item>
     </style>
+
+    <style name="YggdrasilDialogs" parent="@style/Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorPrimary">@color/green</item>
+    </style>
 </resources>

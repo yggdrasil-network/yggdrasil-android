@@ -29,6 +29,8 @@
     <string name="main_no_peers">Нет пиров</string>
     <string name="main_one_peer">1 пир</string>
     <string name="main_many_peers">%d пира/пиров</string>
+    <string name="main_add_some_peers_title">Внимание</string>
+    <string name="main_add_some_peers_message">Кажется, вы не добавили ни одного пира. Зайдите в раздел пиров и подключите один из списка публичных, чтобы подключиться к сети.</string>
     <string name="peers_add_peer">Добавить пира в конфиг</string>
     <string name="peers_add">Добавить</string>
     <string name="peers_remove_title">Убрать %s?</string>

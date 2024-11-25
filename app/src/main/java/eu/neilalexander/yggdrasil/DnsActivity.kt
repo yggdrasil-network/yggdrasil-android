@@ -57,7 +57,7 @@ class DnsActivity : AppCompatActivity() {
         addServerButton.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_add_dns_server, null)
             val input = view.findViewById<TextInputEditText>(R.id.addDnsInput)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             builder.setTitle(getString(R.string.dns_add_server_dialog_title))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.add)) { _, _ ->
@@ -128,7 +128,7 @@ class DnsActivity : AppCompatActivity() {
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
                         builder.setTitle(getString(R.string.dns_remove_title, server))
                         builder.setPositiveButton(getString(R.string.remove)) { dialog, _ ->
                             servers.removeAt(button.tag as Int)
@@ -176,7 +176,7 @@ class DnsActivity : AppCompatActivity() {
                 }
             }
             view.setOnLongClickListener {
-                val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+                val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
                 builder.setTitle(getString(R.string.dns_server_info_dialog_title))
                 builder.setMessage("${infoPair.first}\n\n${infoPair.second}")
                 builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->

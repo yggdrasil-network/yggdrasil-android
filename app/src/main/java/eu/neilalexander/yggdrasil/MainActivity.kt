@@ -1,10 +1,12 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.*
 import android.graphics.Color
 import android.net.VpnService
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
@@ -161,6 +163,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
+                        showPeersNoteIfNeeded(peerState.length())
                         if (count == 0) {
                             enabledLabel.setTextColor(Color.RED)
                             getString(R.string.main_no_connectivity)
@@ -185,6 +188,28 @@ class MainActivity : AppCompatActivity() {
                         enabledSwitch.isEnabled = true
                     }
                 }
+            }
+        }
+    }
+
+    private fun showPeersNoteIfNeeded(peerCount: Int) {
+        if (peerCount > 0) return
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity.baseContext)
+        if (!preferences.getBoolean(PREF_KEY_PEERS_NOTE, false)) {
+            this@MainActivity.runOnUiThread {
+                val builder: AlertDialog.Builder =
+                    AlertDialog.Builder(ContextThemeWrapper(this@MainActivity, R.style.YggdrasilDialogs))
+                builder.setTitle(getString(R.string.main_add_some_peers_title))
+                builder.setMessage(getString(R.string.main_add_some_peers_message))
+                builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                builder.show()
+            }
+            // Mark this note as shown
+            preferences.edit().apply {
+                putBoolean(PREF_KEY_PEERS_NOTE, true)
+                commit()
             }
         }
     }
