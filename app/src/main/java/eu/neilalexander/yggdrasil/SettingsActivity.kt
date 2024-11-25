@@ -27,6 +27,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var deviceNameEntry: EditText
     private lateinit var publicKeyLabel: TextView
     private lateinit var resetConfigurationRow: LinearLayoutCompat
+    private var publicKeyReset = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +86,7 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.resetKeysRow).setOnClickListener {
             config.resetKeys()
+            publicKeyReset = true
             updateView()
         }
 
@@ -125,7 +127,11 @@ class SettingsActivity : AppCompatActivity() {
             deviceNameEntry.setText("", TextView.BufferType.EDITABLE)
         }
 
-        publicKeyLabel.text = json.optString("PublicKey")
+        var key = json.optString("PrivateKey")
+        if (key.isNotEmpty()) {
+            key = key.substring(key.length / 2)
+        }
+        publicKeyLabel.text = key
     }
 
     override fun onResume() {
@@ -145,7 +151,7 @@ class SettingsActivity : AppCompatActivity() {
     // To be able to get public key from running Yggdrasil we use this receiver, as we don't have this field in config
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            if (intent.hasExtra("pubkey")) {
+            if (intent.hasExtra("pubkey") && !publicKeyReset) {
                 val tree = intent.getStringExtra("pubkey")
                 if (tree != null && tree != "null") {
                     publicKeyLabel.text = intent.getStringExtra("pubkey")

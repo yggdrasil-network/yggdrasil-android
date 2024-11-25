@@ -55,7 +55,7 @@ object ConfigurationProxy {
             json.put("IfMTU", 65535)
 
             if (json.getJSONArray("MulticastInterfaces").get(0) is String) {
-                var ar = JSONArray()
+                val ar = JSONArray()
                 ar.put(0, JSONObject("""
                     {
                         "Regex": ".*",
