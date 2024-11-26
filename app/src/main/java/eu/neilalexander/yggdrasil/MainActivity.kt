@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
 import android.graphics.Color
+import android.net.Uri
 import android.net.VpnService
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -20,6 +21,7 @@ import eu.neilalexander.yggdrasil.PacketTunnelProvider.Companion.STATE_INTENT
 import mobile.Mobile
 import org.json.JSONArray
 
+const val APP_WEB_URL = "https://github.com/yggdrasil-network/yggdrasil-android"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var enabledSwitch: Switch
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dnsLabel: TextView
     private lateinit var dnsRow: LinearLayoutCompat
     private lateinit var settingsRow: LinearLayoutCompat
+    private lateinit var versionRow: LinearLayoutCompat
 
     private fun start() {
         val intent = Intent(this, PacketTunnelProvider::class.java)
@@ -59,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         dnsLabel = findViewById(R.id.dnsValue)
         dnsRow = findViewById(R.id.dnsTableRow)
         settingsRow = findViewById(R.id.settingsTableRow)
+        versionRow = findViewById(R.id.versionTableRow)
 
         enabledLabel.setTextColor(Color.GRAY)
 
@@ -104,6 +108,11 @@ class MainActivity : AppCompatActivity() {
         settingsRow.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        versionRow.isClickable = true
+        versionRow.setOnClickListener {
+            openUrlInBrowser(APP_WEB_URL)
         }
 
         ipAddressLabel.setOnLongClickListener {
@@ -211,6 +220,18 @@ class MainActivity : AppCompatActivity() {
                 putBoolean(PREF_KEY_PEERS_NOTE, true)
                 commit()
             }
+        }
+    }
+
+    fun openUrlInBrowser(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            // Handle the exception if no browser is found
+            Toast.makeText(this, getText(R.string.no_browser_found_toast), Toast.LENGTH_SHORT).show()
         }
     }
 }

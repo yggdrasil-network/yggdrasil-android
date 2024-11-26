@@ -85,4 +85,5 @@
     <string name="private_key_label">Приватный ключ:</string>
     <string name="set_keys">Установить свой ключ</string>
     <string name="save">Сохранить</string>
+    <string name="no_browser_found_toast">Не найден браузер для открытия ссылки!</string>
 </resources>

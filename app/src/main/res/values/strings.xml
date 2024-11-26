@@ -85,4 +85,5 @@
     <string name="private_key_label">Private key:</string>
     <string name="set_keys">Set your own key</string>
     <string name="save">Save</string>
+    <string name="no_browser_found_toast">No browser found to open the URL!</string>
 </resources>

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -13,12 +12,19 @@ import android.view.ContextThemeWrapper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Switch
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 class PeersActivity : AppCompatActivity() {
     private lateinit var config: ConfigurationProxy
