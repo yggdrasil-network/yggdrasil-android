@@ -30,7 +30,7 @@
     <string name="main_one_peer">1 peer</string>
     <string name="main_many_peers">%d peers</string>
     <string name="main_add_some_peers_title">Note</string>
-    <string name="main_add_some_peers_message">It seems that you didn\'t configure any peers. Go to peers section and add one from public list to get connected.</string>
+    <string name="main_add_some_peers_message">No peers are configured. If there are no multicast peers nearby, you will need to manually configure peers in order for Yggdrasil to connect and work properly.</string>
     <string name="peers_add_peer">Add Configured Peer</string>
     <string name="peers_add">Add</string>
     <string name="peers_remove_title">Remove %s?</string>
