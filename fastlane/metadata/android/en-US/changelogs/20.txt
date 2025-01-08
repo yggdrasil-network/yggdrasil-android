@@ -1,0 +1,19 @@
+Updated core library to 0.5.12, presenting these changes:
+
+Fixed
+A timing regression which causes a higher level of idle protocol traffic on each peering has been fixed
+
+Fixes in Android app
+Soe UI fixes and improvements
+Updated some dependencies
+
+Updates from previous versions:
+
+Changed
+The parent selection algorithm now only chooses a new parent if there is a larger cost benefit to doing so, which should help to stabilise the tree
+The bloom filters are now repropagated periodically, to avoid nodes getting stuck with bad state
+
+Fixed
+A memory leak caused by missed cleanup of the peer response map has been fixed
+Other bug fixes with bloom filter propagation for off-tree filters and zero vs one bits
+TLS-based peering connections now support TLS 1.2 again

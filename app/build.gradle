@@ -10,8 +10,8 @@ android {
         applicationId "eu.neilalexander.yggdrasil"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 19
-        versionName "0.1-019"
+        versionCode 20
+        versionName "0.1-020"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
