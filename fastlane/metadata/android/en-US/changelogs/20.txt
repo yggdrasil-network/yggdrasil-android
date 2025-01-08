@@ -4,7 +4,7 @@ Fixed
 A timing regression which causes a higher level of idle protocol traffic on each peering has been fixed
 
 Fixes in Android app
-Soe UI fixes and improvements
+Some UI fixes and improvements
 Updated some dependencies
 
 Updates from previous versions:
