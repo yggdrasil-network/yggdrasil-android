@@ -27,6 +27,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var deviceNameEntry: EditText
     private lateinit var publicKeyLabel: TextView
     private lateinit var resetConfigurationRow: LinearLayoutCompat
+    private var publicKeyReset = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +70,7 @@ class SettingsActivity : AppCompatActivity() {
 
         resetConfigurationRow.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_resetconfig, null)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             builder.setTitle(getString(R.string.settings_warning_title))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.settings_reset)) { dialog, _ ->
@@ -85,12 +86,13 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.resetKeysRow).setOnClickListener {
             config.resetKeys()
+            publicKeyReset = true
             updateView()
         }
 
         findViewById<View>(R.id.setKeysRow).setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_set_keys, null)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             val privateKey = view.findViewById<EditText>(R.id.private_key)
             builder.setTitle(getString(R.string.set_keys))
             builder.setView(view)
@@ -125,7 +127,11 @@ class SettingsActivity : AppCompatActivity() {
             deviceNameEntry.setText("", TextView.BufferType.EDITABLE)
         }
 
-        publicKeyLabel.text = json.optString("PublicKey")
+        var key = json.optString("PrivateKey")
+        if (key.isNotEmpty()) {
+            key = key.substring(key.length / 2)
+        }
+        publicKeyLabel.text = key
     }
 
     override fun onResume() {
@@ -145,7 +151,7 @@ class SettingsActivity : AppCompatActivity() {
     // To be able to get public key from running Yggdrasil we use this receiver, as we don't have this field in config
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            if (intent.hasExtra("pubkey")) {
+            if (intent.hasExtra("pubkey") && !publicKeyReset) {
                 val tree = intent.getStringExtra("pubkey")
                 if (tree != null && tree != "null") {
                     publicKeyLabel.text = intent.getStringExtra("pubkey")

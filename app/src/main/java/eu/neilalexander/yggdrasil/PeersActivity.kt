@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -13,12 +12,19 @@ import android.view.ContextThemeWrapper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Switch
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 class PeersActivity : AppCompatActivity() {
     private lateinit var config: ConfigurationProxy
@@ -99,7 +105,7 @@ class PeersActivity : AppCompatActivity() {
         addPeerButton.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_addpeer, null)
             val input = view.findViewById<TextInputEditText>(R.id.addPeerInput)
-            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             builder.setTitle(getString(R.string.peers_add_peer))
             builder.setView(view)
             builder.setPositiveButton(getString(R.string.peers_add)) { dialog, _ ->
@@ -153,7 +159,7 @@ class PeersActivity : AppCompatActivity() {
                     view.findViewById<ImageButton>(R.id.deletePeerButton).tag = i
 
                     view.findViewById<ImageButton>(R.id.deletePeerButton).setOnClickListener { button ->
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_MaterialComponents_DayNight_Dialog))
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
                         builder.setTitle(getString(R.string.peers_remove_title, peer))
                         builder.setPositiveButton(getString(R.string.peers_remove)) { dialog, _ ->
                             config.updateJSON { json ->
@@ -180,16 +186,25 @@ class PeersActivity : AppCompatActivity() {
                 connectedTableLabel.text = getString(R.string.peers_no_connected_title)
             }
             else -> {
-                connectedTableLayout.visibility = View.VISIBLE
-                connectedTableLabel.text = getString(R.string.peers_connected_title)
-
+                var connected = false
                 connectedTableLayout.removeAllViewsInLayout()
                 for (peer in peers) {
                     val view = inflater.inflate(R.layout.peers_connected, null)
                     val ip = peer.getString("IP")
-                    view.findViewById<TextView>(R.id.addressLabel).text = ip
-                    view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("URI")
-                    connectedTableLayout.addView(view)
+                    // Only connected peers have IPs
+                    if (ip.isNotEmpty()) {
+                        view.findViewById<TextView>(R.id.addressLabel).text = ip
+                        view.findViewById<TextView>(R.id.detailsLabel).text = peer.getString("URI")
+                        connectedTableLayout.addView(view)
+                        connected = true
+                    }
+                }
+                if (connected) {
+                    connectedTableLayout.visibility = View.VISIBLE
+                    connectedTableLabel.text = getString(R.string.peers_connected_title)
+                } else {
+                    connectedTableLayout.visibility = View.GONE
+                    connectedTableLabel.text = getString(R.string.peers_no_connected_title)
                 }
             }
         }

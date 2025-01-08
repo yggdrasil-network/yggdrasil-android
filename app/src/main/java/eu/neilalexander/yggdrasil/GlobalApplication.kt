@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.preference.PreferenceManager
 
 const val PREF_KEY_ENABLED = "enabled"
+const val PREF_KEY_PEERS_NOTE = "peers_note"
 const val MAIN_CHANNEL_ID = "Yggdrasil Service"
 
 class GlobalApplication: Application(), YggStateReceiver.StateReceiver {

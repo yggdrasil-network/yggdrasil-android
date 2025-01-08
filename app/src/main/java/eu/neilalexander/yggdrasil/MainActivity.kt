@@ -1,10 +1,13 @@
 package eu.neilalexander.yggdrasil
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.*
 import android.graphics.Color
+import android.net.Uri
 import android.net.VpnService
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +21,7 @@ import eu.neilalexander.yggdrasil.PacketTunnelProvider.Companion.STATE_INTENT
 import mobile.Mobile
 import org.json.JSONArray
 
+const val APP_WEB_URL = "https://github.com/yggdrasil-network/yggdrasil-android"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var enabledSwitch: Switch
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dnsLabel: TextView
     private lateinit var dnsRow: LinearLayoutCompat
     private lateinit var settingsRow: LinearLayoutCompat
+    private lateinit var versionRow: LinearLayoutCompat
 
     private fun start() {
         val intent = Intent(this, PacketTunnelProvider::class.java)
@@ -57,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         dnsLabel = findViewById(R.id.dnsValue)
         dnsRow = findViewById(R.id.dnsTableRow)
         settingsRow = findViewById(R.id.settingsTableRow)
+        versionRow = findViewById(R.id.versionTableRow)
 
         enabledLabel.setTextColor(Color.GRAY)
 
@@ -102,6 +108,11 @@ class MainActivity : AppCompatActivity() {
         settingsRow.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        versionRow.isClickable = true
+        versionRow.setOnClickListener {
+            openUrlInBrowser(APP_WEB_URL)
         }
 
         ipAddressLabel.setOnLongClickListener {
@@ -152,15 +163,16 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent) {
             when (intent.getStringExtra("type")) {
                 "state" -> {
-                    enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
-                        var count = 0
-                        if (intent.hasExtra("peers")) {
-                            val peers = intent.getStringExtra("peers")
-                            if (peers != null && peers != "null") {
-                                val peerState = JSONArray(peers)
-                                count = peerState.length()
-                            }
+                    val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
+                    var count = 0
+                    for (i in 0..<peerState.length()) {
+                        val peer = peerState.getJSONObject(i)
+                        if (peer.getString("IP").isNotEmpty()) {
+                            count += 1
                         }
+                    }
+                    enabledLabel.text = if (intent.getBooleanExtra("started", false)) {
+                        showPeersNoteIfNeeded(peerState.length())
                         if (count == 0) {
                             enabledLabel.setTextColor(Color.RED)
                             getString(R.string.main_no_connectivity)
@@ -175,8 +187,7 @@ class MainActivity : AppCompatActivity() {
                     ipAddressLabel.text = intent.getStringExtra("ip") ?: "N/A"
                     subnetLabel.text = intent.getStringExtra("subnet") ?: "N/A"
                     if (intent.hasExtra("peers")) {
-                        val peerState = JSONArray(intent.getStringExtra("peers") ?: "[]")
-                        peersLabel.text = when (val count = peerState.length()) {
+                        peersLabel.text = when (count) {
                             0 -> getString(R.string.main_no_peers)
                             1 -> getString(R.string.main_one_peer)
                             else -> getString(R.string.main_many_peers, count)
@@ -187,6 +198,40 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun showPeersNoteIfNeeded(peerCount: Int) {
+        if (peerCount > 0) return
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity.baseContext)
+        if (!preferences.getBoolean(PREF_KEY_PEERS_NOTE, false)) {
+            this@MainActivity.runOnUiThread {
+                val builder: AlertDialog.Builder =
+                    AlertDialog.Builder(ContextThemeWrapper(this@MainActivity, R.style.YggdrasilDialogs))
+                builder.setTitle(getString(R.string.main_add_some_peers_title))
+                builder.setMessage(getString(R.string.main_add_some_peers_message))
+                builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                builder.show()
+            }
+            // Mark this note as shown
+            preferences.edit().apply {
+                putBoolean(PREF_KEY_PEERS_NOTE, true)
+                commit()
+            }
+        }
+    }
+
+    fun openUrlInBrowser(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            // Handle the exception if no browser is found
+            Toast.makeText(this, getText(R.string.no_browser_found_toast), Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -29,6 +29,8 @@
     <string name="main_no_peers">No peers</string>
     <string name="main_one_peer">1 peer</string>
     <string name="main_many_peers">%d peers</string>
+    <string name="main_add_some_peers_title">Note</string>
+    <string name="main_add_some_peers_message">No peers are configured. If there are no multicast peers nearby, you will need to manually configure peers in order for Yggdrasil to connect and work properly.</string>
     <string name="peers_add_peer">Add Configured Peer</string>
     <string name="peers_add">Add</string>
     <string name="peers_remove_title">Remove %s?</string>
@@ -83,4 +85,5 @@
     <string name="private_key_label">Private key:</string>
     <string name="set_keys">Set your own key</string>
     <string name="save">Save</string>
+    <string name="no_browser_found_toast">No browser found to open the URL!</string>
 </resources>

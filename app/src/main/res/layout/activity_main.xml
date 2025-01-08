@@ -351,7 +351,9 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <androidx.appcompat.widget.LinearLayoutCompat style="@style/SelectableItemStyle">
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/versionTableRow"
+                            style="@style/SelectableItemStyle">
 
                             <TextView
                                 android:id="@+id/versionLabel"

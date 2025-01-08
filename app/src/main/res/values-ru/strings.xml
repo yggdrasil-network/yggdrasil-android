@@ -29,6 +29,8 @@
     <string name="main_no_peers">Нет пиров</string>
     <string name="main_one_peer">1 пир</string>
     <string name="main_many_peers">%d пира/пиров</string>
+    <string name="main_add_some_peers_title">Внимание</string>
+    <string name="main_add_some_peers_message">Не настроено ни одного пира. Если не будет обнаруживаемых пиров в этой сети, то вам надо будет добавить пир вручную, чтобы подключение к Yggdrasil работало как положено.</string>
     <string name="peers_add_peer">Добавить пира в конфиг</string>
     <string name="peers_add">Добавить</string>
     <string name="peers_remove_title">Убрать %s?</string>
@@ -83,4 +85,5 @@
     <string name="private_key_label">Приватный ключ:</string>
     <string name="set_keys">Установить свой ключ</string>
     <string name="save">Сохранить</string>
+    <string name="no_browser_found_toast">Не найден браузер для открытия ссылки!</string>
 </resources>
