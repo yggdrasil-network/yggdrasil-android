@@ -1,0 +1,9 @@
+Yggdrasil est une première étape de mise en œuvre d'un réseau IPv6 entièrement crypté de bout en bout.
+Il est léger, auto-organisé, pris en charge sur plusieurs plates-formes et permet à presque toutes les applications compatibles IPv6 de communiquer en toute sécurité avec d'autres nœuds Yggdrasil.
+Yggdrasil ne nécessite pas que vous ayez une connectivité Internet IPv6 - il fonctionne également sur IPv4.
+
+Cette application vous permet de vous connecter au réseau Yggdrasil et d'utiliser n'importe quel service situé sur ce réseau. Il fonctionne comme un service VPN, mais tout votre trafic habituel passera par votre fournisseur, et non par le réseau Yggdrasil.
+
+En outre, l'objectif du projet Yggdrasil n'est pas de fournir l'anonymat. Les pairs directs sur Internet pourront voir votre adresse IP et pourront peut-être utiliser ces informations pour déterminer votre emplacement ou votre identité. Les peerings découverts par multidiffusion sur le même réseau exposeront généralement l'adresse MAC de votre appareil. D'autres nœuds du réseau peuvent être en mesure de discerner certaines informations sur les nœuds avec lesquels vous êtes appairé.
+
+Tout le trafic envoyé sur le réseau Yggdrasil est crypté de bout en bout. En supposant que notre crypto soit solide, il ne peut être décrypté ou lu par aucun nœud intermédiaire, et ne peut être décrypté que par le destinataire auquel il était destiné. Cependant, veuillez noter qu'Yggdrasil n'a pas fait l'objet d'un audit externe officiel.
