@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.system.OsConstants
 import android.util.Log
+import android.util.Patterns
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import eu.neilalexander.yggdrasil.YggStateReceiver.Companion.YGG_STATE_INTENT
@@ -14,6 +15,7 @@ import mobile.Yggdrasil
 import org.json.JSONArray
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.net.InetAddress
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
@@ -142,9 +144,34 @@ open class PacketTunnelProvider: VpnService() {
         if (serverString!!.isNotEmpty()) {
             val servers = serverString.split(",")
             if (servers.isNotEmpty()) {
-                servers.forEach {
-                    Log.i(TAG, "Using DNS server $it")
-                    builder.addDnsServer(it)
+                servers.forEach { dnsServerAddress ->
+                    val trimmedAddress = dnsServerAddress.trim()
+                    if (trimmedAddress.isNotEmpty()) {
+                        try {
+                            // Attempt #1: Direct use of InetAddress for validation
+                            // InetAddress.getByName() can resolve hostnames,
+                            // but VpnService.Builder.addDnsServer() expects an IP address.
+                            // Therefore, we first ensure it's a numeric IP.
+                            // The Patterns.IP_ADDRESS regular expression is stricter
+                            // and does not attempt to resolve hostnames.
+
+                            // Remove brackets for IPv6 if present, as addDnsServer does not expect them
+                            // in this form if the string contains only the address.
+                            var addressToValidate = trimmedAddress
+                            if (trimmedAddress.startsWith("[") && trimmedAddress.endsWith("]")) {
+                                addressToValidate = trimmedAddress.substring(1, trimmedAddress.length - 1)
+                            }
+
+                            if (Patterns.IP_ADDRESS.matcher(addressToValidate).matches() && !trimmedAddress.contains("]:") && !isIpV4WithPort(trimmedAddress)) {
+                                Log.i(TAG, "Adding DNS server: $addressToValidate")
+                                builder.addDnsServer(addressToValidate)
+                            } else {
+                                Log.w(TAG, "Skipping invalid DNS server address: $trimmedAddress. It might contain a port or be malformed.")
+                            }
+                        } catch (e: IllegalArgumentException) {
+                            Log.w(TAG, "Failed to add DNS server: $trimmedAddress. Error: ${e.message}")
+                        }
+                    }
                 }
             }
         }
@@ -175,6 +202,16 @@ open class PacketTunnelProvider: VpnService() {
         var intent = Intent(YGG_STATE_INTENT)
         intent.putExtra("state", STATE_ENABLED)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
+
+    private fun isIpV4WithPort(address: String): Boolean {
+        if (address.contains(":")) {
+            val parts = address.split(":")
+            if (parts.size == 2) {
+                return Patterns.IP_ADDRESS.matcher(parts[0]).matches() && parts[1].toIntOrNull() != null
+            }
+        }
+        return false
     }
 
     private fun stop() {
