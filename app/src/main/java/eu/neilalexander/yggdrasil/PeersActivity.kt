@@ -22,8 +22,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import org.json.JSONArray
 import org.json.JSONObject
+import java.net.URI
 
 
 class PeersActivity : AppCompatActivity() {
@@ -105,6 +107,7 @@ class PeersActivity : AppCompatActivity() {
         addPeerButton.setOnClickListener {
             val view = inflater.inflate(R.layout.dialog_addpeer, null)
             val input = view.findViewById<TextInputEditText>(R.id.addPeerInput)
+            val inputLayout = view.findViewById<TextInputLayout>(R.id.addPeerInputLayout)
             val builder: AlertDialog.Builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.YggdrasilDialogs))
             builder.setTitle(getString(R.string.peers_add_peer))
             builder.setView(view)
@@ -118,7 +121,15 @@ class PeersActivity : AppCompatActivity() {
             builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.cancel()
             }
-            builder.show()
+            val dialog = builder.create()
+            dialog.show()
+            val addButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            addButton.isEnabled = false
+            input.doOnTextChanged { text, _, _, _ ->
+                val error = validatePeerUri(text.toString().trim())
+                inputLayout?.error = error
+                addButton.isEnabled = error == null && !text.isNullOrBlank()
+            }
         }
     }
 
@@ -208,6 +219,30 @@ class PeersActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private val validSchemes = setOf("tcp", "tls", "quic", "ws", "wss", "socks")
+
+    private fun validatePeerUri(input: String): String? {
+        if (input.isEmpty()) return null
+        val uri = try {
+            URI(input)
+        } catch (e: Exception) {
+            return getString(R.string.peer_invalid_uri)
+        }
+        val scheme = uri.scheme?.lowercase()
+        if (scheme == null || scheme !in validSchemes) {
+            return getString(R.string.peer_invalid_scheme, validSchemes.joinToString(", "))
+        }
+        if (scheme != "socks") {
+            if (uri.host.isNullOrEmpty()) {
+                return getString(R.string.peer_missing_host)
+            }
+            if (uri.port == -1) {
+                return getString(R.string.peer_missing_port)
+            }
+        }
+        return null
     }
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
