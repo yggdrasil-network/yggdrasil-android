@@ -25,27 +25,52 @@ Or get the APK from the [Releases Section](https://github.com/yggdrasil-network/
 go install golang.org/x/mobile/cmd/gomobile@latest
 ```
 
-* build yggdrasil-go for android:
+* clone yggdrasil-android and initialize the yggdrasil-go submodule
 
-```
-git clone https://github.com/yggdrasil-network/yggdrasil-go /tmp/yggdrasil-go
-cd /tmp/yggdrasil-go
-./contrib/mobile/build -a
-```
-
-* clone yggdrasil for android and copy over the built go library
-
-```
+```bash
 git clone https://github.com/yggdrasil-network/yggdrasil-android /tmp/yggdrasil-android
-mkdir /tmp/yggdrasil-android/app/libs
-cp /tmp/yggdrasil-go/yggdrasil.aar /tmp/yggdrasil-android/app/libs/
+cd /tmp/yggdrasil-android
+git submodule update --init
+```
+
+* build yggdrasil-go for android and copy over the built library
+
+```bash
+cd libs/yggdrasil-go
+./contrib/mobile/build -a
+cp yggdrasil.aar ../../app/libs/
+cd ../..
 ```
 
 * build yggdrasil-android
 
-```
-cd /tmp/yggdrasil-android
+```bash
 ./gradlew assembleRelease
+```
+
+## Updating yggdrasil-go to the Latest Release
+
+The yggdrasil-go library is pinned as a git submodule in `libs/yggdrasil-go`. To update it to the latest release and rebuild:
+
+```bash
+cd libs/yggdrasil-go
+git fetch --tags
+git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+```
+
+Then rebuild the library and copy it:
+
+```bash
+./contrib/mobile/build -a
+cp yggdrasil.aar ../../app/libs/
+cd ../..
+```
+
+Finally, commit the submodule update:
+
+```bash
+git add libs/yggdrasil-go
+git commit -m "Update yggdrasil-go to $(cd libs/yggdrasil-go && git describe --tags)"
 ```
 
 note: you will need to use jdk-11 as jdk-16 `"doesn't work" ™`
