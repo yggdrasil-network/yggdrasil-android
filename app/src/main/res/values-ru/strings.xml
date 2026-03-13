@@ -82,6 +82,10 @@
     <string name="channel_description">Главный канал нотификаций сервиса</string>
     <string name="permission_notification_text">Нажмите здесь чтобы включить Yggdrasil.</string>
     <string name="add_peer_help">Введите полный URI пира для добавления. Yggdrasil будет автоматически подключаться к нему при запуске.</string>
+    <string name="peer_invalid_uri">Неверный формат URI</string>
+    <string name="peer_invalid_scheme">Протокол должен быть одним из: %s</string>
+    <string name="peer_missing_host">Необходимо указать хост</string>
+    <string name="peer_missing_port">Необходимо указать порт</string>
     <string name="private_key_label">Приватный ключ:</string>
     <string name="set_keys">Установить свой ключ</string>
     <string name="save">Сохранить</string>

@@ -1,0 +1,2 @@
+Updated core library to 0.5.13.
+Added peer validation on input.

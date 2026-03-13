@@ -82,6 +82,10 @@
     <string name="channel_description">Main channel for foreground notification</string>
     <string name="permission_notification_text">Tap here to enable Yggdrasil.</string>
     <string name="add_peer_help">Enter the full URI of the peer to add. Yggdrasil will automatically connect to this peer when started.</string>
+    <string name="peer_invalid_uri">Invalid URI format</string>
+    <string name="peer_invalid_scheme">Scheme must be one of: %s</string>
+    <string name="peer_missing_host">Host is required</string>
+    <string name="peer_missing_port">Port is required</string>
     <string name="private_key_label">Private key:</string>
     <string name="set_keys">Set your own key</string>
     <string name="save">Save</string>
